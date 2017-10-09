@@ -69,6 +69,7 @@ gem 'twitter-text', '~> 1.14'
 gem 'tzinfo-data', '~> 1.2017'
 gem 'webpacker', '~> 3.0'
 gem 'webpush'
+gem 'annotate', '~> 2.7'
 
 gem 'json-ld-preloaded', '~> 2.2.1'
 gem 'rdf-normalize', '~> 0.3.1'
@@ -95,7 +96,6 @@ end
 
 group :development do
   gem 'active_record_query_trace', '~> 1.5'
-  gem 'annotate', '~> 2.7'
   gem 'better_errors', '~> 2.1'
   gem 'binding_of_caller', '~> 0.7'
   gem 'bullet', '~> 5.5'

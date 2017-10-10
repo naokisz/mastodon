@@ -614,6 +614,7 @@ DEPENDENCIES
   rspec-rails (~> 3.6)
   rspec-sidekiq (~> 3.0)
   rubocop
+  ruby-bbcode
   ruby-oembed (~> 0.12)
   sanitize (~> 4.4)
   scss_lint (~> 0.53)

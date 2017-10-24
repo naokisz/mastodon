@@ -1,4 +1,4 @@
-# frozen_string_literal: true https://github.com/theboss/mastodon/blob/theboss.tech/lib/tasks/emojis_remote.rake
+# frozen_string_literal: true
 
 namespace :emojis_remote do
   desc 'Copy all remote emojis'
@@ -16,4 +16,3 @@ namespace :emojis_remote do
     end
   end
 end
-© 2017 GitHub, Inc.

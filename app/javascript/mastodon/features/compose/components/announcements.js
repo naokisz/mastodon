@@ -27,6 +27,7 @@ Collapsable.propTypes = {
 const messages = defineMessages({
   toggle_visible: { id: 'media_gallery.toggle_visible', defaultMessage: 'Toggle visibility' },
   welcome: { id: 'welcome.message', defaultMessage: '{domain}へようこそ!' },
+  info: { id: 'info.list', defaultMessage: '霧島鯖について' },
   bbcode: { id: 'bbcode.list', defaultMessage: 'BBCode一覧' },
 });
 
@@ -64,6 +65,30 @@ class Announcements extends React.PureComponent {
 
     return (
       <ul className='announcements'>
+        <li>
+          <Collapsable isVisible={this.state.showId === 'info'} fullHeight={310} minHeight={20} >
+            <div className='announcements__body'>
+              <p>{ this.nl2br(intl.formatMessage(messages.info, { domain: document.title }))}<br />
+              <br />
+			  霧島鯖のその他のサービス<br />
+			  <br />
+			  ・MINECRAFT Server[/large]<br />
+			  address:mc.kirishima.cloud[/flip]<br />
+			  MAP:http://mc.kirishima.cloud:8123 <br />
+			  <br />
+			  寄付について<br />
+			  ・欲しいものリスト<br />
+			  http://amzn.asia/hJLmEbc <br />
+			  寄付していただいた場合<br />
+			  お名前を寄付一覧に載せます。<br />
+			  強制ではありませんのでDMでご連絡ください<br />
+			  </p>
+            </div>
+          </Collapsable>
+          <div className='announcements__icon'>
+            <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('bbcode', this.state)} size={20} animate active={this.state.showId === 'bbcode'} />
+          </div>
+        </li>
         <li>
           <Collapsable isVisible={this.state.showId === 'bbcode'} fullHeight={310} minHeight={20} >
             <div className='announcements__body'>

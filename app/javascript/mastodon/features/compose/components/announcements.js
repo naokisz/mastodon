@@ -79,6 +79,12 @@ class Announcements extends React.PureComponent {
 			  寄付について<br />
 			  ・欲しいものリスト<br />
 			  <a herf="http://amzn.asia/hJLmEbc" target="_blank">欲しいものリストのリンク<a /><br />
+			  [address] mc.kirishima.cloud <br />
+			  [URL] http://mc.kirishima.cloud:8123 <br />
+			  <br />
+			  寄付について<br />
+			  ・欲しいものリスト<br />
+			  [URL] http://amzn.asia/hJLmEbc <br />
 			  寄付していただいた場合<br />
 			  お名前を寄付一覧に載せます。<br />
 			  強制ではありませんのでDMでご連絡ください<br />

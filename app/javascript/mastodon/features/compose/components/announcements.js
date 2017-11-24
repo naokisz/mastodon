@@ -74,14 +74,15 @@ class Announcements extends React.PureComponent {
 			  <br />
 			  ・MINECRAFT Server<br />
 			  [address] mc.kirishima.cloud <br />
-			  [URL] http://mc.kirishima.cloud:8123 <br />
-			  <br />
+        <a href="javascript:void(0);" onclick="window.open('http://mc.kirishima.cloud:8123','_blank')">MAPが開きます</a><br /><br />
+        <br />
 			  寄付について<br />
 			  ・欲しいものリスト<br />
-			  [URL] http://amzn.asia/hJLmEbc <br />
+        <a href="javascript:void(0);" onclick="window.open('http://amzn.asia/hJLmEbc','_blank')">欲しいものリストを開きます</a><br /><br />
 			  寄付していただいた場合<br />
 			  お名前を寄付一覧に載せます。<br />
 			  強制ではありませんのでDMでご連絡ください<br />
+        追加させていただきます<br />
 			  </p>
             </div>
           </Collapsable>

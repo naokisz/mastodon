@@ -86,7 +86,7 @@ class Announcements extends React.PureComponent {
             </div>
           </Collapsable>
           <div className='announcements__icon'>
-            <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('bbcode', this.state)} size={20} animate active={this.state.showId === 'bbcode'} />
+            <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('info', this.state)} size={20} animate active={this.state.showId === 'info'} />
           </div>
         </li>
         <li>

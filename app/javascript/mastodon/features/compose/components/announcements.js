@@ -73,12 +73,15 @@ class Announcements extends React.PureComponent {
 			  霧島鯖のその他のサービス<br />
 			  <br />
 			  ・MINECRAFT Server<br />
-			  address:mc.kirishima.cloud<br />
-			  MAP:<a herf="http://mc.kirishima.cloud:8123" target="_blank">サーバマップのリンク</a><br />
+			  [address] mc.kirishima.cloud<br />
+        [MAP] http://mc.kirishima.cloud:8123 <br />
+			  <a open( "http://mc.kirishima.cloud:8123", "_blank" ) ; >サーバマップのリンク</a><br />
 			  <br />
 			  寄付について<br />
 			  ・欲しいものリスト<br />
-			  <a herf="http://amzn.asia/hJLmEbc" target="_blank">欲しいものリストのリンク</a><br />
+        [URL] http://amzn.asia/hJLmEbc <br />
+			  <a open( "http://amzn.asia/hJLmEbc", "_blank" ) ; >欲しいものリストのリンク</a><br />
+        <br />
 			  寄付していただいた場合<br />
 			  お名前を寄付一覧に載せます。<br />
 			  強制ではありませんのでDMでご連絡ください<br />

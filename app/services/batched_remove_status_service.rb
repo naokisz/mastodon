@@ -111,6 +111,7 @@ class BatchedRemoveStatusService < BaseService
     end
   end
 
+
   def batch_salmon_slaps(status)
     return if @mentions[status.id].empty?
 

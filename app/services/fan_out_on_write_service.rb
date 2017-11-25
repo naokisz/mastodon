@@ -17,7 +17,6 @@ class FanOutOnWriteService < BaseService
       deliver_to_direct_timelines(status)
     else
       deliver_to_followers(status)
-      deliver_to_lists(status)
     end
 
     return if status.account.silenced? || !status.public_visibility? || status.reblog?

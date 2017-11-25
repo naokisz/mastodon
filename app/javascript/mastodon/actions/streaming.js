@@ -92,4 +92,3 @@ export const connectCommunityStream = () => connectTimelineStream('community', '
 export const connectMediaStream = () => connectTimelineStream('community', 'public:local');
 export const connectPublicStream = () => connectTimelineStream('public', 'public');
 export const connectHashtagStream = (tag) => connectTimelineStream(`hashtag:${tag}`, `hashtag&tag=${tag}`);
-export const connectDirectStream = () => connectTimelineStream('direct', 'direct'); 

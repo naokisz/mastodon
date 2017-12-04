@@ -85,6 +85,8 @@ class Announcements extends React.PureComponent {
 			  寄付について<br />
 			  ・欲しいものリスト<br />
 			  [URL] http://amzn.asia/hJLmEbc <br />
+        ・Enty <br />
+			  [URL] https://enty.jp/fTVgWyCFuAkK?src=creator <br />
 			  寄付していただいた場合<br />
 			  お名前を寄付一覧に載せます。<br />
 			  強制ではありませんのでDMでご連絡ください<br />

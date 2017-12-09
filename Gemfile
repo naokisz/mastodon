@@ -73,7 +73,6 @@ gem 'webpacker', '~> 3.0'
 gem 'webpush'
 gem 'annotate', '~> 2.7'
 gem 'ruby-bbcode'
-gem 'redcarpet'
 
 gem 'json-ld-preloaded', '~> 2.2.1'
 gem 'rdf-normalize', '~> 0.3.1'

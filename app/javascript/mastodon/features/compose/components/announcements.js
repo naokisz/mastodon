@@ -67,7 +67,7 @@ class Announcements extends React.PureComponent {
     return (
       <ul className='announcements'>
         <li>
-          <Collapsable isVisible={this.state.showId === 'info'} fullHeight={110} minHeight={20} >
+          <Collapsable isVisible={this.state.showId === 'info'} fullHeight={160} minHeight={20} >
             <div className='announcements__body'>
               <p>{ this.nl2br(intl.formatMessage(messages.info, { domain: document.title }))}<br />
               <br />

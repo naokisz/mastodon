@@ -33,8 +33,8 @@ class Formatter
     html = "RT @#{prepend_reblog} #{html}" if prepend_reblog
     html = encode_and_link_urls(html, linkable_accounts)
     html = encode_custom_emojis(html, status.emojis) if options[:custom_emojify]
-    html = simple_format(html, {}, sanitize: false)
-#    html = html.delete("\n")
+#    html = simple_format(html, {}, sanitize: false)
+    html = html.delete("\n")
     html = format_bbcode(html)
     html = markdown(html)
     html = clean_paragraphs(html)
@@ -104,7 +104,7 @@ class Formatter
     entities = Extractor.extract_entities_with_indices(html, extract_url_without_protocol: false)
     html
 
-    rewrite(html.dup, entities) do |entity|
+    rewrite(html, entities) do |entity|
    	  puts entity
       if entity[:url]
         link_to_url(entity)

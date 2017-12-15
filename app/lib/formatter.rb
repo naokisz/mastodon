@@ -102,6 +102,7 @@ class Formatter
 
   def encode_and_link_urls(html, accounts = nil)
     entities = Extractor.extract_entities_with_indices(html, extract_url_without_protocol: false)
+    html
 
     rewrite(html, entities) do |entity|
    	  puts entity

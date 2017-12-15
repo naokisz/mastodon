@@ -2,6 +2,7 @@
 
 require 'singleton'
 require_relative './sanitize_config'
+require "redcarpet"
 
 class Formatter
   include Singleton
@@ -35,6 +36,8 @@ class Formatter
     html = simple_format(html, {}, sanitize: false)
     html = html.delete("\n")
     html = format_bbcode(html)
+    html = markdown(text)
+    html = clean_paragraphs(html)
 
     html.html_safe # rubocop:disable Rails/OutputSafety
   end
@@ -48,6 +51,11 @@ class Formatter
 
     text = status.text.gsub(/(<br \/>|<br>|<\/p>)+/) { |match| "#{match}\n" }
     strip_tags(text)
+  end
+
+  def clean_paragraphs(html)
+    puts html
+    html.gsub(/<p><\/p>/,"")
   end
 
   def simplified_format(account)
@@ -95,7 +103,8 @@ class Formatter
   def encode_and_link_urls(html, accounts = nil)
     entities = Extractor.extract_entities_with_indices(html, extract_url_without_protocol: false)
 
-    rewrite(html.dup, entities) do |entity|
+    rewrite(html, entities) do |entity|
+   	  puts entity
       if entity[:url]
         link_to_url(entity)
       elsif entity[:hashtag]
@@ -163,7 +172,7 @@ class Formatter
 
   def rewrite(text, entities)
     chars = text.to_s.to_char_a
-
+    puts text
     # Sort by start index
     entities = entities.sort_by do |entity|
       indices = entity.respond_to?(:indices) ? entity.indices : entity[:indices]
@@ -174,12 +183,12 @@ class Formatter
 
     last_index = entities.reduce(0) do |index, entity|
       indices = entity.respond_to?(:indices) ? entity.indices : entity[:indices]
-      result << encode(chars[index...indices.first].join)
+      result << chars[index...indices.first].join
       result << yield(entity)
       indices.last
     end
 
-    result << encode(chars[last_index..-1].join)
+    result << chars[last_index..-1].join #encode(chars[last_index..-1].join)
 
     result.flatten.join
   end
@@ -232,6 +241,24 @@ class Formatter
   def mention_html(account)
     "<span class=\"h-card\"><a href=\"#{TagManager.instance.url_for(account)}\" class=\"u-url mention\">@<span>#{account.username}</span></a></span>"
   end
+
+  def markdown(text)
+        html_render = HTMLwithCoderay.new(filter_html: true, hard_wrap: true)
+        options = {
+            autolink: true,
+            space_after_headers: true,
+            no_intra_emphasis: true,
+            fenced_code_blocks: true,
+            tables: true,
+            hard_wrap: true,
+            xhtml: true,
+            lax_html_blocks: true,
+            strikethrough: true
+        }
+        markdown = Redcarpet::Markdown.new(html_render, options)
+        renderer = Redcarpet::Render::HTML.new(hard_wrap: true)
+        markdown.render(text)
+    end
 
   def format_bbcode(html)
 

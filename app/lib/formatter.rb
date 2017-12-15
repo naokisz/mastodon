@@ -311,3 +311,49 @@ class Formatter
     html
   end
 end
+
+
+ class MDRenderer < Redcarpet::Render::HTML
+   def header(text, _header_level)
+     text
+   end
+
+   def block_code(code, lang)
+     %(<pre><code class="block-code">#{code}</code></pre>)
+   end
+
+   def codespan(code)
+     %(<code class="inline-code">#{code}</code>)
+   end
+
+   def link(link, title, content)
+     title
+   end
+
+   def link_html(url)
+     prefix = url.match(/\Ahttps?:\/\/(www\.)?/).to_s
+     text   = url[prefix.length, 30]
+     suffix = url[prefix.length + 30..-1]
+     cutoff = url[prefix.length..-1].length > 30
+
+     "<span class=\"invisible\">#{prefix}</span><span class=\"#{cutoff ? 'ellipsis' : ''}\">#{text}</span><span class=\"invisible\">#{suffix}</span>"
+   end
+
+   def autolink(link, link_type)
+     "<a href=\"#{link}\" target=\"_blank\" rel=\"nofollow noopener\">#{link_html(link)}</a>"
+   end
+ end
+
+ class MDRenderer < Redcarpet::Render::HTML
+   def header(text, _header_level)
+     text
+   end
+
+   def block_code(code, lang)
+     %(<pre><code class="block-code">#{code}</code></pre>)
+   end
+
+   def codespan(code)
+     %(<code class="inline-code">#{code}</code>)
+   end
+ end

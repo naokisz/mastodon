@@ -36,7 +36,7 @@ class Formatter
 #    html = simple_format(html, {}, sanitize: false)
 #    html = html.delete("\n")
     html = format_bbcode(html)
-    html = markdown(text)
+    html = markdown(html)
     html = clean_paragraphs(html)
 
     html.html_safe # rubocop:disable Rails/OutputSafety
@@ -243,23 +243,34 @@ class Formatter
     "<span class=\"h-card\"><a href=\"#{TagManager.instance.url_for(account)}\" class=\"u-url mention\">@<span>#{account.username}</span></a></span>"
   end
 
-  def markdown(text)
-        html_render = HTMLwithCoderay.new(filter_html: true, hard_wrap: true)
-        options = {
-            autolink: true,
-            space_after_headers: true,
-            no_intra_emphasis: true,
-            fenced_code_blocks: true,
-            tables: true,
-            hard_wrap: true,
-            xhtml: true,
-            lax_html_blocks: true,
-            strikethrough: true
-        }
-        markdown = Redcarpet::Markdown.new(html_render, options)
-        renderer = Redcarpet::Render::HTML.new(hard_wrap: true)
-        markdown.render(text)
-    end
+  def markdown(html)
+     # Bold + Italic
+
+     html = html.gsub(/^&gt; (.*?)(\n|$)/m, '</p><blockquote>\1</blockquote><p>')
+
+     renderer = MDRenderer.new(
+       no_links: true,
+       no_styles: true,
+       no_images: true,
+       filter_html: false,
+       escape_html: false
+     )
+     markdown = Redcarpet::Markdown.new(
+       renderer,
+       autolink: true,
+       tables: true,
+       hard_wrap: true,
+       strikethrough: true,
+       fenced_code_blocks: true
+     )
+     html = markdown.render(html)
+
+     html = html.gsub(/<\/blockquote><p><\/p><blockquote>/, '<br>') # Not so cool
+     html = html.gsub(/<br>\n<\/p>/, '</p>')
+     html = html.gsub(/<p><br>\n/, '<p>')
+
+     html
+   end
 
   def format_bbcode(html)
 

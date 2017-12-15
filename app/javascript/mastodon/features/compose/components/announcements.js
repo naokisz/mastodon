@@ -28,6 +28,7 @@ const messages = defineMessages({
   toggle_visible: { id: 'media_gallery.toggle_visible', defaultMessage: 'Toggle visibility' },
   welcome: { id: 'welcome.message', defaultMessage: '{domain}へようこそ!' },
   info: { id: 'info.list', defaultMessage: '霧島鯖について' },
+  donation: { id: 'donation.list', defaultMessage: '寄付について' },
   bbcode: { id: 'bbcode.list', defaultMessage: 'BBCode一覧' },
 });
 
@@ -65,8 +66,9 @@ class Announcements extends React.PureComponent {
 
     return (
       <ul className='announcements'>
+//コンテナの境目
         <li>
-          <Collapsable isVisible={this.state.showId === 'info'} fullHeight={410} minHeight={20} >
+          <Collapsable isVisible={this.state.showId === 'info'} fullHeight={310} minHeight={20} >
             <div className='announcements__body'>
               <p>{ this.nl2br(intl.formatMessage(messages.info, { domain: document.title }))}<br />
               <br />
@@ -77,7 +79,19 @@ class Announcements extends React.PureComponent {
 			  [URL] http://mc.kirishima.cloud:8123 <br />
         <a href="http://mc.kirishima.cloud:8123" target="_blank">マップを開く</a><br />
 			  <br />
-			  寄付について<br />
+			  </p>
+            </div>
+          </Collapsable>
+          <div className='announcements__icon'>
+            <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('info', this.state)} size={20} animate active={this.state.showId === 'info'} />
+          </div>
+        </li>
+//コンテナの境目
+        <li>
+          <Collapsable isVisible={this.state.showId === 'donation'} fullHeight={310} minHeight={20} >
+            <div className='announcements__body'>
+              <p>{ this.nl2br(intl.formatMessage(messages.donation, { domain: document.title }))}<br />
+              <br />
 			  ・欲しいものリスト<br />
 			  [URL] http://amzn.asia/hJLmEbc <br />
         <a href="http://amzn.asia/hJLmEbc" target="_blank">欲しいものリストを開く</a><br />
@@ -91,9 +105,10 @@ class Announcements extends React.PureComponent {
             </div>
           </Collapsable>
           <div className='announcements__icon'>
-            <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('info', this.state)} size={20} animate active={this.state.showId === 'info'} />
+            <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('donation', this.state)} size={20} animate active={this.state.showId === 'donation'} />
           </div>
         </li>
+//コンテナの境目
         <li>
           <Collapsable isVisible={this.state.showId === 'bbcode'} fullHeight={310} minHeight={20} >
             <div className='announcements__body'>
@@ -120,6 +135,7 @@ class Announcements extends React.PureComponent {
             <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('bbcode', this.state)} size={20} animate active={this.state.showId === 'bbcode'} />
           </div>
         </li>
+//コンテナの境目        
       </ul>
     );
   }

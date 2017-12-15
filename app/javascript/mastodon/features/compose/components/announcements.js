@@ -66,9 +66,8 @@ class Announcements extends React.PureComponent {
 
     return (
       <ul className='announcements'>
-//コンテナの境目
         <li>
-          <Collapsable isVisible={this.state.showId === 'info'} fullHeight={310} minHeight={20} >
+          <Collapsable isVisible={this.state.showId === 'info'} fullHeight={110} minHeight={20} >
             <div className='announcements__body'>
               <p>{ this.nl2br(intl.formatMessage(messages.info, { domain: document.title }))}<br />
               <br />
@@ -92,9 +91,8 @@ class Announcements extends React.PureComponent {
             <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('info', this.state)} size={20} animate active={this.state.showId === 'info'} />
           </div>
         </li>
-//コンテナの境目
         <li>
-          <Collapsable isVisible={this.state.showId === 'donation'} fullHeight={310} minHeight={20} >
+          <Collapsable isVisible={this.state.showId === 'donation'} fullHeight={260} minHeight={20} >
             <div className='announcements__body'>
               <p>{ this.nl2br(intl.formatMessage(messages.donation, { domain: document.title }))}<br />
               <br />
@@ -114,7 +112,6 @@ class Announcements extends React.PureComponent {
             <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('donation', this.state)} size={20} animate active={this.state.showId === 'donation'} />
           </div>
         </li>
-//コンテナの境目
         <li>
           <Collapsable isVisible={this.state.showId === 'bbcode'} fullHeight={310} minHeight={20} >
             <div className='announcements__body'>
@@ -141,7 +138,6 @@ class Announcements extends React.PureComponent {
             <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('bbcode', this.state)} size={20} animate active={this.state.showId === 'bbcode'} />
           </div>
         </li>
-//コンテナの境目
       </ul>
     );
   }

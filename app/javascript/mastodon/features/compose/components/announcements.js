@@ -66,7 +66,7 @@ class Announcements extends React.PureComponent {
     return (
       <ul className='announcements'>
         <li>
-          <Collapsable isVisible={this.state.showId === 'info'} fullHeight={310} minHeight={20} >
+          <Collapsable isVisible={this.state.showId === 'info'} fullHeight={370} minHeight={20} >
             <div className='announcements__body'>
               <p>{ this.nl2br(intl.formatMessage(messages.info, { domain: document.title }))}<br />
               <br />
@@ -81,12 +81,15 @@ class Announcements extends React.PureComponent {
 			  <a herf="http://amzn.asia/hJLmEbc" target="_blank">欲しいものリストのリンク<a /><br />
 			  [address] mc.kirishima.cloud <br />
 			  [URL] http://mc.kirishima.cloud:8123 <br />
+        <a href="http://mc.kirishima.cloud:8123" target="_blank">マップを開く</a><br />
 			  <br />
 			  寄付について<br />
 			  ・欲しいものリスト<br />
 			  [URL] http://amzn.asia/hJLmEbc <br />
+        <a href="http://amzn.asia/hJLmEbc" target="_blank">欲しいものリストを開く</a><br />
         ・Enty <br />
 			  [URL] https://enty.jp/fTVgWyCFuAkK?src=creator <br />
+        <a href="https://enty.jp/fTVgWyCFuAkK?src=creator" target="_blank">Entyのページを開く</a><br />
 			  寄付していただいた場合<br />
 			  お名前を寄付一覧に載せます。<br />
 			  強制ではありませんのでDMでご連絡ください<br />

@@ -21,6 +21,8 @@ class Formatter_Markdown
             .gsub(/(^|\n)`{3,}([^\n]*)(\n(?:.|\n)+\n)`{3,}($|\n)/, "\\1<code class=\"\\2\">\\3</code>\\4") # block code
             .gsub(/`([^`]+)`/, "<code class=\"inline-code\">\\1</code>") # inline code
             .gsub(/(^|\n)[-*_]{3,}\n/, "\\1<hr>\n") # hr
+            .gsub(/!\[([^\]]+)\]\(([^\)]+)\)/, "<img src=\"\\2\" alt=\"\\1\">") # image link
+            .gsub(/\[([^\]]+)\]\(([^\)]+)\)/, "<a href=\"\\2\">\\1</a>") # general link
         
         listFormatted = formatList(formattedSimple)
 
@@ -203,6 +205,7 @@ class Formatter_MarkdownTester
         testBlockCode
         testQuote
         testHr
+        testLink
 
         "Succeeded!!!"
     end
@@ -554,6 +557,37 @@ class Formatter_MarkdownTester
         ------------------------------------
         ********
         _________
+        EOS
+        )
+
+        assert(expected, fm.formatted)
+    end
+
+    def testLink
+=begin
+        リンク
+
+        直接リンクを作成するためには、[と]で囲んだリンク文字列の直後に
+        丸括弧(と)を設置します
+
+        [姫路IT系勉強会](http://histudy.doorkeeper.jp/)
+
+        画像
+
+        書き方はいたって単純で、リンクの記述方法で画像のパスを指定し、
+        []の前に!をつければ画像を表示します
+
+        ![姫路IT系勉強会](https://dl.dropboxusercontent.com/u/35497667/histudy.png)
+=end
+
+        expected = <<~EOS
+        <a href="http://histudy.doorkeeper.jp/">姫路IT系勉強会</a>
+        <img src="https://dl.dropboxusercontent.com/u/35497667/histudy.png" alt="姫路IT系勉強会">
+        EOS
+
+        fm = newFM(<<~EOS
+        [姫路IT系勉強会](http://histudy.doorkeeper.jp/)
+        ![姫路IT系勉強会](https://dl.dropboxusercontent.com/u/35497667/histudy.png)
         EOS
         )
 

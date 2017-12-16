@@ -20,6 +20,7 @@ class Formatter_Markdown
             .gsub(/[*_]{1}([^*_\n]+)[*_]{1}/, "<em>\\1</em>") # em
             .gsub(/(^|\n)`{3,}([^\n]*)(\n(?:.|\n)+\n)`{3,}($|\n)/, "\\1<code class=\"\\2\">\\3</code>\\4") # block code
             .gsub(/`([^`]+)`/, "<code class=\"inline-code\">\\1</code>") # inline code
+            .gsub(/(^|\n)[-*_]{3,}\n/, "\\1<hr>\n") # hr
         
         listFormatted = formatList(formattedSimple)
 
@@ -201,6 +202,7 @@ class Formatter_MarkdownTester
         testInlineCode
         testBlockCode
         testQuote
+        testHr
 
         "Succeeded!!!"
     end
@@ -524,6 +526,34 @@ class Formatter_MarkdownTester
         > これは引用です
         > > これは引用ですこれは引用です
         > これは引用ですこれは引用です、これは引用ですこれは引用です
+        EOS
+        )
+
+        assert(expected, fm.formatted)
+    end
+
+    def testHr
+=begin
+        区切り線
+
+        3つ以上のハイフン(-)やアスタリスク(*)、アンダースコア(_)だけで構成されている行は
+        罫線となります。
+
+        ------------------------------------
+        ********
+        _________
+=end
+
+        expected = <<~EOS
+        <hr>
+        <hr>
+        <hr>
+        EOS
+
+        fm = newFM(<<~EOS
+        ------------------------------------
+        ********
+        _________
         EOS
         )
 

@@ -15,6 +15,8 @@ class Formatter_Markdown
             .gsub(/(^|\r\n|\r|\n)[#]{4} (.+)(?:\r\n|\r|\n)/, "\\1<h4>\\2</h4>\n") # headings Atx h4
             .gsub(/(^|\r\n|\r|\n)[#]{5} (.+)(?:\r\n|\r|\n)/, "\\1<h5>\\2</h5>\n") # headings Atx h5
             .gsub(/(^|\r\n|\r|\n)[#]{6} (.+)(?:\r\n|\r|\n)/, "\\1<h6>\\2</h6>\n") # headings Atx h6
+            .gsub(/[*_]{2}([^*_]+)[*_]{2}/, "<strong>\\1</strong>") # strong
+            .gsub(/[*_]{1}([^*_]+)[*_]{1}/, "<em>\\1</em>") # em
     end
 end
 
@@ -42,6 +44,7 @@ class Formatter_MarkdownTester
     def testAll
         testBR
         testHeadings
+        testEm
 
         "Succeeded!!!"
     end
@@ -123,6 +126,41 @@ class Formatter_MarkdownTester
         #### 見出し4です
         ##### 見出し5です
         ###### 見出し6です
+        EOS
+        )
+
+        assert(expected, fm.formatted)
+    end
+
+    def testEm
+=begin
+        強調
+
+        *(アスタリスク)や_(アンダースコア)は強調記号として扱われます。
+
+        *や_によって囲まれた文字列は、<em>タグで囲まれたものに変換され、
+        **や__によって囲まれた文字列は、<strong>タグで囲まれたものに変換されます。
+
+        *ここがemタグで強調されます*
+        _ここがemタグで強調されます_
+
+        **ここがstrongタグで強調されます**
+        __ここがstrongタグで強調されます__
+=end
+        expected = <<~EOS
+        <em>ここがemタグで強調されます</em>
+        <em>ここがemタグで強調されます</em>
+
+        <strong>ここがstrongタグで強調されます</strong>
+        <strong>ここがstrongタグで強調されます</strong>
+        EOS
+
+        fm = newFM(<<~EOS
+        *ここがemタグで強調されます*
+        _ここがemタグで強調されます_
+
+        **ここがstrongタグで強調されます**
+        __ここがstrongタグで強調されます__
         EOS
         )
 

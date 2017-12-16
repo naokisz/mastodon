@@ -18,6 +18,7 @@ class Formatter_Markdown
             .gsub(/(^|\n)[#]{6} (.+)\n/, "\\1<h6>\\2</h6>\n") # headings Atx h6
             .gsub(/[*_]{2}([^*_\n]+)[*_]{2}/, "<strong>\\1</strong>") # strong
             .gsub(/[*_]{1}([^*_\n]+)[*_]{1}/, "<em>\\1</em>") # em
+            .gsub(/(^|\n)`{3,}([^\n]*)(\n(?:.|\n)+\n)`{3,}($|\n)/, "\\1<code class=\"\\2\">\\3</code>\\4") # block code
             .gsub(/`([^`]+)`/, "<code class=\"inline-code\">\\1</code>") # inline code
         
         listFormatted = formatList(formattedSimple)
@@ -152,6 +153,7 @@ class Formatter_MarkdownTester
         testEm
         testList
         testInlineCode
+        testBlockCode
 
         "Succeeded!!!"
     end
@@ -418,6 +420,32 @@ class Formatter_MarkdownTester
 
         fm = newFM(<<~EOS
         `printf("Hello world!");`
+        EOS
+        )
+
+        assert(expected, fm.formatted)
+    end
+
+    def testBlockCode
+        # GitHub flavored code block
+        expected = <<~EOS
+        <code class="rb">
+        num = 0
+        while num < 2 do
+            print("num = ", num)
+        end
+        print("End")
+        </code>
+        EOS
+
+        fm = newFM(<<~EOS
+        ```rb
+        num = 0
+        while num < 2 do
+            print("num = ", num)
+        end
+        print("End")
+        ```
         EOS
         )
 

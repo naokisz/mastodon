@@ -5,18 +5,124 @@ class Formatter_Markdown
     end
 
     def formatted
-        @html
-            .gsub(/(?:  |　　)(?:\r\n|\r|\n)/, "<br />\n") # <br />
-            .gsub(/(^|\r\n|\r|\n)(.+)(?:\r\n|\r|\n)={3,}(?:\r\n|\r|\n)/, "\\1<h1>\\2</h1>\n") # headings Setext h1
-            .gsub(/(^|\r\n|\r|\n)(.+)(?:\r\n|\r|\n)-{3,}(?:\r\n|\r|\n)/, "\\1<h2>\\2</h2>\n") # headings Setext h2
-            .gsub(/(^|\r\n|\r|\n)[#]{1} (.+)(?:\r\n|\r|\n)/, "\\1<h1>\\2</h1>\n") # headings Atx h1
-            .gsub(/(^|\r\n|\r|\n)[#]{2} (.+)(?:\r\n|\r|\n)/, "\\1<h2>\\2</h2>\n") # headings Atx h2
-            .gsub(/(^|\r\n|\r|\n)[#]{3} (.+)(?:\r\n|\r|\n)/, "\\1<h3>\\2</h3>\n") # headings Atx h3
-            .gsub(/(^|\r\n|\r|\n)[#]{4} (.+)(?:\r\n|\r|\n)/, "\\1<h4>\\2</h4>\n") # headings Atx h4
-            .gsub(/(^|\r\n|\r|\n)[#]{5} (.+)(?:\r\n|\r|\n)/, "\\1<h5>\\2</h5>\n") # headings Atx h5
-            .gsub(/(^|\r\n|\r|\n)[#]{6} (.+)(?:\r\n|\r|\n)/, "\\1<h6>\\2</h6>\n") # headings Atx h6
-            .gsub(/[*_]{2}([^*_]+)[*_]{2}/, "<strong>\\1</strong>") # strong
-            .gsub(/[*_]{1}([^*_]+)[*_]{1}/, "<em>\\1</em>") # em
+        formattedSimple = @html
+            .gsub(/(?:\r\n|\r|\n)/, "\n") # normalize new line
+            .gsub(/(?:  |　　)\n/, "<br />\n") # br
+            .gsub(/(^|\n)(.+)\n={3,}\n/, "\\1<h1>\\2</h1>\n") # headings Setext h1
+            .gsub(/(^|\n)(.+)\n-{3,}\n/, "\\1<h2>\\2</h2>\n") # headings Setext h2
+            .gsub(/(^|\n)[#]{1} (.+)\n/, "\\1<h1>\\2</h1>\n") # headings Atx h1
+            .gsub(/(^|\n)[#]{2} (.+)\n/, "\\1<h2>\\2</h2>\n") # headings Atx h2
+            .gsub(/(^|\n)[#]{3} (.+)\n/, "\\1<h3>\\2</h3>\n") # headings Atx h3
+            .gsub(/(^|\n)[#]{4} (.+)\n/, "\\1<h4>\\2</h4>\n") # headings Atx h4
+            .gsub(/(^|\n)[#]{5} (.+)\n/, "\\1<h5>\\2</h5>\n") # headings Atx h5
+            .gsub(/(^|\n)[#]{6} (.+)\n/, "\\1<h6>\\2</h6>\n") # headings Atx h6
+            .gsub(/[*_]{2}([^*_\n]+)[*_]{2}/, "<strong>\\1</strong>") # strong
+            .gsub(/[*_]{1}([^*_\n]+)[*_]{1}/, "<em>\\1</em>") # em
+        
+        listFormatted = formatList(formattedSimple)
+
+        listFormatted
+    end
+
+    def formatList(s)
+        #lines = s.split(/(?:^|\n)[ 　]*[^ 　]+\n/)
+
+        processedLines = Array.new
+
+        listLinePattern = /([ 　]*)([*+-]|\d+\D) +(.+)/
+        listIndentLevels = Array.new
+        listLastHeading = ""
+        listContents = Array.new
+        
+        s.lines(chomp: true) do |line|
+            if listLinePattern =~ line
+                indent = $1
+                heading = $2
+                content = $3
+
+                listIndentLevels << indent.length
+                listLastHeading = heading
+                listContents << content
+            elsif listIndentLevels.empty? || listLastHeading.empty? || listContents.empty?
+                processedLines << line
+            else
+                if /^\d+\D/ =~ listLastHeading
+                    processedLines << formatOL(listIndentLevels, listContents)
+                else
+                    processedLines << formatUL(listIndentLevels, listContents)
+                end
+
+                listIndentLevels = Array.new
+                listLastHeading = ""
+                listContents = Array.new
+
+                processedLines << line
+            end
+        end
+
+        unless listIndentLevels.empty? || listLastHeading.empty? || listContents.empty?
+            if /^\d+\D/ =~ listLastHeading
+                processedLines << formatOL(listIndentLevels, listContents)
+            else
+                processedLines << formatUL(listIndentLevels, listContents)
+            end
+        end
+
+        processedLines.join("\n")
+    end
+
+    def formatUL(indentLevels, contents)
+        formatListElem(indentLevels, contents, "ul", 0).contentHTML
+    end
+
+    def formatOL(indentLevels, contents)
+        formatListElem(indentLevels, contents, "ol", 0).contentHTML
+    end
+
+    class FormatListResult
+        def initialize(contentHTML, endIndex)
+            @contentHTML = contentHTML
+            @endIndex = endIndex
+        end
+
+        def contentHTML
+            @contentHTML
+        end
+
+        def endIndex
+            @endIndex
+        end
+    end
+
+    def formatListElem(indentLevels, contents, tagName, startIndex)
+        lastIndentLevel = indentLevels[startIndex]
+
+        currentHTML = " " * lastIndentLevel + "<" + tagName + ">\n"
+        currentIndex = startIndex
+
+        loop do
+            if currentIndex >= indentLevels.length || lastIndentLevel > indentLevels[currentIndex]
+                break
+            end
+
+            if lastIndentLevel < indentLevels[currentIndex]
+                innerResult = formatListElem(indentLevels, contents, tagName, currentIndex)
+
+                currentHTML += innerResult.contentHTML
+
+                currentIndex = innerResult.endIndex
+                lastIndentLevel = indentLevels[currentIndex]
+            else
+                currentHTML += " " * indentLevels[currentIndex] + "<li>" + contents[currentIndex] + "</li>\n"
+
+                lastIndentLevel = indentLevels[currentIndex]
+                currentIndex += 1
+            end
+        end
+
+        currentHTML += " " * lastIndentLevel + "</" + tagName + ">\n"
+
+        FormatListResult.new(currentHTML, currentIndex)
     end
 end
 
@@ -36,7 +142,7 @@ class Formatter_MarkdownTester
     end
 
     def assert(expected, actual)
-        unless expected == actual
+        unless expected.strip == actual.strip
             raise "Formatter_MarkdownTester assertion failed: expected: \n" + expected + ", actual: \n" + actual
         end
     end
@@ -45,6 +151,7 @@ class Formatter_MarkdownTester
         testBR
         testHeadings
         testEm
+        testList
 
         "Succeeded!!!"
     end
@@ -161,6 +268,138 @@ class Formatter_MarkdownTester
 
         **ここがstrongタグで強調されます**
         __ここがstrongタグで強調されます__
+        EOS
+        )
+
+        assert(expected, fm.formatted)
+    end
+
+    def testList
+=begin
+        リスト
+
+        印付きのリストの場合はアスタリスク(*)やプラス記号(+)、
+        またはハイフン記号(-)を使用します。
+
+        リストの番号もしくは記号は通常左端からはじまりますが、
+        冒頭に3つのスペー スまでは許されています。
+        リストを綺麗に見せるために、リストの内容の二行目以降を揃えることができます。
+
+        番号なしリスト
+
+        * 1番目
+        * 2番目
+        * 3番目
+
+        または
+
+        + 1番目
+        + 2番目
+	        + 2番目-1
+	        + 2番目-2
+	        + 2番目-3
+        + 3番目
+
+        または
+
+        - 1番目
+        - 2番目
+        - 3番目
+
+        番号付きリスト
+
+        1. 1番目
+        2. 2番目
+        3. 3番目
+=end        
+
+        expected = <<~EOS
+        番号なしリスト
+        
+        <ul>
+        <li>1番目</li>
+        <li>2番目</li>
+        <li>3番目</li>
+        </ul>
+        EOS
+
+        fm = newFM(<<~EOS
+        番号なしリスト
+
+        * 1番目
+        * 2番目
+        * 3番目
+        EOS
+        )
+
+        assert(expected, fm.formatted)
+
+        expected = <<~EOS
+        または
+
+        <ul>
+        <li>1番目</li>
+        <li>2番目</li>
+            <ul>
+	        <li>2番目-1</li>
+	        <li>2番目-2</li>
+            <li>2番目-3</li>
+            </ul>
+        <li>3番目</li>
+        </ul>
+        EOS
+
+        fm = newFM(<<~EOS
+        または
+
+        + 1番目
+        + 2番目
+	        + 2番目-1
+	        + 2番目-2
+	        + 2番目-3
+        + 3番目
+        EOS
+        )
+
+        assert(expected.gsub(/ /, ""), fm.formatted.gsub(/ /, ""))
+
+        expected = <<~EOS
+        または
+
+        <ul>
+        <li>1番目</li>
+        <li>2番目</li>
+        <li>3番目</li>
+        </ul>
+        EOS
+
+        fm = newFM(<<~EOS
+        または
+
+        - 1番目
+        - 2番目
+        - 3番目
+        EOS
+        )
+
+        assert(expected, fm.formatted)
+
+        expected = <<~EOS
+        番号付きリスト
+
+        <ol>
+        <li>1番目</li>
+        <li>2番目</li>
+        <li>3番目</li>
+        </ol>
+        EOS
+
+        fm = newFM(<<~EOS
+        番号付きリスト
+
+        1. 1番目
+        2. 2番目
+        3. 3番目
         EOS
         )
 

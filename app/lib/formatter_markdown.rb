@@ -18,6 +18,7 @@ class Formatter_Markdown
             .gsub(/(^|\n)[#]{6} (.+)\n/, "\\1<h6>\\2</h6>\n") # headings Atx h6
             .gsub(/[*_]{2}([^*_\n]+)[*_]{2}/, "<strong>\\1</strong>") # strong
             .gsub(/[*_]{1}([^*_\n]+)[*_]{1}/, "<em>\\1</em>") # em
+            .gsub(/`([^`]+)`/, "<code class=\"inline-code\">\\1</code>") # inline code
         
         listFormatted = formatList(formattedSimple)
 
@@ -25,8 +26,6 @@ class Formatter_Markdown
     end
 
     def formatList(s)
-        #lines = s.split(/(?:^|\n)[ 　]*[^ 　]+\n/)
-
         processedLines = Array.new
 
         listLinePattern = /([ 　]*)([*+-]|\d+\D) +(.+)/
@@ -152,6 +151,7 @@ class Formatter_MarkdownTester
         testHeadings
         testEm
         testList
+        testInlineCode
 
         "Succeeded!!!"
     end
@@ -400,6 +400,24 @@ class Formatter_MarkdownTester
         1. 1番目
         2. 2番目
         3. 3番目
+        EOS
+        )
+
+        assert(expected, fm.formatted)
+    end
+
+    def testInlineCode
+=begin
+        ソースコード (inline)
+
+        文中にインラインで表現する場合は該当部分をバッククォートで囲みます。
+=end
+        expected = <<~EOS
+        <code class="inline-code">printf("Hello world!");</code>
+        EOS
+
+        fm = newFM(<<~EOS
+        `printf("Hello world!");`
         EOS
         )
 

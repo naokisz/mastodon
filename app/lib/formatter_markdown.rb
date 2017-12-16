@@ -7,8 +7,14 @@ class Formatter_Markdown
     def formatted
         @html
             .gsub(/(?:  |　　)(?:\r\n|\r|\n)/, "<br />\n") # <br />
-            .gsub(/(.+)(?:\r\n|\r|\n)={3,}(?:\r\n|\r|\n)/, "<h1>\\1</h1>\n") # headings Setext h1
-            .gsub(/(.+)(?:\r\n|\r|\n)-{3,}(?:\r\n|\r|\n)/, "<h2>\\1</h2>\n") # headings Setext h2
+            .gsub(/(^|\r\n|\r|\n)(.+)(?:\r\n|\r|\n)={3,}(?:\r\n|\r|\n)/, "\\1<h1>\\2</h1>\n") # headings Setext h1
+            .gsub(/(^|\r\n|\r|\n)(.+)(?:\r\n|\r|\n)-{3,}(?:\r\n|\r|\n)/, "\\1<h2>\\2</h2>\n") # headings Setext h2
+            .gsub(/(^|\r\n|\r|\n)[#]{1} (.+)(?:\r\n|\r|\n)/, "\\1<h1>\\2</h1>\n") # headings Atx h1
+            .gsub(/(^|\r\n|\r|\n)[#]{2} (.+)(?:\r\n|\r|\n)/, "\\1<h2>\\2</h2>\n") # headings Atx h2
+            .gsub(/(^|\r\n|\r|\n)[#]{3} (.+)(?:\r\n|\r|\n)/, "\\1<h3>\\2</h3>\n") # headings Atx h3
+            .gsub(/(^|\r\n|\r|\n)[#]{4} (.+)(?:\r\n|\r|\n)/, "\\1<h4>\\2</h4>\n") # headings Atx h4
+            .gsub(/(^|\r\n|\r|\n)[#]{5} (.+)(?:\r\n|\r|\n)/, "\\1<h5>\\2</h5>\n") # headings Atx h5
+            .gsub(/(^|\r\n|\r|\n)[#]{6} (.+)(?:\r\n|\r|\n)/, "\\1<h6>\\2</h6>\n") # headings Atx h6
     end
 end
 

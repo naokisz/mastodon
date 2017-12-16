@@ -23,8 +23,54 @@ class Formatter_Markdown
         
         listFormatted = formatList(formattedSimple)
 
-        listFormatted
+        quoteFormatted = formatQuote(listFormatted)
+
+        quoteFormatted
     end
+
+    def formatQuote(s)
+        html = s
+
+        quoteLinePattern = /(?:^|\n)>\s*([^\n]*)/
+
+        loop do
+            unless quoteLinePattern =~ html
+                break
+            end
+
+            quote = ""
+
+            isInQuote = false
+
+            html.lines do |line|
+                if quoteLinePattern =~ line
+                    if isInQuote
+                        quote += $1 + "\n"
+                    else
+                        quote += "<blockquote>\n" + $1 + "\n"
+                        isInQuote = true
+                    end
+                else
+                    if isInQuote
+                        quote += "</blockquote>\n" + line
+                        isInQuote = false
+                    else
+                        quote += line
+                    end
+                end
+            end
+
+            if isInQuote
+                quote += "</blockquote>\n"
+            end
+
+            html = quote
+        end
+
+        html
+    end
+
+    #def formatQuoteElem()
 
     def formatList(s)
         processedLines = Array.new
@@ -154,6 +200,7 @@ class Formatter_MarkdownTester
         testList
         testInlineCode
         testBlockCode
+        testQuote
 
         "Succeeded!!!"
     end
@@ -446,6 +493,37 @@ class Formatter_MarkdownTester
         end
         print("End")
         ```
+        EOS
+        )
+
+        assert(expected, fm.formatted)
+    end
+
+    def testQuote
+=begin
+        引用
+
+        Markdownで引用を表現するときにはEメールと同じ方法で>を用います。
+        もしあなたがEメールで引用をすることになじんでいるのであればMarkdownでの使用は容易です。
+
+        > これは引用です
+        > これは引用ですこれは引用です
+        > これは引用ですこれは引用です、これは引用ですこれは引用です
+=end
+        expected = <<~EOS
+        <blockquote>
+        これは引用です
+        <blockquote>
+        これは引用ですこれは引用です
+        </blockquote>
+        これは引用ですこれは引用です、これは引用ですこれは引用です
+        </blockquote>
+        EOS
+
+        fm = newFM(<<~EOS
+        > これは引用です
+        > > これは引用ですこれは引用です
+        > これは引用ですこれは引用です、これは引用ですこれは引用です
         EOS
         )
 

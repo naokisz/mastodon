@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'singleton'
+require_relative './formatter_markdown'
 require_relative './sanitize_config'
 
 class Formatter
@@ -29,6 +30,10 @@ class Formatter
     linkable_accounts << status.account
 
     html = raw_content
+
+    mdFormatter = Formatter_Markdown.new(html)
+    html = mdFormatter.formatted
+
     html = "RT @#{prepend_reblog} #{html}" if prepend_reblog
     html = encode_and_link_urls(html, linkable_accounts)
     html = encode_custom_emojis(html, status.emojis) if options[:custom_emojify]

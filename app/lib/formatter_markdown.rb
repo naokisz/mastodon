@@ -7,23 +7,25 @@ class Formatter_Markdown
     end
 
     def formatted
-        formattedSimple = @html
+        s = @html.dup
+        s.gsub!(/(^|\n)(.+)\n={3,}($|\n)/) { "#{$1}<h1>#{encode($2)}</h1>#{$3}" } # headings Setext h1
+        s.gsub!(/(^|\n)(.+)\n-{3,}($|\n)/) { "#{$1}<h2>#{encode($2)}</h2>#{$3}" } # headings Setext h2
+        s.gsub!(/(^|\n)[#]{1} (.+)($|\n)/) { "#{$1}<h1>#{encode($2)}</h1>#{$3}" } # headings Atx h1
+        s.gsub!(/(^|\n)[#]{2} (.+)($|\n)/) { "#{$1}<h2>#{encode($2)}</h2>#{$3}" } # headings Atx h2
+        s.gsub!(/(^|\n)[#]{3} (.+)($|\n)/) { "#{$1}<h3>#{encode($2)}</h3>#{$3}" } # headings Atx h3
+        s.gsub!(/(^|\n)[#]{4} (.+)($|\n)/) { "#{$1}<h4>#{encode($2)}</h4>#{$3}" } # headings Atx h4
+        s.gsub!(/(^|\n)[#]{5} (.+)($|\n)/) { "#{$1}<h5>#{encode($2)}</h5>#{$3}" } # headings Atx h5
+        s.gsub!(/(^|\n)[#]{6} (.+)($|\n)/) { "#{$1}<h6>#{encode($2)}</h6>#{$3}" } # headings Atx h6
+        s.gsub!(/[*_]{2}([^*_\n]+)[*_]{2}/) { "<strong>#{encode($1)}</strong>" } # strong
+        s.gsub!(/[~]{2,}([^~\n]+)[~]{2,}/) { "<s>#{encode($1)}</s>" } # strikethrough
+        s.gsub!(/[*_]{1}([^*_\n]+)[*_]{1}/) { "<em>#{encode($1)}</em>" } # em
+        s.gsub!(/(^|\n)`{3,}([^\n]*)(\n(?:.|\n)+\n)`{3,}($|\n)/) { "#{$1}<code class=\"#{$2}\">#{encode($3)}</code>#{$4}" } # block code
+        s.gsub!(/`([^`]+)`/) { "<code class=\"inline-code\">#{encode($1)}</code>" } # inline code
+        s.gsub!(/(^|\n)[-*_]{3,}($|\n)/) { "#{$1}<hr>#{$2}" } # hr
+
+        formattedSimple = s
             .gsub(/(?:\r\n|\r|\n)/, "\n") # normalize new line
             .gsub(/(?:  |　　)\n/, "<br />\n") # br
-            .gsub(/(^|\n)(.+)\n={3,}($|\n)/, "\\1<h1>\\2</h1>\\3") # headings Setext h1
-            .gsub(/(^|\n)(.+)\n-{3,}($|\n)/, "\\1<h2>\\2</h2>\\3") # headings Setext h2
-            .gsub(/(^|\n)[#]{1} (.+)($|\n)/, "\\1<h1>\\2</h1>\\3") # headings Atx h1
-            .gsub(/(^|\n)[#]{2} (.+)($|\n)/, "\\1<h2>\\2</h2>\\3") # headings Atx h2
-            .gsub(/(^|\n)[#]{3} (.+)($|\n)/, "\\1<h3>\\2</h3>\\3") # headings Atx h3
-            .gsub(/(^|\n)[#]{4} (.+)($|\n)/, "\\1<h4>\\2</h4>\\3") # headings Atx h4
-            .gsub(/(^|\n)[#]{5} (.+)($|\n)/, "\\1<h5>\\2</h5>\\3") # headings Atx h5
-            .gsub(/(^|\n)[#]{6} (.+)($|\n)/, "\\1<h6>\\2</h6>\\3") # headings Atx h6
-            .gsub(/[*_]{2}([^*_\n]+)[*_]{2}/, "<strong>\\1</strong>") # strong
-            .gsub(/[~]{2,}([^~\n]+)[~]{2,}/, "<s>\\1</s>") # strikethrough
-            .gsub(/[*_]{1}([^*_\n]+)[*_]{1}/, "<em>\\1</em>") # em
-            .gsub(/(^|\n)`{3,}([^\n]*)(\n(?:.|\n)+\n)`{3,}($|\n)/, "\\1<code class=\"\\2\">\\3</code>\\4") # block code
-            .gsub(/`([^`]+)`/, "<code class=\"inline-code\">\\1</code>") # inline code
-            .gsub(/(^|\n)[-*_]{3,}($|\n)/, "\\1<hr>\\2") # hr
         
         linkFormatted = formatLink(formattedSimple)
         
@@ -34,10 +36,14 @@ class Formatter_Markdown
         quoteFormatted
     end
 
+    def encode(html)
+        HTMLEntities.new.encode(html)
+    end
+
     def formatLink(s)
         imageFormatted = s.gsub(/!\[([^\]]+)\]\(([^\)]+)\)/) { "<img src=\"" + URI.encode_www_form_component($2) + "\" alt=\"" + $1 + "\">" }
 
-        imageFormatted.gsub(/\[([^\]]+)\]\(([^\)]+)\)/) { "<a href=\"" + URI.encode_www_form_component($2) + "\">" + $1 + "</a>" }
+        imageFormatted.gsub(/\[([^\]]+)\]\(([^\)]+)\)/) { "<a href=\"" + URI.encode_www_form_component($2) + "\">" + encode($1) + "</a>" }
     end
 
     def formatQuote(s)
@@ -171,7 +177,7 @@ class Formatter_Markdown
                 currentIndex = innerResult.endIndex
                 lastIndentLevel = indentLevels[currentIndex]
             else
-                currentHTML += " " * indentLevels[currentIndex] + "<li>" + contents[currentIndex] + "</li>\n"
+                currentHTML += " " * indentLevels[currentIndex] + "<li>" + encode(contents[currentIndex]) + "</li>\n"
 
                 lastIndentLevel = indentLevels[currentIndex]
                 currentIndex += 1

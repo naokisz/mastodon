@@ -18,6 +18,7 @@ class Formatter_Markdown
             .gsub(/(^|\n)[#]{5} (.+)($|\n)/, "\\1<h5>\\2</h5>\\3") # headings Atx h5
             .gsub(/(^|\n)[#]{6} (.+)($|\n)/, "\\1<h6>\\2</h6>\\3") # headings Atx h6
             .gsub(/[*_]{2}([^*_\n]+)[*_]{2}/, "<strong>\\1</strong>") # strong
+            .gsub(/[~]{2,}([^~\n]+)[~]{2,}/, "<s>\\1</s>") # strikethrough
             .gsub(/[*_]{1}([^*_\n]+)[*_]{1}/, "<em>\\1</em>") # em
             .gsub(/(^|\n)`{3,}([^\n]*)(\n(?:.|\n)+\n)`{3,}($|\n)/, "\\1<code class=\"\\2\">\\3</code>\\4") # block code
             .gsub(/`([^`]+)`/, "<code class=\"inline-code\">\\1</code>") # inline code

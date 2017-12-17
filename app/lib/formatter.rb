@@ -103,8 +103,13 @@ class Formatter
   def encode_and_link_urls(html, accounts = nil)
     entities = Extractor.extract_entities_with_indices(html, extract_url_without_protocol: false)
 
+    mdExtractor = MDExtractor.new(html)
+    entities.concat(mdExtractor.extractEntities)
+
     rewrite(html.dup, entities) do |entity|
-      if entity[:url]
+      if entity[:markdown]
+        html[entity[:indices][0]...entity[:indices][1]]
+      elsif entity[:url]
         link_to_url(entity)
       elsif entity[:hashtag]
         link_to_hashtag(entity)

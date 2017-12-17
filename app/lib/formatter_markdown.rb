@@ -3,7 +3,6 @@ require 'uri'
 # https://gist.github.com/wate/7072365
 class Formatter_Markdown
     def initialize(html)
-        puts "Formatter_Markdown is init with: " + html
         @html = html.dup
     end
 
@@ -194,6 +193,72 @@ class MDLinkDecoder
         imageDecoded = @html.gsub(/<img src="([^"]+)"([^>]*)>/) { "<img src=\"" + URI.decode_www_form_component($1) + "\"" + $2 + ">" }
 
         imageDecoded.gsub(/<a href="([^"]+)"([^>]*)>/) { "<a href=\"" + URI.decode_www_form_component($1) + "\"" + $2 + ">" }
+    end
+end
+
+class MDExtractor
+    def initialize(html)
+        @html = html.dup
+    end
+
+    def extractEntities
+        [
+            extractByHTMLTagName("h1"),
+            extractByHTMLTagName("h2"),
+            extractByHTMLTagName("h3"),
+            extractByHTMLTagName("h4"),
+            extractByHTMLTagName("h5"),
+            extractByHTMLTagName("h6"),
+            extractByHTMLTagName("em"),
+            extractByHTMLTagName("strong"),
+            extractByHTMLTagName("ul", false),
+            extractByHTMLTagName("ol", false),
+            extractByHTMLTagName("code", false),
+            extractByHTMLTagName("blockquote", false),
+            extractByHTMLTagName("hr", false, true),
+            extractByHTMLTagName("a"),
+            extractByHTMLTagName("img", false, true),
+            extractByHTMLTagName("s")
+        ].flatten.compact
+    end
+
+    def extractByHTMLTagName(tagName, isNoNest = true, isSingle = false)
+        entities = []
+
+        unless isNoNest || isSingle
+        else
+            pattern = isNoNest ? htmlTagPatternNoNest(tagName) : htmlTagPattern(tagName)
+            pattern = isSingle ? htmlTagPatternSingle(tagName) : pattern
+
+            @html.to_s.scan(pattern) do
+                match = $~
+
+                beginPos = match.char_begin(0)
+                endPos = match.char_end(0)
+                #puts "MDExtractor extracted with:\n" + @html + "\nbeginPos: " + beginPos.to_s + ", endPos: " + endPos.to_s + ", length: " + @html.length.to_s
+
+                entity = {
+                    :markdown => true,
+                    :indices => [beginPos, endPos]
+                }
+
+                entities.push(entity)
+            end
+        end
+
+        entities
+    end
+
+    def htmlTagPattern(tagName)
+        Regexp.compile("<#{tagName}(?:[^>]*)>(?:[^<]|<#{tagName}(?:[^>]*)>|<\\/#{tagName}>)*(?:<\\/#{tagName}>)*")
+    end
+
+    def htmlTagPatternNoNest(tagName)
+        Regexp.compile("<#{tagName}(?:[^>]*)>[^<]*<\\/#{tagName}>")
+    end
+
+    def htmlTagPatternSingle(tagName)
+        Regexp.compile("<#{tagName}(?:[^>]*)>")
     end
 end
 

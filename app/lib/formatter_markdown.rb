@@ -213,7 +213,7 @@ class MDExtractor
             extractByHTMLTagName("strong"),
             extractByHTMLTagName("ul", false),
             extractByHTMLTagName("ol", false),
-            extractByHTMLTagName("code", false),
+            extractByHTMLTagName("code"),
             extractByHTMLTagName("blockquote", false),
             extractByHTMLTagName("hr", false, true),
             extractByHTMLTagName("a"),
@@ -254,7 +254,7 @@ class MDExtractor
     end
 
     def htmlTagPatternNoNest(tagName)
-        Regexp.compile("<#{tagName}(?:[^>]*)>[^<]*<\\/#{tagName}>")
+        Regexp.compile("<#{tagName}(?:[^>]*)>(?:.|\n)*?<\\/#{tagName}>")
     end
 
     def htmlTagPatternSingle(tagName)

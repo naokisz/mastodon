@@ -21,7 +21,7 @@ class Formatter_Markdown
             .gsub(/[*_]{1}([^*_\n]+)[*_]{1}/, "<em>\\1</em>") # em
             .gsub(/(^|\n)`{3,}([^\n]*)(\n(?:.|\n)+\n)`{3,}($|\n)/, "\\1<code class=\"\\2\">\\3</code>\\4") # block code
             .gsub(/`([^`]+)`/, "<code class=\"inline-code\">\\1</code>") # inline code
-            .gsub(/(^|\n)[-*_]{3,}\n/, "\\1<hr>\n") # hr
+            .gsub(/(^|\n)[-*_]{3,}($|\n)/, "\\1<hr>\\2") # hr
             .gsub(/!\[([^\]]+)\]\(([^\)]+)\)/, "<img src=\"\\2\" alt=\"\\1\">") # image link
             .gsub(/\[([^\]]+)\]\(([^\)]+)\)/, "<a href=\"\\2\">\\1</a>") # general link
         

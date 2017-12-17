@@ -1,3 +1,5 @@
+require 'uri'
+
 # https://gist.github.com/wate/7072365
 class Formatter_Markdown
     def initialize(html)
@@ -23,14 +25,20 @@ class Formatter_Markdown
             .gsub(/(^|\n)`{3,}([^\n]*)(\n(?:.|\n)+\n)`{3,}($|\n)/, "\\1<code class=\"\\2\">\\3</code>\\4") # block code
             .gsub(/`([^`]+)`/, "<code class=\"inline-code\">\\1</code>") # inline code
             .gsub(/(^|\n)[-*_]{3,}($|\n)/, "\\1<hr>\\2") # hr
-            .gsub(/!\[([^\]]+)\]\(([^\)]+)\)/, "<img src=\"\\2\" alt=\"\\1\">") # image link
-            .gsub(/\[([^\]]+)\]\(([^\)]+)\)/, "<a href=\"\\2\">\\1</a>") # general link
         
-        listFormatted = formatList(formattedSimple)
+        linkFormatted = formatLink(formattedSimple)
+        
+        listFormatted = formatList(linkFormatted)
 
         quoteFormatted = formatQuote(listFormatted)
 
         quoteFormatted
+    end
+
+    def formatLink(s)
+        imageFormatted = s.gsub(/!\[([^\]]+)\]\(([^\)]+)\)/) { "<img src=\"" + URI.encode_www_form_component($2) + "\" alt=\"" + $1 + "\">" }
+
+        imageFormatted.gsub(/\[([^\]]+)\]\(([^\)]+)\)/) { "<a href=\"" + URI.encode_www_form_component($2) + "\">" + $1 + "</a>" }
     end
 
     def formatQuote(s)
@@ -174,6 +182,18 @@ class Formatter_Markdown
         currentHTML += " " * lastIndentLevel + "</" + tagName + ">\n"
 
         FormatListResult.new(currentHTML, currentIndex)
+    end
+end
+
+class MDLinkDecoder
+    def initialize(html)
+        @html = html.dup
+    end
+
+    def decode
+        imageDecoded = @html.gsub(/<img src="([^"]+)"([^>]*)>/) { "<img src=\"" + URI.decode_www_form_component($1) + "\"" + $2 + ">" }
+
+        imageDecoded.gsub(/<a href="([^"]+)"([^>]*)>/) { "<a href=\"" + URI.decode_www_form_component($1) + "\"" + $2 + ">" }
     end
 end
 

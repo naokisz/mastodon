@@ -41,6 +41,9 @@ class Formatter
     html = html.delete("\n")
     html = format_bbcode(html)
 
+    mdLinkDecoder = MDLinkDecoder.new(html)
+    html = mdLinkDecoder.decode
+
     html.html_safe # rubocop:disable Rails/OutputSafety
   end
 

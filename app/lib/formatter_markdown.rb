@@ -1,6 +1,7 @@
 # https://gist.github.com/wate/7072365
 class Formatter_Markdown
     def initialize(html)
+        puts "Formatter_Markdown is init with: " + html
         @html = html.dup
     end
 
@@ -8,14 +9,14 @@ class Formatter_Markdown
         formattedSimple = @html
             .gsub(/(?:\r\n|\r|\n)/, "\n") # normalize new line
             .gsub(/(?:  |　　)\n/, "<br />\n") # br
-            .gsub(/(^|\n)(.+)\n={3,}\n/, "\\1<h1>\\2</h1>\n") # headings Setext h1
-            .gsub(/(^|\n)(.+)\n-{3,}\n/, "\\1<h2>\\2</h2>\n") # headings Setext h2
-            .gsub(/(^|\n)[#]{1} (.+)\n/, "\\1<h1>\\2</h1>\n") # headings Atx h1
-            .gsub(/(^|\n)[#]{2} (.+)\n/, "\\1<h2>\\2</h2>\n") # headings Atx h2
-            .gsub(/(^|\n)[#]{3} (.+)\n/, "\\1<h3>\\2</h3>\n") # headings Atx h3
-            .gsub(/(^|\n)[#]{4} (.+)\n/, "\\1<h4>\\2</h4>\n") # headings Atx h4
-            .gsub(/(^|\n)[#]{5} (.+)\n/, "\\1<h5>\\2</h5>\n") # headings Atx h5
-            .gsub(/(^|\n)[#]{6} (.+)\n/, "\\1<h6>\\2</h6>\n") # headings Atx h6
+            .gsub(/(^|\n)(.+)\n={3,}($|\n)/, "\\1<h1>\\2</h1>\\3") # headings Setext h1
+            .gsub(/(^|\n)(.+)\n-{3,}($|\n)/, "\\1<h2>\\2</h2>\\3") # headings Setext h2
+            .gsub(/(^|\n)[#]{1} (.+)($|\n)/, "\\1<h1>\\2</h1>\\3") # headings Atx h1
+            .gsub(/(^|\n)[#]{2} (.+)($|\n)/, "\\1<h2>\\2</h2>\\3") # headings Atx h2
+            .gsub(/(^|\n)[#]{3} (.+)($|\n)/, "\\1<h3>\\2</h3>\\3") # headings Atx h3
+            .gsub(/(^|\n)[#]{4} (.+)($|\n)/, "\\1<h4>\\2</h4>\\3") # headings Atx h4
+            .gsub(/(^|\n)[#]{5} (.+)($|\n)/, "\\1<h5>\\2</h5>\\3") # headings Atx h5
+            .gsub(/(^|\n)[#]{6} (.+)($|\n)/, "\\1<h6>\\2</h6>\\3") # headings Atx h6
             .gsub(/[*_]{2}([^*_\n]+)[*_]{2}/, "<strong>\\1</strong>") # strong
             .gsub(/[*_]{1}([^*_\n]+)[*_]{1}/, "<em>\\1</em>") # em
             .gsub(/(^|\n)`{3,}([^\n]*)(\n(?:.|\n)+\n)`{3,}($|\n)/, "\\1<code class=\"\\2\">\\3</code>\\4") # block code

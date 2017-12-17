@@ -211,8 +211,8 @@ class MDExtractor
             extractByHTMLTagName("h6"),
             extractByHTMLTagName("em"),
             extractByHTMLTagName("strong"),
-            extractByHTMLTagName("ul", false),
-            extractByHTMLTagName("ol", false),
+            extractByHTMLTagName("ul", false, false, "li"),
+            extractByHTMLTagName("ol", false, false, "li"),
             extractByHTMLTagName("code"),
             extractByHTMLTagName("blockquote", false),
             extractByHTMLTagName("hr", false, true),
@@ -222,31 +222,37 @@ class MDExtractor
         ].flatten.compact
     end
 
-    def extractByHTMLTagName(tagName, isNoNest = true, isSingle = false)
+    def extractByHTMLTagName(tagName, isNoNest = true, isSingle = false, itemTagName = nil)
         entities = []
 
-        unless isNoNest || isSingle
-        else
-            pattern = isNoNest ? htmlTagPatternNoNest(tagName) : htmlTagPattern(tagName)
-            pattern = isSingle ? htmlTagPatternSingle(tagName) : pattern
+        @html.to_s.scan(htmlTagPatternByCond(tagName, isNoNest, isSingle, itemTagName)) do
+            match = $~
 
-            @html.to_s.scan(pattern) do
-                match = $~
+            beginPos = match.char_begin(0)
+            endPos = match.char_end(0)
+            #puts "MDExtractor extracted with:\n" + @html + "\nbeginPos: " + beginPos.to_s + ", endPos: " + endPos.to_s + ", length: " + @html.length.to_s
 
-                beginPos = match.char_begin(0)
-                endPos = match.char_end(0)
-                #puts "MDExtractor extracted with:\n" + @html + "\nbeginPos: " + beginPos.to_s + ", endPos: " + endPos.to_s + ", length: " + @html.length.to_s
+            entity = {
+                :markdown => true,
+                :indices => [beginPos, endPos]
+            }
 
-                entity = {
-                    :markdown => true,
-                    :indices => [beginPos, endPos]
-                }
-
-                entities.push(entity)
-            end
+            entities.push(entity)
         end
 
         entities
+    end
+
+    def htmlTagPatternByCond(tagName, isNoNest, isSingle, itemTagName)
+        if isSingle
+            htmlTagPatternSingle(tagName)
+        elsif isNoNest
+            htmlTagPatternNoNest(tagName)
+        elsif itemTagName && itemTagName.length > 0
+            htmlTagPatternOuterMostWithItem(tagName, itemTagName)
+        else
+            htmlTagPatternOuterMost(tagName)
+        end
     end
 
     def htmlTagPattern(tagName)
@@ -259,6 +265,15 @@ class MDExtractor
 
     def htmlTagPatternSingle(tagName)
         Regexp.compile("<#{tagName}(?:[^>]*)>")
+    end
+
+    # https://stackoverflow.com/questions/546433/regular-expression-to-match-outer-brackets
+    def htmlTagPatternOuterMost(tagName)
+        Regexp.compile("<#{tagName}>(?:[^<>]|(\\g<0>))*<\/#{tagName}>")
+    end
+
+    def htmlTagPatternOuterMostWithItem(tagName, itemTagName)
+        Regexp.compile("<#{tagName}>(?:[^<>]|<#{itemTagName}>|<\\/#{itemTagName}>|(\\g<0>))*<\/#{tagName}>")
     end
 end
 

@@ -125,6 +125,36 @@ button {
 
   font-family: 'Noto Sans Japanese', sans-serif;
 
+  h1{
+    font-size: 270%;
+    border-bottom: 2px solid #ff3333;
+  }
+
+  h2{
+    font-size: 240%;
+    border-bottom: 2px solid #ff3333;
+  }
+
+  h3{
+    font-size: 210%;
+    border-bottom: 2px solid #ff3333;
+  }
+
+  h4{
+    font-size: 180%;
+    border-bottom: 2px solid #ff3333;
+  }
+
+  h5{
+    font-size: 150%;
+    border-bottom: 2px solid #ff3333;
+  }
+
+  h6{
+    font-size: 120%;
+    border-bottom: 2px solid #ff3333;
+  }
+
   em{
     font-style: italic;
   }
@@ -135,7 +165,7 @@ button {
 
   code{
     display: block;
-    border-left: 2px solid $classic-highlight-color;
+    border-left: 2px solid $classic-secondary-color;
     padding-left: 10px;
     margin-top: 5px;
     margin-bottom: 5px;

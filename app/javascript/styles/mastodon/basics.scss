@@ -165,7 +165,8 @@ button {
 
   code{
     display: block;
-    border-left: 2px solid $classic-secondary-color;
+    border-left: 2px solid;
+    border-color: #079903;
     padding-left: 10px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -241,11 +242,11 @@ button {
   }
 
   p>a{
-    color: #0A48E6;
+    color: #1FBFF9;
   }
 
   a{
-    color: #0A48E6;
+    color: #1FBFF9;
   }
 
   table {

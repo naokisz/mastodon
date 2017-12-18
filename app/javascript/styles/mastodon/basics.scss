@@ -193,6 +193,15 @@ button {
 
   ul{
     list-style: inside;
+    br{
+      display: none;
+    }
+  }
+
+  ul>ul{
+    br{
+      display: none;
+    }
   }
 
   ul>li>ul{
@@ -210,7 +219,7 @@ button {
     list-style: inside circle;
   }
 
-  ul>>ul>li{
+  ul>ul>li{
     padding-left: 2em;
     list-style: inside circle;
   }

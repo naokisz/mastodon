@@ -19,7 +19,7 @@ class Formatter_Markdown
         s.gsub!(/[*_]{2}([^*_\n]+)[*_]{2}/) { "<strong>#{encode($1)}</strong>" } # strong
         s.gsub!(/[~]{2,}([^~\n]+)[~]{2,}/) { "<s>#{encode($1)}</s>" } # strikethrough
         s.gsub!(/[*_]{1}([^*_\n]+)[*_]{1}/) { "<em>#{encode($1)}</em>" } # em
-        s.gsub!(/(^|\n)`{3,}([^\n]*)(\n(?:.|\n)+\n)`{3,}($|\n)/) { "#{$1}<code class=\"#{$2}\">#{encode($3)}</code>#{$4}" } # block code
+        s.gsub!(/(^|\n)`{3,}([^\n]*)\n((?:.|\n)+\n)`{3,}($|\n)/) { "<code class=\"#{$2}\">#{encode($3)}</code>#{$4}" } # block code
         s.gsub!(/`([^`]+)`/) { "<code class=\"inline-code\">#{encode($1)}</code>" } # inline code
         s.gsub!(/(^|\n)[-*_]{3,}($|\n)/) { "#{$1}<hr>#{$2}" } # hr
 
@@ -65,12 +65,12 @@ class Formatter_Markdown
                     if isInQuote
                         quote += $1 + "\n"
                     else
-                        quote += "<blockquote>\n" + $1 + "\n"
+                        quote += "<blockquote>" + $1 + "\n"
                         isInQuote = true
                     end
                 else
                     if isInQuote
-                        quote += "</blockquote>\n" + line
+                        quote += "</blockquote>" + line
                         isInQuote = false
                     else
                         quote += line
@@ -79,7 +79,7 @@ class Formatter_Markdown
             end
 
             if isInQuote
-                quote += "</blockquote>\n"
+                quote += "</blockquote>"
             end
 
             html = quote
@@ -164,7 +164,7 @@ class Formatter_Markdown
         else
             lastIndentLevel = indentLevels[startIndex]
 
-            currentHTML = " " * lastIndentLevel + "<" + tagName + ">\n"
+            currentHTML = " " * lastIndentLevel + "<" + tagName + ">"
             currentIndex = startIndex
 
             loop do
@@ -180,7 +180,7 @@ class Formatter_Markdown
                     currentIndex = innerResult.endIndex
                     lastIndentLevel = indentLevels[currentIndex]
                 else
-                    currentHTML += " " * indentLevels[currentIndex] + "<li>" + encode(contents[currentIndex]) + "</li>\n"
+                    currentHTML += " " * indentLevels[currentIndex] + "<li>" + encode(contents[currentIndex]) + "</li>"
 
                     lastIndentLevel = indentLevels[currentIndex]
                     currentIndex += 1
@@ -188,7 +188,7 @@ class Formatter_Markdown
             end
 
             if lastIndentLevel
-                currentHTML += " " * lastIndentLevel + "</" + tagName + ">\n"
+                currentHTML += " " * lastIndentLevel + "</" + tagName + ">"
             end
 
             FormatListResult.new(currentHTML, currentIndex)

@@ -242,13 +242,20 @@ button {
     width: 150px; height: 150px;
     object-fit: contain;
   }
-  
+
   img{
     background-color: gray;
     width: 150px; height: 150px;
     object-fit: contain;
   }
 
+  p>a{
+    color: #0A48E6;
+  }
+
+  a{
+    color: #0A48E6;
+  }
 
   table {
     margin-top: 0.5em;

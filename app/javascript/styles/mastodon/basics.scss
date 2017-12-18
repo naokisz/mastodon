@@ -120,3 +120,25 @@ button {
     justify-content: center;
   }
 }
+
+.status__content {
+
+  font-family: 'Noto Sans Japanese', sans-serif;
+
+  code{
+    display: block;
+    border-left: 2px solid $classic-highlight-color;
+    padding-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+  }
+
+  em{
+    font-style: italic;
+  }
+
+  strong{
+    font-weight: bold;
+  }
+}

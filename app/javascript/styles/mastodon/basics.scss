@@ -237,6 +237,18 @@ button {
     padding-left: 1em;
   }
 
+  p>img{
+    background-color: gray;
+    width: 150px; height: 150px;
+    object-fit: contain;
+  }
+  
+  img{
+    background-color: gray;
+    width: 150px; height: 150px;
+    object-fit: contain;
+  }
+
 
   table {
     margin-top: 0.5em;

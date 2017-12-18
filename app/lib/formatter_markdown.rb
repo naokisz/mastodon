@@ -159,34 +159,40 @@ class Formatter_Markdown
     end
 
     def formatListElem(indentLevels, contents, tagName, startIndex)
-        lastIndentLevel = indentLevels[startIndex]
+        if startIndex >= indentLevels.length
+            FormatListResult.new("", indentLevels.length)
+        else
+            lastIndentLevel = indentLevels[startIndex]
 
-        currentHTML = " " * lastIndentLevel + "<" + tagName + ">\n"
-        currentIndex = startIndex
+            currentHTML = " " * lastIndentLevel + "<" + tagName + ">\n"
+            currentIndex = startIndex
 
-        loop do
-            if currentIndex >= indentLevels.length || lastIndentLevel > indentLevels[currentIndex]
-                break
+            loop do
+                if currentIndex >= indentLevels.length || lastIndentLevel > indentLevels[currentIndex]
+                    break
+                end
+
+                if lastIndentLevel < indentLevels[currentIndex]
+                    innerResult = formatListElem(indentLevels, contents, tagName, currentIndex)
+
+                    currentHTML += innerResult.contentHTML
+
+                    currentIndex = innerResult.endIndex
+                    lastIndentLevel = indentLevels[currentIndex]
+                else
+                    currentHTML += " " * indentLevels[currentIndex] + "<li>" + encode(contents[currentIndex]) + "</li>\n"
+
+                    lastIndentLevel = indentLevels[currentIndex]
+                    currentIndex += 1
+                end
             end
 
-            if lastIndentLevel < indentLevels[currentIndex]
-                innerResult = formatListElem(indentLevels, contents, tagName, currentIndex)
-
-                currentHTML += innerResult.contentHTML
-
-                currentIndex = innerResult.endIndex
-                lastIndentLevel = indentLevels[currentIndex]
-            else
-                currentHTML += " " * indentLevels[currentIndex] + "<li>" + encode(contents[currentIndex]) + "</li>\n"
-
-                lastIndentLevel = indentLevels[currentIndex]
-                currentIndex += 1
+            if lastIndentLevel
+                currentHTML += " " * lastIndentLevel + "</" + tagName + ">\n"
             end
+
+            FormatListResult.new(currentHTML, currentIndex)
         end
-
-        currentHTML += " " * lastIndentLevel + "</" + tagName + ">\n"
-
-        FormatListResult.new(currentHTML, currentIndex)
     end
 end
 

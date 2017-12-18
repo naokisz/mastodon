@@ -180,6 +180,16 @@ button {
     list-style: inside circle;
   }
 
+  ul>>ul>li{
+    padding-left: 2em;
+    list-style: inside circle;
+  }
+
+  ul>br>ul>br>li{
+    padding-left: 2em;
+    list-style: inside circle;
+  }
+
   ol{
     list-style: inside decimal;
   }

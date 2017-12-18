@@ -170,6 +170,16 @@ button {
     list-style: inside circle;
   }
 
+  ul>li{
+    padding-left: 1em;
+    list-style: inside circle;
+  }
+
+  ul>br>li{
+    padding-left: 1em;
+    list-style: inside circle;
+  }
+
   ol{
     list-style: inside decimal;
   }

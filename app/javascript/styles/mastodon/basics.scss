@@ -126,11 +126,11 @@ button {
 }
 
 .status .fa-lock::before {
- color: #F6FA06;
+ color: #F0C1FA;
 }
 
 .status .fa-envelope::before {
- color: #FC0000;
+ color: #EEAA7B;
 }
 
 .status__content {
@@ -243,7 +243,6 @@ button {
   }
 
   p>img{
-    background-color: gray;
     width: 150px; height: 150px;
     object-fit: contain;
   }

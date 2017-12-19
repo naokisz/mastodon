@@ -122,7 +122,7 @@ button {
 }
 
 .status-private {
-    background: #1A235C;
+    background: #374988;
 }
 
 .status .fa-lock::before {
@@ -207,6 +207,15 @@ button {
 
   ul{
     list-style: inside;
+    br{
+      display: none;
+    }
+  }
+
+  ul>ul{
+    br{
+      display: none;
+    }
   }
 
   ul>li>ul{
@@ -219,20 +228,20 @@ button {
     list-style: inside circle;
   }
 
-//  ul>br>li{
-//    padding-left: 1em;
-//    list-style: inside circle;
-//  }
+  ul>br>li{
+    padding-left: 1em;
+    list-style: inside circle;
+  }
 
   ul>ul>li{
     padding-left: 2em;
     list-style: inside circle;
   }
 
-//  ul>br>ul>br>li{
-//    padding-left: 2em;
-//    list-style: inside circle;
-//  }
+  ul>br>ul>br>li{
+    padding-left: 2em;
+    list-style: inside circle;
+  }
 
   ol{
     list-style: inside decimal;

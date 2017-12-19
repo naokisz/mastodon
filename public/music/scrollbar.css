@@ -10,14 +10,3 @@
   border-radius: 10px;
   box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
 }
-.container{
-  width: 100%;
-  height: 400px;
-  overflow: auto;
-}
-.inner{
-  background-image: url("http://lorempixel.com/800/800/");
-  background-repeat: no-repeat;
-  width:100%;
-  height:800px;
-}

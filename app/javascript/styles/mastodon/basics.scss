@@ -121,6 +121,18 @@ button {
   }
 }
 
+.status-private {
+    background: #1A235C;
+}
+
+.status .fa-lock::before {
+ color: #F6FA06;
+}
+
+.status .fa-envelope::before {
+ color: #FC0000;
+}
+
 .status__content {
 
   font-family: 'Noto Sans Japanese', sans-serif;
@@ -171,6 +183,7 @@ button {
     margin-top: 5px;
     margin-bottom: 5px;
     margin-left: 5px;
+    background-color: #000000;
   }
 
   pre{
@@ -206,20 +219,20 @@ button {
     list-style: inside circle;
   }
 
-  ul>br>li{
-    padding-left: 1em;
-    list-style: inside circle;
-  }
+//  ul>br>li{
+//    padding-left: 1em;
+//    list-style: inside circle;
+//  }
 
   ul>ul>li{
     padding-left: 2em;
     list-style: inside circle;
   }
 
-  ul>br>ul>br>li{
-    padding-left: 2em;
-    list-style: inside circle;
-  }
+//  ul>br>ul>br>li{
+//    padding-left: 2em;
+//    list-style: inside circle;
+//  }
 
   ol{
     list-style: inside decimal;

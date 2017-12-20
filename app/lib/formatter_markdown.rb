@@ -83,6 +83,38 @@ class Formatter_Markdown
         def list_item(text, list_type)
             %(<li>#{text.strip}</li>)
         end
+
+        def emphasis(text)
+            %(<em>#{encode(text)}</em>)
+        end
+
+        def double_emphasis(text)
+            %(<strong>#{encode(text)}</strong>)
+        end
+
+        def triple_emphasis(text)
+            %(<em><strong>#{encode(text)}</strong></em>)
+        end
+
+        def strikethrough(text)
+            %(<s>#{encode(text)}</s>)
+        end
+
+        def superscript(text)
+            %(<sup>#{encode(text)}</sup>)
+        end
+
+        def underline(text)
+            %(<u>#{encode(text)}</u>)
+        end
+
+        def highlight(text)
+            %(<mark>#{encode(text)}</mark>)
+        end
+
+        def encode(html)
+            HTMLEntities.new.encode(html)
+        end
     end
 
     def encode(html)
@@ -124,7 +156,10 @@ class MDExtractor
             extractByHTMLTagName("hr", false, true),
             extractByHTMLTagName("a"),
             extractByHTMLTagName("img", false, true),
-            extractByHTMLTagName("s")
+            extractByHTMLTagName("s"),
+            extractByHTMLTagName("sup"),
+            extractByHTMLTagName("u"),
+            extractByHTMLTagName("mark")
         ].flatten.compact
     end
 

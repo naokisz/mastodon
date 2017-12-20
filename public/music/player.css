@@ -1,3 +1,35 @@
+#scrollbar01::-webkit-scrollbar
+{
+        width:5px;
+        background:#eee;
+}
+        #scrollbar01::-webkit-scrollbar:horizontal
+        {
+                height:5px;
+        }
+#scrollbar01::-webkit-scrollbar-button
+{
+        width:5px;
+        height:5px;
+        background:#666;
+}
+#scrollbar01::-webkit-scrollbar-piece
+{
+        background:#eee;
+}
+        #scrollbar01::-webkit-scrollbar-piece:start
+        {
+                background:#eee;
+        }
+#scrollbar01::-webkit-scrollbar-thumb
+{
+        background:#333;
+}
+#scrollbar01::-webkit-scrollbar-corner
+{
+        background:#333;
+}
+
 .mdtc-clnplra-main-player * {
   background-color: transparent;
   border: 0 none;

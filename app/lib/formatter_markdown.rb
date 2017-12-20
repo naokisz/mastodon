@@ -1,5 +1,7 @@
 require 'uri'
+require 'redcarpet'
 
+# https://gist.github.com/mignonstyle/083c9e1651d7734f84c99b8cf49d57fa
 # https://gist.github.com/wate/7072365
 class Formatter_Markdown
     def initialize(html)
@@ -7,6 +9,7 @@ class Formatter_Markdown
     end
 
     def formatted
+=begin
         s = @html.dup
         s.gsub!(/(^|\n)(.+)\n={3,}($|\n)/) { "#{$1}<h1>#{encode($2)}</h1>#{$3}" } # headings Setext h1
         s.gsub!(/(^|\n)(.+)\n-{3,}($|\n)/) { "#{$1}<h2>#{encode($2)}</h2>#{$3}" } # headings Setext h2
@@ -34,6 +37,82 @@ class Formatter_Markdown
         quoteFormatted = formatQuote(listFormatted)
 
         quoteFormatted
+=end
+        render_options = {
+            escape_html: true,
+            safe_links_only: true,
+            with_toc_data: true,
+            hard_wrap: true,
+            xhtml: false,
+            prettify: true,
+            link_attributes: true
+        }
+        mdRenderer = CustomMDRenderer.new
+        
+        extensions = {
+            no_intra_emphasis: true,
+            tables: true,
+            fenced_code_blocks: false,
+            autolink: true,
+            disable_indented_code_blocks: false,
+            strikethrough: false,
+            lax_spacing: true,
+            superscript: true,
+            underline: true,
+            highlight: true,
+            quote: false,
+            footnotes: true
+        }
+        md = Redcarpet::Markdown.new(mdRenderer)
+
+        renderedMD = md.render(@html)
+
+        result = renderedMD
+        result.gsub!(/[~]{2,}([^~\n]+)[~]{2,}/) { "<s>#{encode($1)}</s>" } # strikethrough
+        result.gsub!(/(<\w+)([^>]*>)/) { "#{$1} data-md='true' #{$2}" }
+        #puts result
+
+        result
+    end
+
+    class CustomMDRenderer < Redcarpet::Render::HTML
+        def image(link, title, alt_text)
+            %(<img src="#{URI.encode_www_form_component(link)}" alt="#{alt_text}">)
+        end
+
+        def link(link, title, content)
+            %(<a href="#{URI.encode_www_form_component(link)}">#{content}</a>)
+        end
+
+        def paragraph(text)
+            text.strip
+        end
+
+        def linebreak()
+            %(\n)
+        end
+
+        def block_code(code, language)
+            %(<code class="#{language}">#{code.strip}</code>)
+        end
+
+        def block_quote(quote)
+            %(<blockquote>#{quote.strip}</blockquote>)
+        end
+
+        def list(contents, list_type)
+            if list_type == :unordered
+                %(<ul>#{contents.strip}</ul>)
+            elsif list_type == :ordered
+                %(<ol>#{contents.strip}</ol>)
+            else
+                %(<#{list_type}>#{contents.strip}</#{list_type}>)
+            end
+        end
+
+        def list_item(text, list_type)
+            %(<li>#{text.strip}</li>)
+        end
     end
 
     def encode(html)
@@ -196,9 +275,9 @@ class MDLinkDecoder
     end
 
     def decode
-        imageDecoded = @html.gsub(/<img src="([^"]+)"([^>]*)>/) { "<img src=\"" + URI.decode_www_form_component($1) + "\"" + $2 + ">" }
+        imageDecoded = @html.gsub(/<img data-md='true'\s+src="([^"]+)"([^>]*)>/) { "<img data-md='true' src=\"" + URI.decode_www_form_component($1) + "\"" + $2 + ">" }
 
-        imageDecoded.gsub(/<a href="([^"]+)"([^>]*)>/) { "<a href=\"" + URI.decode_www_form_component($1) + "\"" + $2 + ">" }
+        imageDecoded.gsub(/<a data-md='true'\s+href="([^"]+)"([^>]*)>/) { "<a data-md='true' href=\"" + URI.decode_www_form_component($1) + "\"" + $2 + ">" }
     end
 end
 
@@ -262,24 +341,24 @@ class MDExtractor
     end
 
     def htmlTagPattern(tagName)
-        Regexp.compile("<#{tagName}(?:[^>]*)>(?:[^<]|<#{tagName}(?:[^>]*)>|<\\/#{tagName}>)*(?:<\\/#{tagName}>)*")
+        Regexp.compile("<#{tagName} data-md=[^>]*>(?:[^<]|<#{tagName} data-md=[^>]*>|<\\/#{tagName}>)*(?:<\\/#{tagName}>)*")
     end
 
     def htmlTagPatternNoNest(tagName)
-        Regexp.compile("<#{tagName}(?:[^>]*)>(?:.|\n)*?<\\/#{tagName}>")
+        Regexp.compile("<#{tagName} data-md=[^>]*>(?:.|\n)*?<\\/#{tagName}>")
     end
 
     def htmlTagPatternSingle(tagName)
-        Regexp.compile("<#{tagName}(?:[^>]*)>")
+        Regexp.compile("<#{tagName} data-md=[^>]*>")
     end
 
     # https://stackoverflow.com/questions/546433/regular-expression-to-match-outer-brackets
     def htmlTagPatternOuterMost(tagName)
-        Regexp.compile("<#{tagName}>(?:[^<>]|(\\g<0>))*<\/#{tagName}>")
+        Regexp.compile("<#{tagName} data-md=[^>]*>(?:[^<>]|(\\g<0>))*<\/#{tagName}>")
     end
 
     def htmlTagPatternOuterMostWithItem(tagName, itemTagName)
-        Regexp.compile("<#{tagName}>(?:[^<>]|<#{itemTagName}>|<\\/#{itemTagName}>|(\\g<0>))*<\/#{tagName}>")
+        Regexp.compile("<#{tagName} data-md=[^>]*>(?:[^<>]|<#{itemTagName} data-md=[^>]*>|<\\/#{itemTagName}>|(\\g<0>))*<\/#{tagName}>")
     end
 end
 

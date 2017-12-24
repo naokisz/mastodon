@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'singleton'
-require_relative './formatter_markdown'
 require_relative './sanitize_config'
 
 class Formatter
@@ -31,18 +30,12 @@ class Formatter
 
     html = raw_content
 
-    mdFormatter = Formatter_Markdown.new(html)
-    html = mdFormatter.formatted
-
     html = "RT @#{prepend_reblog} #{html}" if prepend_reblog
     html = encode_and_link_urls(html, linkable_accounts)
     html = encode_custom_emojis(html, status.emojis) if options[:custom_emojify]
     html = simple_format(html, {}, sanitize: false)
     html = html.delete("\n")
     html = format_bbcode(html)
-
-    mdLinkDecoder = MDLinkDecoder.new(html)
-    html = mdLinkDecoder.decode
 
     html.html_safe # rubocop:disable Rails/OutputSafety
   end
@@ -103,13 +96,8 @@ class Formatter
   def encode_and_link_urls(html, accounts = nil)
     entities = Extractor.extract_entities_with_indices(html, extract_url_without_protocol: false)
 
-    mdExtractor = MDExtractor.new(html)
-    entities.concat(mdExtractor.extractEntities)
-
     rewrite(html.dup, entities) do |entity|
-      if entity[:markdown]
-        html[entity[:indices][0]...entity[:indices][1]]
-      elsif entity[:url]
+      if entity[:url]
         link_to_url(entity)
       elsif entity[:hashtag]
         link_to_hashtag(entity)

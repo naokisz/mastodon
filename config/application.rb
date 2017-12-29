@@ -77,6 +77,10 @@ module Mastodon
         resource '/@:username',  headers: :any, methods: [:get], credentials: false
         resource '/api/*',       headers: :any, methods: [:post, :put, :delete, :get, :patch, :options], credentials: false, expose: ['Link', 'X-RateLimit-Reset', 'X-RateLimit-Limit', 'X-RateLimit-Remaining', 'X-Request-Id']
         resource '/oauth/token', headers: :any, methods: [:post], credentials: false
+        resource '/assets/*', headers: :any, methods: [:get, :head, :options]
+        resource '/stylesheets/*', headers: :any, methods: [:get, :head, :options]
+        resource '/javascripts/*', headers: :any, methods: [:get, :head, :options]
+        resource '/packs/*', headers: :any, methods: [:get, :head, :options]
       end
     end
 

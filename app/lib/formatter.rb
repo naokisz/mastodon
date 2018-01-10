@@ -29,6 +29,7 @@ class Formatter
     linkable_accounts << status.account
 
     html = raw_content
+
     html = "RT @#{prepend_reblog} #{html}" if prepend_reblog
     html = encode_and_link_urls(html, linkable_accounts)
     html = encode_custom_emojis(html, status.emojis) if options[:custom_emojify]
@@ -185,10 +186,10 @@ class Formatter
   end
 
   def link_to_url(entity)
-    normalized_url = Addressable::URI.parse(entity[:url]).normalize
-    html_attrs     = { target: '_blank', rel: 'nofollow noopener' }
+    url        = Addressable::URI.parse(entity[:url])
+    html_attrs = { target: '_blank', rel: 'nofollow noopener' }
 
-    Twitter::Autolink.send(:link_to_text, entity, link_html(entity[:url]), normalized_url, html_attrs)
+    Twitter::Autolink.send(:link_to_text, entity, link_html(entity[:url]), url, html_attrs)
   rescue Addressable::URI::InvalidURIError, IDN::Idna::IdnaError
     encode(entity[:url])
   end

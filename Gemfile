@@ -78,6 +78,8 @@ gem 'ruby-bbcode'
 gem 'json-ld-preloaded', '~> 2.2.1'
 gem 'rdf-normalize', '~> 0.3.1'
 
+gem 'redcarpet', "~> 3.4.0"
+
 group :development, :test do
   gem 'fabrication', '~> 2.18'
   gem 'fuubar', '~> 2.2'

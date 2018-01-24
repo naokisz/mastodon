@@ -121,22 +121,6 @@ button {
   }
 }
 
-.status-unlisted {
-    background: #325632;
-}
-
-.status-private {
-    background: #374988;
-}
-
-.status .fa-lock::before {
- color: #F0C1FA;
-}
-
-.status .fa-envelope::before {
- color: #EEAA7B;
-}
-
 .status__content {
 
   font-family: 'Noto Sans Japanese', sans-serif;

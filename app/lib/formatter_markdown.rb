@@ -35,9 +35,6 @@ class Formatter_Markdown
             quote: false,
             footnotes: true
         }
-<<<<<<< HEAD
-        md = Redcarpet::Markdown.new(mdRenderer)
-=======
         md = Redcarpet::Markdown.new(
             mdRenderer,
             space_after_headers: true,
@@ -54,7 +51,6 @@ class Formatter_Markdown
             prettify: true,
             link_attributes: true
         )
->>>>>>> 5bc9ae23... fix hashtag
 
         renderedMD = md.render(@html)
 

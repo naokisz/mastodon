@@ -43,7 +43,7 @@ class Formatter_Markdown
             no_intra_emphasis: true,
             tables: true,
             fenced_code_blocks: false,
-            autolink: true,
+            autolink: false,
             disable_indented_code_blocks: false,
             strikethrough: false,
             lax_spacing: true,
@@ -55,6 +55,7 @@ class Formatter_Markdown
         }
         md = Redcarpet::Markdown.new(
             mdRenderer,
+            autolink: false,
             space_after_headers: true,
             no_intra_emphasis: true,
             no_links: true,
@@ -100,7 +101,7 @@ class Formatter_Markdown
         end
 
         def paragraph(text)
-            text.strip
+            %(#{text.strip})
         end
 
         def linebreak()

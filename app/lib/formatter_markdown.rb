@@ -10,6 +10,11 @@ class Formatter_Markdown
 
     def formatted
         render_options = {
+            no_intra_emphasis: true,
+            no_links: true,
+            no_styles: true,
+            no_images: true,
+            filter_html: true,
             escape_html: true,
             safe_links_only: true,
             with_toc_data: true,
@@ -18,7 +23,20 @@ class Formatter_Markdown
             prettify: true,
             link_attributes: true
         }
-        mdRenderer = CustomMDRenderer.new
+        mdRenderer = CustomMDRenderer.new(
+            no_intra_emphasis: true,
+            no_links: true,
+            no_styles: true,
+            no_images: true,
+            filter_html: true,
+            escape_html: true,
+            safe_links_only: true,
+            with_toc_data: true,
+            hard_wrap: true,
+            xhtml: false,
+            prettify: true,
+            link_attributes: true
+        )
 
         extensions = {
             space_after_headers: true,
@@ -62,12 +80,23 @@ class Formatter_Markdown
     end
 
     class CustomMDRenderer < Redcarpet::Render::HTML
+
         def image(link, title, alt_text)
-            %(<img src="#{URI.encode_www_form_component(link)}" alt="#{alt_text}">)
+            imgcheck = "#{link}"
+            if imgcheck !~ /^https:\/+([^<>"])+$/
+                %("ERROR")
+            else
+                %(<img src="#{URI.encode_www_form_component(link)}" alt="#{alt_text}">)
+            end
         end
 
         def link(link, title, content)
-            %(<a href="#{URI.encode_www_form_component(link)}">#{content}</a>)
+            linkcheck = "#{link}"
+            if linkcheck !~ /^https:\/+([^<>"])+$/
+                %("ERROR")
+            else 
+                %(<a href="#{URI.encode_www_form_component(link)}">#{content}</a>)
+            end
         end
 
         def paragraph(text)
@@ -187,7 +216,7 @@ class MDExtractor
 
             beginPos = match.char_begin(0)
             endPos = match.char_end(0)
-
+            
             entity = {
                 :markdown => true,
                 :indices => [beginPos, endPos]

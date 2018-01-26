@@ -87,7 +87,7 @@ class Formatter_Markdown
             if imgcheck !~ /^https:\/+([^<>"])+$/
                 %("ERROR")
             else
-                %(<img src="#{URI.encode_www_form_component(link)}" alt="#{alt_text}">)
+                %(<a href="#{URI.encode_www_form_component(link)}"><img src="#{URI.encode_www_form_component(link)}" alt="#{alt_text}"></a>)
             end
         end
 

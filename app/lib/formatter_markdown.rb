@@ -84,7 +84,7 @@ class Formatter_Markdown
 
         def image(link, title, alt_text)
             imgcheck = "#{link}"
-            if imgcheck !~ /^https:\/+([^<>"])+$/
+            if imgcheck !~ /^https:\/+([^<>"\[\] 　])+$/
                 %("ERROR")
             else
                 %(<a href="#{URI.encode_www_form_component(link)}"><img src="#{URI.encode_www_form_component(link)}" alt="#{alt_text}"></a>)
@@ -93,7 +93,7 @@ class Formatter_Markdown
 
         def link(link, title, content)
             linkcheck = "#{link}"
-            if linkcheck !~ /^https:\/+([^<>"])+$/
+            if linkcheck !~ /^https:\/+([^<>"\[\] 　])+$/
                 %("ERROR")
             else 
                 %(<a href="#{URI.encode_www_form_component(link)}">#{content}</a>)

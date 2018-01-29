@@ -10,7 +10,7 @@ class Formatter_Markdown
     end
 
     def formatted
-        render_options = {
+=begin        render_options = {
             no_intra_emphasis: true,
             no_links: true,
             no_styles: true,
@@ -24,6 +24,7 @@ class Formatter_Markdown
             prettify: true,
             link_attributes: true
         }
+=end
         mdRenderer = CustomMDRenderer.new(
             fenced_link: true,
             fenced_image: true,
@@ -40,7 +41,7 @@ class Formatter_Markdown
             prettify: true,
             link_attributes: true
         )
-
+=begin
         extensions = {
             space_after_headers: true,
             no_intra_emphasis: true,
@@ -56,12 +57,10 @@ class Formatter_Markdown
             quote: false,
             footnotes: true
         }
+=end
         md = Redcarpet::Markdown.new(
-            CustomMDRenderer,
-            fenced_link: true,
-            fenced_image: true,
-#            mdRenderer,
-            autolink: true,
+            mdRenderer,
+            autolink: false,
             space_after_headers: true,
             no_intra_emphasis: true,
             no_links: true,

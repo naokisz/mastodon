@@ -1,5 +1,6 @@
 require 'uri'
 require 'redcarpet'
+require 'redcarpet/render_strip'
 
 # https://gist.github.com/mignonstyle/083c9e1651d7734f84c99b8cf49d57fa
 # https://gist.github.com/wate/7072365
@@ -24,6 +25,8 @@ class Formatter_Markdown
             link_attributes: true
         }
         mdRenderer = CustomMDRenderer.new(
+            fenced_link: true,
+            fenced_image: true,
             no_intra_emphasis: true,
             no_links: true,
             no_styles: true,
@@ -43,7 +46,7 @@ class Formatter_Markdown
             no_intra_emphasis: true,
             tables: true,
             fenced_code_blocks: false,
-            autolink: false,
+            autolink: true,
             disable_indented_code_blocks: false,
             strikethrough: false,
             lax_spacing: true,
@@ -54,8 +57,11 @@ class Formatter_Markdown
             footnotes: true
         }
         md = Redcarpet::Markdown.new(
-            mdRenderer,
-            autolink: false,
+            CustomMDRenderer,
+            fenced_link: true,
+            fenced_image: true,
+#            mdRenderer,
+            autolink: true,
             space_after_headers: true,
             no_intra_emphasis: true,
             no_links: true,
@@ -87,7 +93,8 @@ class Formatter_Markdown
             if imgcheck !~ /^https:\/+([^<>"\[\] 　])+$/
                 %("ERROR")
             else
-                %(<a href="#{URI.encode_www_form_component(link)}"><img src="#{URI.encode_www_form_component(link)}" alt="#{alt_text}"></a>)
+                %(<a href="#{imgcheck}"><img src="#{imgcheck}" ></a>)
+#                                                             alt="#{alt_text}"
             end
         end
 
@@ -96,7 +103,7 @@ class Formatter_Markdown
             if linkcheck !~ /^https:\/+([^<>"\[\] 　])+$/
                 %("ERROR")
             else 
-                %(<a href="#{URI.encode_www_form_component(link)}">#{content}</a>)
+                %(<a href="#{linkcheck}">#{content}</a>)
             end
         end
 

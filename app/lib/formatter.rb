@@ -36,8 +36,8 @@ class Formatter
     html = mdFormatter.formatted
 
     html = "RT @#{prepend_reblog} #{html}" if prepend_reblog
-    html = encode_and_link_urls(html, linkable_accounts)
     html = encode_custom_emojis(html, status.emojis) if options[:custom_emojify]
+#    html = encode_and_link_urls(html,linkable_accounts)
     html = simple_format(html, {}, sanitize: false)
     html = html.delete("\n")
     html = format_bbcode(html)

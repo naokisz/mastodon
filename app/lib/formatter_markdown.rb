@@ -27,6 +27,7 @@ class Formatter_Markdown
 =end
         mdRenderer = CustomMDRenderer.new(
             autolink: true,
+            superscript:true,
             fenced_link: true,
             fenced_image: true,
             no_intra_emphasis: true,
@@ -61,6 +62,7 @@ class Formatter_Markdown
 =end
         md = Redcarpet::Markdown.new(
             mdRenderer,
+            superscript:true,
             autolink: true,
             space_after_headers: true,
             no_intra_emphasis: true,

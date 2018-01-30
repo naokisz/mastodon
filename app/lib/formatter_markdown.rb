@@ -1,5 +1,6 @@
 require 'uri'
 require 'redcarpet'
+require 'redcarpet/render_strip'
 
 # https://gist.github.com/mignonstyle/083c9e1651d7734f84c99b8cf49d57fa
 # https://gist.github.com/wate/7072365
@@ -9,7 +10,7 @@ class Formatter_Markdown
     end
 
     def formatted
-        render_options = {
+=begin        render_options = {
             no_intra_emphasis: true,
             no_links: true,
             no_styles: true,
@@ -23,7 +24,12 @@ class Formatter_Markdown
             prettify: true,
             link_attributes: true
         }
+=end
         mdRenderer = CustomMDRenderer.new(
+            autolink: true,
+            superscript:true,
+            fenced_link: true,
+            fenced_image: true,
             no_intra_emphasis: true,
             no_links: true,
             no_styles: true,
@@ -37,7 +43,7 @@ class Formatter_Markdown
             prettify: true,
             link_attributes: true
         )
-
+=begin
         extensions = {
             space_after_headers: true,
             no_intra_emphasis: true,
@@ -53,9 +59,11 @@ class Formatter_Markdown
             quote: false,
             footnotes: true
         }
+=end
         md = Redcarpet::Markdown.new(
             mdRenderer,
-            autolink: false,
+            superscript:true,
+            autolink: true,
             space_after_headers: true,
             no_intra_emphasis: true,
             no_links: true,
@@ -84,7 +92,7 @@ class Formatter_Markdown
 
         def image(link, title, alt_text)
             imgcheck = "#{link}"
-            if imgcheck !~ /^https:\/+([^<>"])+$/
+            if imgcheck !~ /^https:\/+([^<>"\[\] 　])+$/
                 %("ERROR")
             else
                 %(<a href="#{URI.encode_www_form_component(link)}"><img src="#{URI.encode_www_form_component(link)}" alt="#{alt_text}"></a>)
@@ -93,9 +101,9 @@ class Formatter_Markdown
 
         def link(link, title, content)
             linkcheck = "#{link}"
-            if linkcheck !~ /^https:\/+([^<>"])+$/
+            if linkcheck !~ /^https:\/+([^<>"\[\] 　])+$/
                 %("ERROR")
-            else 
+            else
                 %(<a href="#{URI.encode_www_form_component(link)}">#{content}</a>)
             end
         end
@@ -158,6 +166,10 @@ class Formatter_Markdown
             %(<mark>#{encode(text)}</mark>)
         end
 
+        def autolink(link, link_type)
+            %(<a href="#{URI.encode_www_form_component(link)}">URL</a>)
+        end
+
         def encode(html)
             HTMLEntities.new.encode(html)
         end
@@ -217,7 +229,7 @@ class MDExtractor
 
             beginPos = match.char_begin(0)
             endPos = match.char_end(0)
-            
+
             entity = {
                 :markdown => true,
                 :indices => [beginPos, endPos]

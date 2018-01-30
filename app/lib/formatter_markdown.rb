@@ -26,6 +26,7 @@ class Formatter_Markdown
         }
 =end
         mdRenderer = CustomMDRenderer.new(
+            autolink: true,
             fenced_link: true,
             fenced_image: true,
             no_intra_emphasis: true,
@@ -60,7 +61,7 @@ class Formatter_Markdown
 =end
         md = Redcarpet::Markdown.new(
             mdRenderer,
-            autolink: false,
+            autolink: true,
             space_after_headers: true,
             no_intra_emphasis: true,
             no_links: true,
@@ -92,8 +93,7 @@ class Formatter_Markdown
             if imgcheck !~ /^https:\/+([^<>"\[\] 　])+$/
                 %("ERROR")
             else
-                %(<a href="#{imgcheck}"><img src="#{imgcheck}" ></a>)
-#                                                             alt="#{alt_text}"
+                %(<a href="#{URI.encode_www_form_component(link)}"><img src="#{URI.encode_www_form_component(link)}" alt="#{alt_text}"></a>)                                                        
             end
         end
 
@@ -102,7 +102,7 @@ class Formatter_Markdown
             if linkcheck !~ /^https:\/+([^<>"\[\] 　])+$/
                 %("ERROR")
             else 
-                %(<a href="#{linkcheck}">#{content}</a>)
+                %(<a href="#{URI.encode_www_form_component(link)}">#{content}</a>)
             end
         end
 
@@ -162,6 +162,10 @@ class Formatter_Markdown
 
         def highlight(text)
             %(<mark>#{encode(text)}</mark>)
+        end
+
+        def autolink(link, link_type)
+            %(<a href="#{URI.encode_www_form_component(link)}">URL</a>)
         end
 
         def encode(html)

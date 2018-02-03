@@ -31,16 +31,18 @@ class Formatter
 
     html = raw_content
  
-    
-    mdFormatter = Formatter_Markdown.new(html)
+    mdFormatter = Formatter_Markdown.new(html)    
 
     html = "RT @#{prepend_reblog} #{html}" if prepend_reblog
-    html = encode_and_link_urls(html, linkable_accounts)
+    html = clean_paragraphs(html)
+    html = format_bbcode(html)
     html = mdFormatter.formatted
+    html = encode_and_link_urls(html, linkable_accounts)
     html = encode_custom_emojis(html, status.emojis) if options[:custom_emojify]
     html = simple_format(html, {}, sanitize: false)
-    html = html.delete("\n")
-    html = format_bbcode(html)
+    html = html.delete("\n")    
+
+
 
     mdLinkDecoder = MDLinkDecoder.new(html)
     html = mdLinkDecoder.decode
@@ -57,6 +59,11 @@ class Formatter
 
     text = status.text.gsub(/(<br \/>|<br>|<\/p>)+/) { |match| "#{match}\n" }
     strip_tags(text)
+  end
+
+  def clean_paragraphs(html)
+    puts html
+    html.gsub(/<p><\/p>/,"")
   end
 
   def simplified_format(account)
@@ -92,14 +99,11 @@ class Formatter
 
   def encode_and_link_urls(html, accounts = nil)
     entities = Extractor.extract_entities_with_indices(html, extract_url_without_protocol: false)
+    html
 
-    mdExtractor = MDExtractor.new(html)
-    entities.concat(mdExtractor.extractEntities)
-
-    rewrite(html.dup, entities) do |entity|
-      if entity[:markdown]
-        html[entity[:indices][0]...entity[:indices][1]]
-      elsif entity[:url]
+    rewrite(html, entities) do |entity|
+    puts entity
+      if entity[:url]
         link_to_url(entity)
       elsif entity[:hashtag]
         link_to_hashtag(entity)
@@ -166,6 +170,7 @@ class Formatter
 
   def rewrite(text, entities)
     chars = text.to_s.to_char_a
+    puts text
 
     # Sort by start index
     entities = entities.sort_by do |entity|
@@ -177,12 +182,12 @@ class Formatter
 
     last_index = entities.reduce(0) do |index, entity|
       indices = entity.respond_to?(:indices) ? entity.indices : entity[:indices]
-      result << encode(chars[index...indices.first].join)
+      result << chars[index...indices.first].join
       result << yield(entity)
       indices.last
     end
 
-    result << encode(chars[last_index..-1].join)
+    result << chars[last_index..-1].join
 
     result.flatten.join
   end

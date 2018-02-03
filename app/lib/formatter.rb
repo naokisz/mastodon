@@ -34,14 +34,13 @@ class Formatter
     mdFormatter = Formatter_Markdown.new(html)    
 
     html = "RT @#{prepend_reblog} #{html}" if prepend_reblog
-    html = clean_paragraphs(html)
-    html = format_bbcode(html)
     html = mdFormatter.formatted
+    html = clean_paragraphs(html)
     html = encode_and_link_urls(html, linkable_accounts)
     html = encode_custom_emojis(html, status.emojis) if options[:custom_emojify]
     html = simple_format(html, {}, sanitize: false)
-    html = html.delete("\n")    
-
+    html = html.delete("\n")
+    html = format_bbcode(html)
 
 
     mdLinkDecoder = MDLinkDecoder.new(html)

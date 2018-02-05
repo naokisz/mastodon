@@ -10,11 +10,12 @@ class Formatter_Markdown
     end
 
     def formatted
-
         mdRenderer = CustomMDRenderer.new(
             hard_wrap: true,
             autolink: false,
             superscript: false,
+            fenced_link: true,
+            fenced_image: true,
             no_intra_emphasis: true,
             no_links: true,
             no_styles: true,
@@ -30,7 +31,7 @@ class Formatter_Markdown
 
         md = Redcarpet::Markdown.new(
             mdRenderer,
-            hard_wrap: false,
+            hard_wrap: true,
             superscript: false,
             autolink: false,
             space_after_headers: true,
@@ -82,7 +83,7 @@ class Formatter_Markdown
         end
 
         def linebreak()
-            %(<br/>)
+            %(<br>)
         end
 
         def block_code(code, language)

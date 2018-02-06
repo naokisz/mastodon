@@ -10,11 +10,12 @@ class Formatter_Markdown
     end
 
     def formatted
-
         mdRenderer = CustomMDRenderer.new(
             hard_wrap: true,
-            autolink: false,
-            superscript: false,
+#            autolink: false,
+            superscript:true,
+            fenced_link: true,
+            fenced_image: true,
             no_intra_emphasis: true,
             no_links: true,
             no_styles: true,
@@ -30,9 +31,9 @@ class Formatter_Markdown
 
         md = Redcarpet::Markdown.new(
             mdRenderer,
-            hard_wrap: false,
-            superscript: false,
-            autolink: false,
+            hard_wrap: true,
+            superscript:false,
+#            autolink: false,
             space_after_headers: true,
             no_intra_emphasis: true,
             no_links: true,
@@ -61,7 +62,7 @@ class Formatter_Markdown
 
         def image(link, title, alt_text)
             imgcheck = "#{link}"
-            if imgcheck !~ /\Ahttps:\/\/[^<>"\[\]  ]+\z/
+            if imgcheck !~ /\Ahttps:\/+([\A<>"\[\] 　])+\z/
                 %("ERROR")
             else
                 %(<a href="#{URI.encode_www_form_component(link)}"><img src="#{URI.encode_www_form_component(link)}" alt="#{alt_text}"></a>)
@@ -70,7 +71,7 @@ class Formatter_Markdown
 
         def link(link, title, content)
             linkcheck = "#{link}"
-            if linkcheck !~ /\Ahttps:\/\/[^<>"\[\]  ]+\z/
+            if linkcheck !~ /\Ahttps:\/+([\A<>"\[\] 　])+\z/
                 %("ERROR")
             else
                 %(<a href="#{URI.encode_www_form_component(link)}">#{content}</a>)
@@ -82,7 +83,7 @@ class Formatter_Markdown
         end
 
         def linebreak()
-            %(<br/>)
+            %(<br>)
         end
 
         def block_code(code, language)
@@ -108,7 +109,7 @@ class Formatter_Markdown
         end
 
         def emphasis(text)
-            %(<sup>#{encode(text)}</sup>)
+            %(<sup>#{encode(text)}<sup>)
         end
 
         def double_emphasis(text)
@@ -138,11 +139,6 @@ class Formatter_Markdown
         def encode(html)
             HTMLEntities.new.encode(html)
         end
-
-        def autolink(link, link_type)
-            %(<a href="#{URI.encode_www_form_component(link)}">URL</a>)
-        end
-
     end
 
     def encode(html)

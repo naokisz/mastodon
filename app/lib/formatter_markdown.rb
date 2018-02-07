@@ -12,7 +12,7 @@ class Formatter_Markdown
     def formatted
         mdRenderer = CustomMDRenderer.new(
             hard_wrap: true,
-#            autolink: false,
+            autolink: true,
             superscript:true,
             fenced_link: true,
             fenced_image: true,
@@ -33,7 +33,7 @@ class Formatter_Markdown
             mdRenderer,
             hard_wrap: true,
             superscript:false,
-#            autolink: false,
+            autolink: true,
             space_after_headers: true,
             no_intra_emphasis: true,
             no_links: true,
@@ -62,7 +62,7 @@ class Formatter_Markdown
 
         def image(link, title, alt_text)
             imgcheck = "#{link}"
-            if imgcheck !~ /\Ahttps:\/+([\A<>"\[\] 　])+\z/
+            if imgcheck !~ /\Ahttps:\/\/[^<>"\[\]  ]+\z/
                 %("ERROR")
             else
                 %(<a href="#{URI.encode_www_form_component(link)}"><img src="#{URI.encode_www_form_component(link)}" alt="#{alt_text}"></a>)
@@ -71,7 +71,7 @@ class Formatter_Markdown
 
         def link(link, title, content)
             linkcheck = "#{link}"
-            if linkcheck !~ /\Ahttps:\/+([\A<>"\[\] 　])+\z/
+            if linkcheck !~ /\Ahttps:\/\/[^<>"\[\]  ]+\z/
                 %("ERROR")
             else
                 %(<a href="#{URI.encode_www_form_component(link)}">#{content}</a>)

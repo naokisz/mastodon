@@ -31,18 +31,15 @@ class Formatter
 
     html = raw_content
  
-    mdFormatter = Formatter_Markdown.new(html)    
+    mdFormatter = Formatter_Markdown.new(html)
+    html = mdFormatter.formatted
 
     html = "RT @#{prepend_reblog} #{html}" if prepend_reblog
-    html = clean_paragraphs(html)
-    html = format_bbcode(html)
-    html = mdFormatter.formatted
     html = encode_and_link_urls(html, linkable_accounts)
     html = encode_custom_emojis(html, status.emojis) if options[:custom_emojify]
     html = simple_format(html, {}, sanitize: false)
-    html = html.delete("\n")    
-
-
+    html = html.delete("\n")
+    html = format_bbcode(html)
 
     mdLinkDecoder = MDLinkDecoder.new(html)
     html = mdLinkDecoder.decode
@@ -99,11 +96,11 @@ class Formatter
 
   def encode_and_link_urls(html, accounts = nil)
     entities = Extractor.extract_entities_with_indices(html, extract_url_without_protocol: false)
-    html
 
-    rewrite(html, entities) do |entity|
-    puts entity
-      if entity[:url]
+    rewrite(html.dup, entities) do |entity|
+      if entity[:markdown]
+        html[entity[:indices][0]...entity[:indices][1]]
+      elsif entity[:url]
         link_to_url(entity)
       elsif entity[:hashtag]
         link_to_hashtag(entity)

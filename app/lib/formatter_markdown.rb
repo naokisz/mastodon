@@ -10,24 +10,10 @@ class Formatter_Markdown
     end
 
     def formatted
-=begin        render_options = {
-            no_intra_emphasis: true,
-            no_links: true,
-            no_styles: true,
-            no_images: true,
-            filter_html: true,
-            escape_html: true,
-            safe_links_only: true,
-            with_toc_data: true,
-            hard_wrap: true,
-            xhtml: false,
-            prettify: true,
-            link_attributes: true
-        }
-=end
         mdRenderer = CustomMDRenderer.new(
+            hard_wrap: true,
             autolink: true,
-            superscript:true,
+            superscript:false,
             fenced_link: true,
             fenced_image: true,
             no_intra_emphasis: true,
@@ -43,26 +29,11 @@ class Formatter_Markdown
             prettify: true,
             link_attributes: true
         )
-=begin
-        extensions = {
-            space_after_headers: true,
-            no_intra_emphasis: true,
-            tables: true,
-            fenced_code_blocks: false,
-            autolink: false,
-            disable_indented_code_blocks: false,
-            strikethrough: false,
-            lax_spacing: true,
-            superscript: true,
-            underline: true,
-            highlight: true,
-            quote: false,
-            footnotes: true
-        }
-=end
+
         md = Redcarpet::Markdown.new(
             mdRenderer,
-            superscript:true,
+            hard_wrap: true,
+            superscript:false,
             autolink: true,
             space_after_headers: true,
             no_intra_emphasis: true,
@@ -113,7 +84,7 @@ class Formatter_Markdown
         end
 
         def linebreak()
-            %(\n)
+            %(<br>)
         end
 
         def block_code(code, language)
@@ -139,15 +110,15 @@ class Formatter_Markdown
         end
 
         def emphasis(text)
-            %(<em>#{encode(text)}</em>)
+            %(<sup>#{encode(text)}<sup>)
         end
 
         def double_emphasis(text)
-            %(<strong>#{encode(text)}</strong>)
+            %(<sub>#{encode(text)}</sub>)
         end
 
         def triple_emphasis(text)
-            %(<em><strong>#{encode(text)}</strong></em>)
+            %(<small>#{encode(text)}</small>)
         end
 
         def strikethrough(text)
@@ -167,7 +138,8 @@ class Formatter_Markdown
         end
 
         def autolink(link, link_type)
-            %(<a href="#{URI.encode_www_form_component(link)}">URL</a>)
+           links  = link.gsub(/\[\//," [/")
+            %(#{links})
         end
 
         def encode(html)
@@ -175,9 +147,6 @@ class Formatter_Markdown
         end
     end
 
-    def encode(html)
-        HTMLEntities.new.encode(html)
-    end
 end
 
 class MDLinkDecoder

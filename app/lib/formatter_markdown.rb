@@ -24,7 +24,6 @@ class Formatter_Markdown
             escape_html: true,
             safe_links_only: true,
             with_toc_data: true,
-            hard_wrap: true,
             xhtml: false,
             prettify: true,
             link_attributes: true
@@ -44,7 +43,6 @@ class Formatter_Markdown
             escape_html: true,
             safe_links_only: true,
             with_toc_data: true,
-            hard_wrap: true,
             xhtml: false,
             prettify: true,
             link_attributes: true
@@ -57,13 +55,14 @@ class Formatter_Markdown
         result.gsub!(/(<\w+)([^>]*>)/) { "#{$1} data-md='true' #{$2}" }
 
         result
+
     end
 
     class CustomMDRenderer < Redcarpet::Render::HTML
 
         def image(link, title, alt_text)
             imgcheck = "#{link}"
-            if imgcheck !~ /^https:\/+([^<>"\[\] 　])+$/
+            if imgcheck !~ /\Ahttps:\/\/[^<>"\[\]  ]+\z/
                 %("ERROR")
             else
                 %(<a href="#{URI.encode_www_form_component(link)}"><img src="#{URI.encode_www_form_component(link)}" alt="#{alt_text}"></a>)
@@ -72,7 +71,7 @@ class Formatter_Markdown
 
         def link(link, title, content)
             linkcheck = "#{link}"
-            if linkcheck !~ /^https:\/+([^<>"\[\] 　])+$/
+            if linkcheck !~ /\Ahttps:\/\/[^<>"\[\]  ]+\z/
                 %("ERROR")
             else
                 %(<a href="#{URI.encode_www_form_component(link)}">#{content}</a>)
@@ -126,7 +125,7 @@ class Formatter_Markdown
         end
 
         def superscript(text)
-            %(<sup>#{encode(text)}</sup>)
+            %(<sup>#{encode(text)}<sup>)
         end
 
         def underline(text)
@@ -137,14 +136,15 @@ class Formatter_Markdown
             %(<mark>#{encode(text)}</mark>)
         end
 
-        def autolink(link, link_type)
-           links  = link.gsub(/\[\//," [/")
-            %(#{links})
-        end
-
         def encode(html)
             HTMLEntities.new.encode(html)
         end
+
+        def autolink(link, link_type)
+           links  = link.gsub(/$\[\//," [/")
+            %(#{links})
+        end
+
     end
 
 end
@@ -158,88 +158,5 @@ class MDLinkDecoder
         imageDecoded = @html.gsub(/<img data-md='true'\s+src="([^"]+)"([^>]*)>/) { "<img data-md='true' src=\"" + URI.decode_www_form_component($1) + "\"" + $2 + ">" }
 
         imageDecoded.gsub(/<a data-md='true'\s+href="([^"]+)"([^>]*)>/) { "<a data-md='true' href=\"" + URI.decode_www_form_component($1) + "\"" + $2 + ">" }
-    end
-end
-
-class MDExtractor
-    def initialize(html)
-        @html = html.dup
-    end
-
-    def extractEntities
-        [
-            extractByHTMLTagName("h1"),
-            extractByHTMLTagName("h2"),
-            extractByHTMLTagName("h3"),
-            extractByHTMLTagName("h4"),
-            extractByHTMLTagName("h5"),
-            extractByHTMLTagName("h6"),
-            extractByHTMLTagName("em"),
-            extractByHTMLTagName("strong"),
-            extractByHTMLTagName("ul", false, false, "li"),
-            extractByHTMLTagName("ol", false, false, "li"),
-            extractByHTMLTagName("code"),
-            extractByHTMLTagName("blockquote", false),
-            extractByHTMLTagName("hr", false, true),
-            extractByHTMLTagName("a"),
-            extractByHTMLTagName("img", false, true),
-            extractByHTMLTagName("s"),
-            extractByHTMLTagName("sup"),
-            extractByHTMLTagName("u"),
-            extractByHTMLTagName("mark")
-        ].flatten.compact
-    end
-
-    def extractByHTMLTagName(tagName, isNoNest = true, isSingle = false, itemTagName = nil)
-        entities = []
-
-        @html.to_s.scan(htmlTagPatternByCond(tagName, isNoNest, isSingle, itemTagName)) do
-            match = $~
-
-            beginPos = match.char_begin(0)
-            endPos = match.char_end(0)
-
-            entity = {
-                :markdown => true,
-                :indices => [beginPos, endPos]
-            }
-
-            entities.push(entity)
-        end
-
-        entities
-    end
-
-    def htmlTagPatternByCond(tagName, isNoNest, isSingle, itemTagName)
-        if isSingle
-            htmlTagPatternSingle(tagName)
-        elsif isNoNest
-            htmlTagPatternNoNest(tagName)
-        elsif itemTagName && itemTagName.length > 0
-            htmlTagPatternOuterMostWithItem(tagName, itemTagName)
-        else
-            htmlTagPatternOuterMost(tagName)
-        end
-    end
-
-    def htmlTagPattern(tagName)
-        Regexp.compile("<#{tagName} data-md=[^>]*>(?:[^<]|<#{tagName} data-md=[^>]*>|<\\/#{tagName}>)*(?:<\\/#{tagName}>)*")
-    end
-
-    def htmlTagPatternNoNest(tagName)
-        Regexp.compile("<#{tagName} data-md=[^>]*>(?:.|\n)*?<\\/#{tagName}>")
-    end
-
-    def htmlTagPatternSingle(tagName)
-        Regexp.compile("<#{tagName} data-md=[^>]*>")
-    end
-
-    # https://stackoverflow.com/questions/546433/regular-expression-to-match-outer-brackets
-    def htmlTagPatternOuterMost(tagName)
-        Regexp.compile("<#{tagName} data-md=[^>]*>(?:[^<>]|(\\g<0>))*<\/#{tagName}>")
-    end
-
-    def htmlTagPatternOuterMostWithItem(tagName, itemTagName)
-        Regexp.compile("<#{tagName} data-md=[^>]*>(?:[^<>]|<#{itemTagName} data-md=[^>]*>|<\\/#{itemTagName}>|(\\g<0>))*<\/#{tagName}>")
     end
 end

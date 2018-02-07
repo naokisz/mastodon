@@ -58,6 +58,11 @@ class Formatter
     strip_tags(text)
   end
 
+  def clean_paragraphs(html)
+    puts html
+    html.gsub(/<p><\/p>/,"")
+  end
+
   def simplified_format(account)
     return reformat(account.note).html_safe unless account.local? # rubocop:disable Rails/OutputSafety
     html = format_bbcode(html)
@@ -162,6 +167,7 @@ class Formatter
 
   def rewrite(text, entities)
     chars = text.to_s.to_char_a
+    puts text
 
     # Sort by start index
     entities = entities.sort_by do |entity|
@@ -173,12 +179,12 @@ class Formatter
 
     last_index = entities.reduce(0) do |index, entity|
       indices = entity.respond_to?(:indices) ? entity.indices : entity[:indices]
-      result << encode(chars[index...indices.first].join)
+      result << chars[index...indices.first].join
       result << yield(entity)
       indices.last
     end
 
-    result << encode(chars[last_index..-1].join)
+    result << chars[last_index..-1].join
 
     result.flatten.join
   end

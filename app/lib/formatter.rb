@@ -33,14 +33,14 @@ class Formatter
  
     mdFormatter = Formatter_Markdown.new(html)
     html = mdFormatter.formatted
-
+    
     html = "RT @#{prepend_reblog} #{html}" if prepend_reblog
     html = encode_and_link_urls(html, linkable_accounts)
     html = encode_custom_emojis(html, status.emojis) if options[:custom_emojify]
     html = simple_format(html, {}, sanitize: false)
     html = html.delete("\n")
     html = format_bbcode(html)
-
+  
     mdLinkDecoder = MDLinkDecoder.new(html)
     html = mdLinkDecoder.decode
 
@@ -222,7 +222,8 @@ class Formatter
 
   def link_html(url)
     url    = Addressable::URI.parse(url).to_s
-    prefix = url.match(/\Ahttps?:\/\/(www\.)?/).to_s
+    url = "#{url}" + " "
+    prefix = url.match(/\Ahttps?:\/\/(www\.)?+[^<>"\[\]  ]\z/).to_s
     text   = url[prefix.length, 30]
     suffix = url[prefix.length + 30..-1]
     cutoff = url[prefix.length..-1].length > 30

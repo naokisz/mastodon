@@ -139,10 +139,12 @@ class Formatter_Markdown
         def encode(html)
             HTMLEntities.new.encode(html)
         end
-    end
 
-    def encode(html)
-        HTMLEntities.new.encode(html)
+        def autolink(link, link_type)
+           links  = link.gsub(/\[\//," [/")
+            %(#{links})
+        end
+
     end
 
 end

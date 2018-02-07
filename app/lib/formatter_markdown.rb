@@ -109,7 +109,7 @@ class Formatter_Markdown
         end
 
         def emphasis(text)
-            %(<sup>#{encode(text)}<sup>)
+            %(<sup>#{encode(text)}</sup>)
         end
 
         def double_emphasis(text)
@@ -125,7 +125,7 @@ class Formatter_Markdown
         end
 
         def superscript(text)
-            %(<sup>#{encode(text)}<sup>)
+            %(<sup>#{encode(text)}</sup>)
         end
 
         def underline(text)

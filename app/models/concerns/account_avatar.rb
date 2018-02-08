@@ -19,7 +19,7 @@ module AccountAvatar
     # Avatar upload
     has_attached_file :avatar, styles: ->(f) { avatar_styles(f) }, convert_options: { all: '-quality 80 -strip' }
     validates_attachment_content_type :avatar, content_type: IMAGE_MIME_TYPES
-    validates_attachment_size :avatar, less_than: 2.megabytes
+    validates_attachment_size :avatar, less_than: 8.megabytes
   end
 
   def avatar_original_url

@@ -265,7 +265,7 @@
 
 .ellipsis {
   &::after {
-    content: "c";
+    content: "…";
   }
 }
 
@@ -1670,7 +1670,7 @@
   @media screen and (max-width: 630px) {
     max-width: 100vw;
   }
-  
+
   > .scrollable {
     background: $ui-base-color;
   }
@@ -2859,7 +2859,7 @@
   transform-origin: center center;
   animation: heartbeat 1.5s ease-in-out infinite both;
 }
- 
+
 @keyframes pulse {
   0% {
     opacity: 1;

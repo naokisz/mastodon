@@ -11,6 +11,7 @@ class Formatter_Markdown
 
     def formatted
         mdRenderer = CustomMDRenderer.new(
+            strikethrough: true,
             hard_wrap: true,
             autolink: true,
             superscript:false,
@@ -31,6 +32,7 @@ class Formatter_Markdown
 
         md = Redcarpet::Markdown.new(
             mdRenderer,
+            strikethrough: true,
             hard_wrap: true,
             superscript:false,
             autolink: true,
@@ -51,7 +53,6 @@ class Formatter_Markdown
         renderedMD = md.render(@html)
 
         result = renderedMD
-        result.gsub!(/[~]{2,}([^~\n]+)[~]{2,}/) { "<s>#{encode($1)}</s>" } # strikethrough
         result.gsub!(/(<\w+)([^>]*>)/) { "#{$1} data-md='true' #{$2}" }
 
         result

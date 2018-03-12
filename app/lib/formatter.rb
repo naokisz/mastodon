@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'singleton'
-require_relative './formatter_markdown'
 require_relative './sanitize_config'
 
 class Formatter
@@ -33,18 +32,12 @@ class Formatter
 
     html = raw_content
 
-    mdFormatter = Formatter_Markdown.new(html)
-    html = mdFormatter.formatted
-
     html = "RT @#{prepend_reblog} #{html}" if prepend_reblog
     html = encode_and_link_urls(html, linkable_accounts)
     html = encode_custom_emojis(html, status.emojis) if options[:custom_emojify]
     html = simple_format(html, {}, sanitize: false)
     html = html.delete("\n")
     html = format_bbcode(html)
-
-    mdLinkDecoder = MDLinkDecoder.new(html)
-    html = mdLinkDecoder.decode
 
     html.html_safe # rubocop:disable Rails/OutputSafety
   end
@@ -58,11 +51,6 @@ class Formatter
 
     text = status.text.gsub(/(<br \/>|<br>|<\/p>)+/) { |match| "#{match}\n" }
     strip_tags(text)
-  end
-
-  def clean_paragraphs(html)
-    puts html
-    html.gsub(/<p><\/p>/,"")
   end
 
   def simplified_format(account)
@@ -100,9 +88,7 @@ class Formatter
     entities = Extractor.extract_entities_with_indices(html, extract_url_without_protocol: false)
 
     rewrite(html.dup, entities) do |entity|
-      if entity[:markdown]
-        html[entity[:indices][0]...entity[:indices][1]]
-      elsif entity[:url]
+      if entity[:url]
         link_to_url(entity)
       elsif entity[:hashtag]
         link_to_hashtag(entity)
@@ -181,12 +167,12 @@ class Formatter
 
     last_index = entities.reduce(0) do |index, entity|
       indices = entity.respond_to?(:indices) ? entity.indices : entity[:indices]
-      result << chars[index...indices.first].join
+      result << encode(chars[index...indices.first].join)
       result << yield(entity)
       indices.last
     end
 
-    result << chars[last_index..-1].join
+    result << encode(chars[last_index..-1].join)
 
     result.flatten.join
   end
@@ -224,8 +210,7 @@ class Formatter
 
   def link_html(url)
     url    = Addressable::URI.parse(url).to_s
-    url = "#{url}" + " "
-    prefix = url.match(/\Ahttps?:\/\/(www\.)?+[^<>"\[\]  ]\z/).to_s
+    prefix = url.match(/\Ahttps?:\/\/(www\.)?/).to_s
     text   = url[prefix.length, 30]
     suffix = url[prefix.length + 30..-1]
     cutoff = url[prefix.length..-1].length > 30

@@ -1,3 +1,12 @@
+@import 'variables';
+
+@for $i from 2 through 5 {
+  .fa-#{$i}x > .emojione {
+    width: #{18 * $i}px !important;
+    height:  #{18 * $i}px !important;
+  }
+}
+
 .app-body {
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
@@ -1700,11 +1709,17 @@
 }
 
 .column {
-  width: 330px;
   position: relative;
   box-sizing: border-box;
   display: flex;
+  flex: 0 0 auto;
+  min-width: 330px;
+  max-width: 400px;
   flex-direction: column;
+
+  @media screen and (max-width: 630px) {
+    max-width: 100vw;
+  }
 
   > .scrollable {
     background: $ui-base-color;
@@ -1871,9 +1886,17 @@
 
 .tabs-bar {
   display: flex;
+  flex: 0 0 auto;
+  min-width: 330px;
+  max-width: 400px;
   background: lighten($ui-base-color, 8%);
   flex: 0 0 auto;
   overflow-y: auto;
+
+  @media screen and (max-width: 630px) {
+    max-width: 100vw;
+  }
+
 }
 
 .tabs-bar__link {
@@ -2257,6 +2280,10 @@
 
 .status-card {
   display: flex;
+  flex: 0 0 auto;
+  min-width: 330px;
+  max-width: 400px;
+  cursor: pointer;
   font-size: 14px;
   border: 1px solid lighten($ui-base-color, 8%);
   border-radius: 4px;
@@ -2264,6 +2291,13 @@
   margin-top: 14px;
   text-decoration: none;
   overflow: hidden;
+
+  @media screen and (max-width: 630px) {
+    max-width: 100vw;
+  }
+
+//  &:hover {
+//    background: lighten($ui-base-color, 8%);
 
   &__actions {
     bottom: 0;
@@ -2492,14 +2526,16 @@ a.status-card {
 
 .column-header {
   display: flex;
+  flex: 0 0 auto;
+  min-width: 330px;
+  max-width: 400px;
+  padding: 0px;
   font-size: 16px;
   background: lighten($ui-base-color, 4%);
-  flex: 0 0 auto;
   cursor: pointer;
   position: relative;
   z-index: 2;
   outline: 0;
-  overflow: hidden;
 
   & > button {
     margin: 0;
@@ -2517,6 +2553,10 @@ a.status-card {
 
   & > .column-header__back-button {
     color: $ui-highlight-color;
+  }
+
+  @media screen and (max-width: 630px) {
+    max-width: 100vw;
   }
 
   &.active {
@@ -2915,6 +2955,20 @@ a.status-card {
 .no-reduce-motion .pulse-loading {
   transform-origin: center center;
   animation: heartbeat 1.5s ease-in-out infinite both;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.bbcode-pulse-loading {
+  animation: pulse 1s ease-in-out infinite;
+  animation-direction: alternate;
 }
 
 @keyframes shake-bottom {
@@ -3368,6 +3422,64 @@ a.status-card {
   &:focus {
     color: lighten($ui-secondary-color, 4%);
     text-decoration: underline;
+  }
+}
+
+.announcements {
+  padding: 5px;
+
+  li {
+    display: flex;
+    padding: 10px;
+    color: $ui-base-color;
+    background: darken($white, 10%);
+    border-radius: 4px;
+
+    & + li {
+      margin-top: 10px;
+    }
+  }
+}
+
+.announcements__admin {
+  width: 100%;
+  position: relative;
+
+  p {
+    padding: 0 5px;
+    font-size: 14px;
+  }
+}
+
+.announcements__icon {
+  display: inline-block;
+  position: absolute;
+  margin: -5px 5px;
+  right: 10px;
+}
+
+.announcements__body {
+  width: 100%;
+  position: relative;
+
+  p {
+    padding: 0 5px;
+    font-size: 14px;
+  }
+
+  a {
+    display: inline-block;
+    float: right;
+    clear: both;
+    color: $ui-base-color;
+    background: darken($white, 5%);
+    text-decoration: none;
+    padding: 1px 10px 0;
+    border: solid 1px $ui-base-color;
+    font-size: 10px;
+    font-weight: 600;
+    border-radius: 4px;
+    margin-top: 5px;
   }
 }
 

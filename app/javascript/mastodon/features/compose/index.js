@@ -120,7 +120,7 @@ export default class Compose extends React.PureComponent {
             <iframe src="/music.html" sandbox="allow-scripts allow-top-navigation" height="100%" width="100%" />
             {multiColumn && (
               <div className='drawer__inner__mastodon'>
-                <img alt='' src={elephantUIPlane} />
+                <img alt='' draggable='false' src={elephantUIPlane} />
               </div>
             )}
           </div>

@@ -134,11 +134,11 @@ button {
   background: #374988;
 }
 
-.status .fa-lock::before {
+.status__action-bar .fa-lock::before {
 color: #F0C1FA;
 }
 
-.status .fa-envelope::before {
+.status__action-bar .fa-envelope::before {
 color: #EEAA7B;
 }
 
@@ -310,7 +310,7 @@ color: #EEAA7B;
   }
 
   table tr{
-    background-color: &black;
+    background-color: #000000;
   }
 
   table th, table td{

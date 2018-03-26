@@ -277,7 +277,7 @@ class Formatter
           :only_allow => [],
           :require_between => true},
         :youtube => {
-          :html_open => '<iframe id="player" type="text/html" width="%width%" height="%height%" src="http://www.youtube.com/embed/%between%?enablejsapi=1" frameborder="0"></iframe>', :html_close => '',
+          :html_open => '<iframe id="player" type="text/html" width="%width%" height="%height%" src="https://www.youtube.com/embed/%between%?enablejsapi=1" frameborder="0"></iframe>', :html_close => '',
           :description => 'YouTube video',
           :example => '[youtube]E4Fbk52Mk1w[/youtube]',
           :only_allow => [],

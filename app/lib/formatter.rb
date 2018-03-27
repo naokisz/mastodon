@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'singleton'
-require_relative './formatter_markdown'
 require_relative './sanitize_config'
 
 class Formatter

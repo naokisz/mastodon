@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'singleton'
+require_relative './formatter_markdown'
 require_relative './sanitize_config'
 
 class Formatter
@@ -276,7 +277,18 @@ class Formatter
           :example => '[faicon]users[/faicon]',
           :only_allow => [],
           :require_between => true},
-      }, :enable, :i, :b, :color, :quote, :code, :size, :u, :s, :spin, :pulse, :flip, :large, :colorhex, :faicon)
+        :youtube => {
+          :html_open => '<iframe id="player" type="text/html" width="%width%" height="%height%" src="http://www.youtube.com/embed/%between%?enablejsapi=1" frameborder="0"></iframe>', :html_close => '',
+          :description => 'YouTube video',
+          :example => '[youtube]E4Fbk52Mk1w[/youtube]',
+          :only_allow => [],
+          :url_matches => [/youtube\.com.*[v]=([^&]*)/, /youtu\.be\/([^&]*)/, /y2u\.be\/([^&]*)/],
+          :require_between => true,
+          :param_tokens => [
+            { :token => :width, :optional => true, :default => 400 },
+            { :token => :height, :optional => true, :default => 320 }
+          ]},
+      }, :enable, :i, :b, :color, :quote, :code, :size, :u, :s, :spin, :pulse, :flip, :large, :colorhex, :faicon, :youtube)
     rescue Exception => e
     end
     html

@@ -107,7 +107,7 @@ class Announcements extends React.PureComponent {
           </div>
         </li>
         <li>
-          <Collapsable isVisible={this.state.showId === 'bbcode'} fullHeight={350} minHeight={20} >
+          <Collapsable isVisible={this.state.showId === 'bbcode'} fullHeight={400} minHeight={20} >
             <div className='announcements__body'>
               <p>{ this.nl2br(intl.formatMessage(messages.bbcode, { domain: document.title }))}<br />
               <br />
@@ -125,8 +125,10 @@ class Announcements extends React.PureComponent {
 			  [colorhex=A55A4A]色変更02[/colorhex]<br />
 			  [code]コード[/code]<br />
 			  [quote]引用[/quote]<br />
+        [youtube]動画IDまたはURL[/youtube]<br />
         [faicon]coffee[/faicon](<span class="fa fa-coffee"></span>の例)<br />
-        <a href="https://fontawesome.com/v4.7.0/icons/" target="_blank">faicon アイコン一覧</a>
+        <a href="https://yuzulabo.github.io/generate-faicon/" target="_blank">faiconを生成</a>
+        <a href="https://fontawesome.com/v4.7.0/icons/" target="_blank">faicon アイコン一覧</a><br /><br />
 			  </p>
             </div>
           </Collapsable>

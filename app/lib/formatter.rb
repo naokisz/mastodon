@@ -267,7 +267,7 @@ class Formatter
           :description => 'Change the color of the text',
           :example => '[color=red]This is red[/color]',
           :allow_quick_param => true, :allow_between_as_param => false,
-          :quick_param_format => /(([a-zA-Z]+)|(#[0-9a-f]{6}))/i,
+          :quick_param_format => /([a-zA-Z]+)/i,
           :param_tokens => [{:token => :color}]},
         :colorhex => {
           :html_open => '<span style="color: #%colorcode%">', :html_close => '</span>',

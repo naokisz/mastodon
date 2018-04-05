@@ -4,7 +4,16 @@ import { autoPlayGif } from '../initial_state';
 const accountAssetKeys = ['avatar', 'avatar_static', 'header', 'header_static'];
 const avatarKey = autoPlayGif ? 'avatar' : 'avatar_static';
 const limit = 1024;
-const asyncCache = caches.open('mastodon-system');
+
+// ServiceWorker and Cache API is not available on iOS 11
+// https://webkit.org/status/#specification-service-workers
+const asyncCache = window.caches ? caches.open('mastodon-system') : Promise.reject();
+
+function printErrorIfAvailable(error) {
+  if (error) {
+    console.warn(error);
+  }
+}
 
 function put(name, objects, onupdate, oncreate) {
   return asyncDB.then(db => new Promise((resolve, reject) => {
@@ -74,7 +83,9 @@ function evictAccountsByRecords(records) {
 
     function evict(toEvict) {
       toEvict.forEach(record => {
-        asyncCache.then(cache => accountAssetKeys.forEach(key => cache.delete(records[key])));
+        asyncCache
+          .then(cache => accountAssetKeys.forEach(key => cache.delete(records[key])))
+          .catch(printErrorIfAvailable);
 
         accountsMovedIndex.getAll(record.id).onsuccess = ({ target }) => evict(target.result);
 
@@ -87,11 +98,11 @@ function evictAccountsByRecords(records) {
     }
 
     evict(records);
-  });
+  }).catch(printErrorIfAvailable);
 }
 
 export function evictStatus(id) {
-  return evictStatuses([id]);
+  evictStatuses([id]);
 }
 
 export function evictStatuses(ids) {
@@ -107,7 +118,7 @@ export function evictStatuses(ids) {
       idIndex.getKey(id).onsuccess =
         ({ target }) => target.result && store.delete(target.result);
     });
-  });
+  }).catch(printErrorIfAvailable);
 }
 
 function evictStatusesByRecords(records) {
@@ -124,7 +135,9 @@ export function putAccounts(records) {
         const oldURL = target.result[key];
 
         if (newURL !== oldURL) {
-          asyncCache.then(cache => cache.delete(oldURL));
+          asyncCache
+            .then(cache => cache.delete(oldURL))
+            .catch(printErrorIfAvailable);
         }
       });
 
@@ -142,10 +155,14 @@ export function putAccounts(records) {
     oncomplete();
   }).then(records => {
     evictAccountsByRecords(records);
-    asyncCache.then(cache => cache.addAll(newURLs));
-  });
+    asyncCache
+      .then(cache => cache.addAll(newURLs))
+      .catch(printErrorIfAvailable);
+  }).catch(printErrorIfAvailable);
 }
 
 export function putStatuses(records) {
-  put('statuses', records).then(evictStatusesByRecords);
+  put('statuses', records)
+    .then(evictStatusesByRecords)
+    .catch(printErrorIfAvailable);
 }

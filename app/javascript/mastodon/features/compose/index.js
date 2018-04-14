@@ -26,11 +26,10 @@ const CustomEmojiOekaki = class extends React.PureComponent {
   render () {
     return (
       <div>
-        <Button text='☆絵文字でお絵かき☆' onClick={this.handleClick} block />
+        <Button text='☆絵文字でお絵かき☆' onClick={this.handleClick} className="custom-emoji-oekaki" />
       </div>
     );
   }
-
 };
 import elephantUIPlane from '../../../images/elephant_ui_plane.svg';
 
@@ -118,7 +117,7 @@ export default class Compose extends React.PureComponent {
             <ComposeFormContainer />
             <CustomEmojiOekaki />
             <AnnouncementsContainer />
-            <iframe src="/music.html" sandbox="allow-scripts allow-top-navigation" height="100%" width="100%" />
+            <iframe src="/music.html" sandbox="allow-scripts allow-top-navigation" className="music-player" />
             {multiColumn && (
               <div className='drawer__inner__mastodon'>
                 <img alt='' draggable='false' src={elephantUIPlane} />

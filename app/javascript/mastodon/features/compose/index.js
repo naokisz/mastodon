@@ -31,7 +31,6 @@ const CustomEmojiOekaki = class extends React.PureComponent {
     );
   }
 };
-import elephantUIPlane from '../../../images/elephant_ui_plane.svg';
 
 const messages = defineMessages({
   start: { id: 'getting_started.heading', defaultMessage: 'Getting started' },
@@ -118,11 +117,6 @@ export default class Compose extends React.PureComponent {
             <CustomEmojiOekaki />
             <AnnouncementsContainer />
             <iframe src="/music.html" sandbox="allow-scripts allow-top-navigation" className="music-player" />
-            {multiColumn && (
-              <div className='drawer__inner__mastodon'>
-                <img alt='' draggable='false' src={elephantUIPlane} />
-              </div>
-            )}
           </div>
 
           <Motion defaultStyle={{ x: isSearchPage ? 0 : -100 }} style={{ x: spring(showSearch || isSearchPage ? 0 : -100, { stiffness: 210, damping: 20 }) }}>

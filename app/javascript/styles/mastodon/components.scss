@@ -835,6 +835,20 @@
       }
     }
   }
+
+  &::before {
+    float: right;
+    width: 14px;
+    font-family: "FontAwesome";
+    font-size: 14px;
+    text-align: center;
+    color: lighten($ui-base-color, 30%);
+  }
+
+  &.status-public::before   { content: "\F0AC" }
+  &.status-unlisted::before { content: "\F13E" }
+  &.status-private::before  { content: "\F023" }
+  &.status-direct::before   { content: "\F0E0" }
 }
 
 .notification-favourite {
@@ -848,9 +862,13 @@
 }
 
 .status__relative-time {
+  display: inline-block;
+  margin-left: auto;
+  width: 120px;
   color: $ui-base-lighter-color;
-  float: right;
   font-size: 14px;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .status__display-name {

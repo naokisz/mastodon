@@ -54,15 +54,14 @@ class Formatter
   end
 
   def simplified_format(account, **options)
+    html = format_bbcode(html)
     html = if account.local?
              linkify(account.note)
            else
              reformat(account.note)
            end
     html = encode_custom_emojis(html, CustomEmoji.from_text(account.note, account.domain)) if options[:custom_emojify]
-    html = format_bbcode(html)
     html.html_safe # rubocop:disable Rails/OutputSafety
-
   end
 
   def sanitize(html, config)
@@ -267,6 +266,13 @@ class Formatter
           :quick_param_format => /(2x|3x|4x|5x)/,
           :quick_param_format_description => 'The size parameter \'%param%\' is incorrect, a number is expected',
           :param_tokens => [{:token => :size}]},
+        :color => {
+          :html_open => '<span style="color: %color%;">', :html_close => '</span>',
+          :description => 'Change the color of the text',
+          :example => '[color=red]This is red[/color]',
+          :allow_quick_param => true, :allow_between_as_param => false,
+          :quick_param_format => /([a-zA-Z]+)/i,
+          :param_tokens => [{:token => :color}]},
         :colorhex => {
           :html_open => '<span style="color: #%colorcode%">', :html_close => '</span>',
           :description => 'Use color code',

@@ -74,6 +74,11 @@ class Formatter
     html.html_safe # rubocop:disable Rails/OutputSafety
   end
 
+  def format_field(account, str)
+    return reformat(str).html_safe unless account.local? # rubocop:disable Rails/OutputSafety
+    encode_and_link_urls(str, me: true).html_safe # rubocop:disable Rails/OutputSafety
+  end
+
   def linkify(text)
     html = encode_and_link_urls(text)
     html = simple_format(html, {}, sanitize: false)
@@ -88,12 +93,17 @@ class Formatter
     HTMLEntities.new.encode(html)
   end
 
-  def encode_and_link_urls(html, accounts = nil)
+  def encode_and_link_urls(html, accounts = nil, options = {})
     entities = Extractor.extract_entities_with_indices(html, extract_url_without_protocol: false)
+
+    if accounts.is_a?(Hash)
+      options  = accounts
+      accounts = nil
+    end
 
     rewrite(html.dup, entities) do |entity|
       if entity[:url]
-        link_to_url(entity)
+        link_to_url(entity, options)
       elsif entity[:hashtag]
         link_to_hashtag(entity)
       elsif entity[:screen_name]
@@ -181,9 +191,11 @@ class Formatter
     result.flatten.join
   end
 
-  def link_to_url(entity)
+  def link_to_url(entity, options = {})
     url        = Addressable::URI.parse(entity[:url])
     html_attrs = { target: '_blank', rel: 'nofollow noopener' }
+
+    html_attrs[:rel] = "me #{html_attrs[:rel]}" if options[:me]
 
     Twitter::Autolink.send(:link_to_text, entity, link_html(entity[:url]), url, html_attrs)
   rescue Addressable::URI::InvalidURIError, IDN::Idna::IdnaError
@@ -192,8 +204,9 @@ class Formatter
 
   def link_to_mention(entity, linkable_accounts)
     acct = entity[:screen_name]
+    username, domain = acct.split('@')
 
-    return link_to_account(acct) unless linkable_accounts
+    return link_to_account(acct) unless linkable_accounts and domain != "twitter.com"
 
     account = linkable_accounts.find { |item| TagManager.instance.same_acct?(item.acct, acct) }
     account ? mention_html(account) : "@#{acct}"
@@ -201,6 +214,10 @@ class Formatter
 
   def link_to_account(acct)
     username, domain = acct.split('@')
+
+    if domain == "twitter.com"
+      return mention_twitter_html(username)
+    end
 
     domain  = nil if TagManager.instance.local_domain?(domain)
     account = Account.find_remote(username, domain)
@@ -228,6 +245,10 @@ class Formatter
 
   def mention_html(account)
     "<span class=\"h-card\"><a href=\"#{TagManager.instance.url_for(account)}\" class=\"u-url mention\">@<span>#{account.username}</span></a></span>"
+  end
+
+  def mention_twitter_html(username)
+    "<span class=\"h-card\"><a href=\"https://twitter.com/#{username}\" class=\"u-url mention\">@<span>#{username}</span></a></span>"
   end
 
   def format_bbcode(html)

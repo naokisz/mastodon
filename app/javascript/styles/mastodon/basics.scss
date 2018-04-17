@@ -129,6 +129,8 @@ button {
 .status__content {
 
   font-family: inherit;
+  max-height: 200px;
+  overflow: auto;
 
   h1{
     font-size: 195%;

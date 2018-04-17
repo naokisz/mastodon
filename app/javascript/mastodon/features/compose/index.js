@@ -25,7 +25,9 @@ const CustomEmojiOekaki = class extends React.PureComponent {
 
   render () {
     return (
+      <div class="emoji-oekaki">
         <Button text='☆絵文字でお絵かき☆' onClick={this.handleClick} className="custom-emoji-oekaki" />
+      </div>
     );
   }
 };

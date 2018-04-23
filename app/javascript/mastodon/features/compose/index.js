@@ -14,7 +14,7 @@ import SearchResultsContainer from './containers/search_results_container';
 import { changeComposing } from '../../actions/compose';
 import AnnouncementsContainer from './containers/announcements_container';
 
-import Button from '../../components/button';
+import Button from '../../components/emoji_button';
 
 const CustomEmojiOekaki = class extends React.PureComponent {
 
@@ -25,7 +25,7 @@ const CustomEmojiOekaki = class extends React.PureComponent {
 
   render () {
     return (
-      <div>
+      <div class="emoji-oekaki">
         <Button text='☆絵文字でお絵かき☆' onClick={this.handleClick} className="custom-emoji-oekaki" />
       </div>
     );

@@ -145,6 +145,9 @@ color: #EEAA7B;
 .status__content {
 
   font-family: inherit;
+  max-height: 200px;
+  overflow-x: hidden;
+  overflow-y: auto;
 
   h1{
     font-size: 195%;

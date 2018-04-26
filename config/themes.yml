@@ -1,2 +1,4 @@
 default: styles/application.scss
 mastodon_α: styles/classification.scss
+contrast: styles/contrast.scss
+

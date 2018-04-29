@@ -160,8 +160,13 @@ class Formatter_Markdown
         #https以外の物がURLとして記入された時にTextをHTML的に考えて安全に表示するように変更
 
         def image(link, title, alt_text)
+
+            if alt_text =~ /[<>"\[\] 　]+/
+                alt_text = "設定なし"
+            end
+
             imgcheck = "#{link}"
-            if imgcheck !~ /\Ahttps:\/\/[^<>"\[\]  ]+\z/
+            if imgcheck !~ /\Ahttps:\/\/[^<>"\[\] 　]+\z/
                 %(#{encode(alt_text)})
             else
                 %(<img src="#{URI.encode_www_form_component(link)}">)
@@ -169,8 +174,13 @@ class Formatter_Markdown
         end
 
         def link(link, title, content)
+
+            if content =~ /[<>"\[\] 　]+/
+                content = "リンク"
+            end
+
             linkcheck = "#{link}"
-            if linkcheck !~ /\Ahttps:\/\/[^<>"\[\]  ]+\z/
+            if linkcheck !~ /\Ahttps:\/\/[^<>"\[\] 　]+\z/
                 %(#{encode(content)})
             else
                 %(<a href="#{URI.encode_www_form_component(link)}">#{encode(content)}</a>)

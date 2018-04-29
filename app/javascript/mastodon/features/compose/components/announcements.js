@@ -30,6 +30,7 @@ const messages = defineMessages({
   info: { id: 'info.list', defaultMessage: '霧島鯖について' },
   donation: { id: 'donation.list', defaultMessage: '寄付について' },
   bbcode: { id: 'bbcode.list', defaultMessage: 'BBCode一覧' },
+  markdown: { id: 'markdown.list', defaultMessage: 'markdown一覧' },
 });
 
 const hashtags = Immutable.fromJS([
@@ -134,6 +135,49 @@ class Announcements extends React.PureComponent {
           </Collapsable>
           <div className='announcements__icon'>
             <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('bbcode', this.state)} size={20} animate active={this.state.showId === 'bbcode'} />
+          </div>
+        </li>
+        <li>
+          <Collapsable isVisible={this.state.showId === 'markdown'} fullHeight={1140} minHeight={20} >
+            <div className='announcements__body'>
+              <p>{ this.nl2br(intl.formatMessage(messages.markdown, { domain: document.title }))}<br /><br />
+                (半角)は半角スペースを入力する必要がある場所です。(半角)だけの列は半角スペースのみが入力された列が必要であるを指します。<br /><br />
+                〜〜〜〜〜〜見出し〜〜〜〜〜〜<br /><br />
+                #(半角)見出しテキスト<br /><br />
+                #は1〜6個重ねることができます。<br /><br />
+                〜〜〜〜コードブロック〜〜〜〜<br /><br />
+                `コード`<br /><br />
+                〜〜〜〜〜〜引用〜〜〜〜〜〜<br /><br />
+                >引用文<br />
+                (半角)<br />
+                ここから先は引用が切れます<br />
+                引用は複数回重ねることが可能です。<br /><br />
+                〜〜〜〜〜〜リスト〜〜〜〜〜〜<br /><br />
+                (半角)<br />
+                +(半角)内容1<br />
+                +(半角)内容2<br />
+                (半角)<br /><br />
+                内容の数に制限はありません。<br />
+                投稿トップにリストを持ってくる場合に限り1行目の(半角)は必要ありません。<br />
+                +(半角)を1.(半角)に置き換えることで数字付きリストになります。<br /><br />
+                〜〜〜〜〜上付き文字〜〜〜〜〜<br /><br />
+                _上付き文字_<br /><br />
+                〜〜〜〜〜下付き文字〜〜〜〜〜<br /><br />
+                __下付き文字__<br /><br />
+                〜〜〜〜〜小さい文字〜〜〜〜〜<br /><br />
+                ___小さい文字___<br /><br />
+                〜〜〜〜〜取り消し線〜〜〜〜〜<br /><br />
+                ~~取り消したい文字列~~<br /><br />
+                〜〜〜〜〜〜リンク〜〜〜〜〜〜<br /><br />
+                [リンク文章](https://・・・)<br /><br />
+                〜〜〜〜〜〜画像〜〜〜〜〜〜<br /><br />
+                ![画像説明](https://・・・)<br /><br />
+                リンク、画像ともにURLにはhttps://から始まる物のみご利用可能です。
+      			  </p>
+            </div>
+          </Collapsable>
+          <div className='announcements__icon'>
+            <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('markdown', this.state)} size={20} animate active={this.state.showId === 'markdown'} />
           </div>
         </li>
       </ul>

@@ -108,7 +108,7 @@ class Announcements extends React.PureComponent {
           </div>
         </li>
         <li>
-          <Collapsable isVisible={this.state.showId === 'bbcode'} fullHeight={400} minHeight={20} >
+          <Collapsable isVisible={this.state.showId === 'bbcode'} fullHeight={380} minHeight={20} >
             <div className='announcements__body'>
               <p>{ this.nl2br(intl.formatMessage(messages.bbcode, { domain: document.title }))}<br />
               <br />
@@ -122,7 +122,6 @@ class Announcements extends React.PureComponent {
 			  [u]アンダーライン[/u]<br />
 			  [s]取り消し線[/s]<br />
 			  [size=5]サイズ変更[/size]<br />
-			  [color=red]色変更01[/color]<br />
 			  [colorhex=A55A4A]色変更02[/colorhex]<br />
 			  [code]コード[/code]<br />
 			  [quote]引用[/quote]<br />

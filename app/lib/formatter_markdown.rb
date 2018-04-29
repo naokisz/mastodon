@@ -175,7 +175,7 @@ class Formatter_Markdown
 
         def link(link, title, content)
 
-            if content =~ /[<>"\[\] 　]+/
+            if content =~ /([<>"\[\] 　]+|https?:\/\/|#|@)/
                 content = "リンク"
             end
 

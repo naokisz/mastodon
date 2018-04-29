@@ -175,6 +175,7 @@ button {
     display: block;
     border-left: 2px solid;
     border-color: #079903;
+    color: $white;
     padding-left: 10px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -197,6 +198,7 @@ button {
       margin-top: 0.5em;
       margin-bottom: 0.5em;
       color: $white;
+      background-color: $ui-base-color;
       display: block;
       border-left: 4px solid $classic-highlight-color;
   }

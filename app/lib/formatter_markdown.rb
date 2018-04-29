@@ -55,6 +55,7 @@ class Formatter_Markdown
 
         result = renderedMD
         result.gsub!(/(<\w+)([^>]*>)/) { "#{$1} data-md='true' #{$2}" }# ToDo data-md="true" を認識して他鯖の人にmarkdownの使用を伝える機能の実装
+        result.gsub!(/(https?:\/\/[^<>"\[\] 　]+)/){"#{$1} "}#URLの後ろにスペースをねじ込む奴 mastodonのURL認識がゆるいのをmarkdownで対処
 
         result
 

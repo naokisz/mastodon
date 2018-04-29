@@ -186,7 +186,9 @@ class Formatter_Markdown
 
         #markdownコンテンツないでURLが生成されるのを防ぐためのエスケープする奴
         def remove_url(string)
-            string.gsub(/https?:\/\//){ "URL:" }
+            url = string.gsub(/https?:\/\//){ "URL:" }
+            reply = url.gsub(/@/){ "＠" }
+            hashTag = reply.gsub(/#/){ "＃" }
         end
 
         #前々から要望があったcode内でBBCodeを無効化するための奴

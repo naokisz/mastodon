@@ -178,6 +178,8 @@ class Formatter_Markdown
 
             if content =~ /([<>"\[\] 　]+|https?:\/\/|#|@)/
                 content = "リンク"
+            elsif content !~ /.+/
+                content = "リンク"
             end
 
             linkcheck = "#{link}"

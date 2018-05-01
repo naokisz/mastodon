@@ -249,13 +249,9 @@ button {
     padding-left: 1em;
   }
 
-  p>img{
-    width: 150px; height: 150px;
-    object-fit: contain;
-  }
-
-  img{
-    width: 150px; height: 150px;
+  p>a>img{
+    width: 100%;
+    height: 100%;
     object-fit: contain;
   }
 

@@ -178,6 +178,8 @@ class Formatter_Markdown
 
             if content =~ /([<>"\[\] 　]+|https?:\/\/|#|@)/
                 content = "リンク"
+            elsif content !~ /.+/
+                content = "リンク"
             end
 
             linkcheck = "#{link}"
@@ -243,7 +245,7 @@ class MDLinkDecoder
     end
 
     def decode
-        imageDecoded = @html.gsub(/<img data-md='true'\s+src="([^"]+)"([^>]*)>/) { "<img data-md='true' src=\"" + URI.decode_www_form_component($1) + "\"" + $2 + ">" }
+        imageDecoded = @html.gsub(/<img data-md='true'\s+src="([^"]+)"([^>]*)>/) { "<a href=\"" + URI.decode_www_form_component($1) + "\"" + $2 + "><img data-md='true' src=\"" + URI.decode_www_form_component($1) + "\"" + $2 + "></a>" }
 
         imageDecoded.gsub(/<a data-md='true'\s+href="([^"]+)"([^>]*)>/) { "<a data-md='true' href=\"" + URI.decode_www_form_component($1) + "\"" + $2 + ">" }
     end

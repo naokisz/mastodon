@@ -145,7 +145,7 @@ color: #EEAA7B;
 .status__content {
 
   font-family: inherit;
-  max-height: 200px;
+  max-height: 210px;
   overflow-x: hidden;
   overflow-y: auto;
 
@@ -191,6 +191,7 @@ color: #EEAA7B;
     display: block;
     border-left: 2px solid;
     border-color: #079903;
+    color: $white;
     padding-left: 10px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -213,6 +214,7 @@ color: #EEAA7B;
       margin-top: 0.5em;
       margin-bottom: 0.5em;
       color: $white;
+      background-color: $ui-base-color;
       display: block;
       border-left: 4px solid $classic-highlight-color;
   }
@@ -263,13 +265,9 @@ color: #EEAA7B;
     padding-left: 1em;
   }
 
-  p>img{
-    width: 150px; height: 150px;
-    object-fit: contain;
-  }
-
-  img{
-    width: 150px; height: 150px;
+  p>a>img{
+    width: 100%;
+    height: 100%;
     object-fit: contain;
   }
 

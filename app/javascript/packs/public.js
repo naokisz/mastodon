@@ -117,7 +117,7 @@ function main() {
     const nameCounter = document.querySelector('.name-counter');
 
     if (nameCounter) {
-      nameCounter.textContent = 30 - length(target.value);
+      nameCounter.textContent = 70 - length(target.value);
     }
   });
 

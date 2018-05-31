@@ -5354,11 +5354,3 @@ noscript {
     }
   }
 }
-
-button:hover .fa-bookmark {
-  background: linear-gradient(to right, orange , yellow, green, cyan, blue, violet,orange , yellow, green, cyan, blue, violet);
-      background-size: 400% 100%;
-      background-clip: text;
-      color: transparent;
-      animation: Swag 2s linear 0s infinite;
-}

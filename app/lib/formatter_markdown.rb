@@ -277,6 +277,7 @@ class MDExtractor
             extractByHTMLTagName("code"),
             extractByHTMLTagName("blockquote", false),
             extractByHTMLTagName("hr", false, true),
+            extractByHTMLTagName("br", false, true),
             extractByHTMLTagName("a"),
             extractByHTMLTagName("img", false, true),
             extractByHTMLTagName("s")

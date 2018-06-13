@@ -27,7 +27,7 @@ Collapsable.propTypes = {
 const messages = defineMessages({
   toggle_visible: { id: 'media_gallery.toggle_visible', defaultMessage: 'Toggle visibility' },
   welcome: { id: 'welcome.message', defaultMessage: '{domain}へようこそ!' },
-  info: { id: 'info.list', defaultMessage: '霧島鯖について' },
+  info: { id: 'info.list', defaultMessage: 'アスタルテについて' },
   donation: { id: 'donation.list', defaultMessage: '寄付について' },
   bbcode: { id: 'bbcode.list', defaultMessage: 'BBCode一覧' },
   markdown: { id: 'markdown.list', defaultMessage: 'markdown一覧' },
@@ -68,16 +68,22 @@ class Announcements extends React.PureComponent {
     return (
       <ul className='announcements'>
         <li>
-          <Collapsable isVisible={this.state.showId === 'info'} fullHeight={160} minHeight={20} >
+          <Collapsable isVisible={this.state.showId === 'info'} fullHeight={360} minHeight={20} >
             <div className='announcements__body'>
               <p>{ this.nl2br(intl.formatMessage(messages.info, { domain: document.title }))}<br />
               <br />
-			  霧島鯖のその他のサービス<br />
+			  アスタルテと関連のサービス<br />
 			  <br />
 			  ・MINECRAFT Server<br />
 			  [address] mc.kirishima.cloud <br />
 			  [URL] http://mc.kirishima.cloud:8123 <br />
-        <a href="http://mc.kirishima.cloud:8123" target="_blank">マップを開く</a><br />
+        <a href="http://mc.kirishima.cloud:8123" target="_blank">マップを開く</a><br /><br />
+        ・Cutlsさんのサービス<br />
+        thedeskはCutlsさんが製作している<br />アスタルテの公認クライアントです<br />
+        <a href="https://thedesk.top/" target="_blank">thedeskホームページ</a><br /><br />
+        暇人ランキング<br />
+        暇人ランキングはアスタルテの投稿数で<br />ランキング付けされてます<br />
+        <a href="https://astarte.thedesk.top/" target="_blank">暇ラン</a>
 			  <br />
 			  </p>
             </div>
@@ -87,7 +93,7 @@ class Announcements extends React.PureComponent {
           </div>
         </li>
         <li>
-          <Collapsable isVisible={this.state.showId === 'donation'} fullHeight={260} minHeight={20} >
+          <Collapsable isVisible={this.state.showId === 'donation'} fullHeight={270} minHeight={20} >
             <div className='announcements__body'>
               <p>{ this.nl2br(intl.formatMessage(messages.donation, { domain: document.title }))}<br />
               <br />
@@ -137,7 +143,7 @@ class Announcements extends React.PureComponent {
           </div>
         </li>
         <li>
-          <Collapsable isVisible={this.state.showId === 'markdown'} fullHeight={1220} minHeight={20} >
+          <Collapsable isVisible={this.state.showId === 'markdown'} fullHeight={1240} minHeight={20} >
             <div className='announcements__body'>
               <p>{ this.nl2br(intl.formatMessage(messages.markdown, { domain: document.title }))}<br /><br />
                 (半角)は半角スペースを入力する必要がある場所です。(半角)だけの列は半角スペースのみが入力された列が必要であるを指します。<br /><br />

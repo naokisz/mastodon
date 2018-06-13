@@ -47,6 +47,7 @@ class Formatter
     html = mdLinkDecoder.decode
 
     html.html_safe # rubocop:disable Rails/OutputSafety
+    html.gsub(/(&amp;)/){"&"}
   end
 
   def reformat(html)

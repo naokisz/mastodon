@@ -79,8 +79,8 @@ class Announcements extends React.PureComponent {
 			  [URL] http://mc.kirishima.cloud:8123 <br />
         <a href="http://mc.kirishima.cloud:8123" target="_blank">マップを開く</a><br /><br />
         ・Cutlsさんのサービス<br />
-        thedeskはCutlsさんが製作している<br />アスタルテの公認クライアントです<br />
-        <a href="https://thedesk.top/" target="_blank">thedeskホームページ</a><br /><br />
+        TheDeskはCutlsさんが製作している<br />アスタルテの公認クライアントです<br />
+        <a href="https://thedesk.top/" target="_blank">TheDeskホームページ</a><br /><br />
         暇人ランキング<br />
         暇人ランキングはアスタルテの投稿数で<br />ランキング付けされてます<br />
         <a href="https://astarte.thedesk.top/" target="_blank">暇ラン</a>

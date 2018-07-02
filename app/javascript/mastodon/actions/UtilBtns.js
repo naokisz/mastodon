@@ -27,7 +27,7 @@ export function submitGoji (textarea) {
   return function (dispatch, getState) {
     if (!textarea.value) {
       let text = [
-        "#誤字に淫夢厨",
+        "#ゴジモリｨｨィィイイ",
         ":goji:"
       ].join("\r\n");
 

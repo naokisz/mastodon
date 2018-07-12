@@ -43,6 +43,7 @@ import {
   Mutes,
   PinnedStatuses,
   Lists,
+  Trends,
 } from './util/async-components';
 import { HotKeys } from 'react-hotkeys';
 import { me } from '../../initial_state';
@@ -155,6 +156,7 @@ class SwitchingColumnsArea extends React.PureComponent {
           <WrappedRoute path='/pinned' component={PinnedStatuses} content={children} />
 
           <WrappedRoute path='/search' component={Compose} content={children} componentParams={{ isSearchPage: true }} />
+          <WrappedRoute path='/trends' component={Trends} content={children} />
 
           <WrappedRoute path='/statuses/new' component={Compose} content={children} />
           <WrappedRoute path='/statuses/:statusId' exact component={Status} content={children} />

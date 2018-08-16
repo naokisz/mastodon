@@ -32,6 +32,10 @@ module Mastodon
       [to_a.join('.'), flags].join
     end
 
+    def repository
+      'tootsuite/mastodon'
+    end
+
     def source_base_url
       'https://github.com/Kirishima21/mastodon'
     end

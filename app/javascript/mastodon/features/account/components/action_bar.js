@@ -34,6 +34,7 @@ const messages = defineMessages({
   mutes: { id: 'navigation_bar.mutes', defaultMessage: 'Muted users' },
   endorse: { id: 'account.endorse', defaultMessage: 'Feature on profile' },
   unendorse: { id: 'account.unendorse', defaultMessage: 'Don\'t feature on profile' },
+  createQrcode: { id: 'account.createqrcode', defaultMessage: 'Create QRCode' },
 });
 
 @injectIntl
@@ -51,6 +52,7 @@ export default class ActionBar extends React.PureComponent {
     onBlockDomain: PropTypes.func.isRequired,
     onUnblockDomain: PropTypes.func.isRequired,
     onEndorseToggle: PropTypes.func.isRequired,
+    onCreateQrcode: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
   };
 
@@ -81,6 +83,7 @@ export default class ActionBar extends React.PureComponent {
       menu.push({ text: intl.formatMessage(messages.edit_profile), href: '/settings/profile' });
       menu.push({ text: intl.formatMessage(messages.preferences), href: '/settings/preferences' });
       menu.push({ text: intl.formatMessage(messages.pins), to: '/pinned' });
+      menu.push({ text: intl.formatMessage(messages.createQrcode), action: this.props.onCreateQrcode });
       menu.push(null);
       menu.push({ text: intl.formatMessage(messages.follow_requests), to: '/follow_requests' });
       menu.push({ text: intl.formatMessage(messages.favourites), to: '/favourites' });

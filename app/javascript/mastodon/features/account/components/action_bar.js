@@ -52,7 +52,7 @@ export default class ActionBar extends React.PureComponent {
     onBlockDomain: PropTypes.func.isRequired,
     onUnblockDomain: PropTypes.func.isRequired,
     onEndorseToggle: PropTypes.func.isRequired,
-    onCreateQrcode: PropTypes.func.isRequired,
+    onGenerateQrcode: PropTypes.func.isRequired,
     intl: PropTypes.object.isRequired,
   };
 
@@ -83,7 +83,7 @@ export default class ActionBar extends React.PureComponent {
       menu.push({ text: intl.formatMessage(messages.edit_profile), href: '/settings/profile' });
       menu.push({ text: intl.formatMessage(messages.preferences), href: '/settings/preferences' });
       menu.push({ text: intl.formatMessage(messages.pins), to: '/pinned' });
-      menu.push({ text: intl.formatMessage(messages.generateQrcode), action: this.props.onCreateQrcode });
+      menu.push({ text: intl.formatMessage(messages.generateQrcode), action: this.props.onGenerateQrcode });
       menu.push(null);
       menu.push({ text: intl.formatMessage(messages.follow_requests), to: '/follow_requests' });
       menu.push({ text: intl.formatMessage(messages.favourites), to: '/favourites' });

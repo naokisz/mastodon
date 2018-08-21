@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ImmutablePureComponent from 'react-immutable-pure-component';
-import { injectIntl } from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import QRCode  from 'qrcode';
 
 @injectIntl
@@ -23,10 +23,10 @@ export default class QrcodeModal extends ImmutablePureComponent {
     const { account } = this.props;
 
     this.setState({ loading: true });
+
     QRCode.toDataURL(account.get('url'))
-      .then(ul => {
-      this.setState({ data: ul });
-      })
+      .then(ul => this.setState({ data: ul }))
+      .catch(error => { throw error; });
   }
 
   setIframeRef = c =>  {
@@ -50,7 +50,7 @@ export default class QrcodeModal extends ImmutablePureComponent {
 
         <div className='embed-modal__container'>
           <p className='hint'>
-            Easy access your account page by scanning the qr code below.
+            <FormattedMessage id='qr_modal.description' defaultMessage='View your account easily by scanning QRCode.' />
           </p>
 
           <img className='embed-modal__qrcode' src={data}/>

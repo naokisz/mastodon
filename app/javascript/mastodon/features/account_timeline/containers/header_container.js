@@ -116,7 +116,7 @@ const mapDispatchToProps = (dispatch, { intl }) => ({
     dispatch(unblockDomain(domain));
   },
 
-  onCreateQrcode (account) {
+  onGenerateQrcode (account) {
     dispatch(openModal('QRCODE', { account: account }));
   },
 

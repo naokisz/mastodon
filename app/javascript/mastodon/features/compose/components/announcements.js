@@ -67,7 +67,8 @@ class Announcements extends React.PureComponent {
         <li>
           <Collapsable isVisible={this.state.showId === 'markdown'} fullHeight={1240} minHeight={20} >
             <div className='announcements__body'>
-              <p>{ this.nl2br(intl.formatMessage(messages.markdown, { domain: document.title }))}<br /><br />
+              <p>{ this.nl2br(intl.formatMessage(messages.markdown, { domain: document.title }))}<br />
+              <br />
                 (半角)は半角スペースを入力する必要がある場所です。(半角)だけの列は半角スペースのみが入力された列が必要であるを指します。<br /><br />
                 〜〜〜〜〜〜見出し〜〜〜〜〜〜<br /><br />
                 #(半角)見出しテキスト<br /><br />

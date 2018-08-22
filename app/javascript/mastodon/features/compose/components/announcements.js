@@ -27,9 +27,6 @@ Collapsable.propTypes = {
 const messages = defineMessages({
   toggle_visible: { id: 'media_gallery.toggle_visible', defaultMessage: 'Toggle visibility' },
   welcome: { id: 'welcome.message', defaultMessage: '{domain}へようこそ!' },
-  info: { id: 'info.list', defaultMessage: 'アスタルテについて' },
-  donation: { id: 'donation.list', defaultMessage: '寄付について' },
-  bbcode: { id: 'bbcode.list', defaultMessage: 'BBCode一覧' },
   markdown: { id: 'markdown.list', defaultMessage: 'markdown一覧' },
 });
 
@@ -67,83 +64,6 @@ class Announcements extends React.PureComponent {
 
     return (
       <ul className='announcements'>
-        <li>
-          <Collapsable isVisible={this.state.showId === 'info'} fullHeight={360} minHeight={20} >
-            <div className='announcements__body'>
-              <p>{ this.nl2br(intl.formatMessage(messages.info, { domain: document.title }))}<br />
-              <br />
-			  アスタルテと関連のサービス<br />
-			  <br />
-			  ・MINECRAFT Server<br />
-			  address:mc.kirishima.cloud<br />
-			  MAP:<a herf="http://mc.kirishima.cloud:8123" target="_blank">サーバマップのリンク<a /><br />
-			  <br />
-			  寄付について<br />
-			  ・欲しいものリスト<br />
-			  <a herf="http://amzn.asia/hJLmEbc" target="_blank">欲しいものリストのリンク<a /><br />
-			  [address] mc.kirishima.cloud <br />
-			  [URL] http://mc.kirishima.cloud:8123 <br />
-        <a href="http://mc.kirishima.cloud:8123" target="_blank">マップを開く</a><br /><br />
-        ・Cutlsさんのサービス<br />
-        thedeskはCutlsさんが製作している<br />アスタルテの公認クライアントです<br />
-        <a href="https://thedesk.top/" target="_blank">thedeskホームページ</a><br /><br />
-        暇人ランキング<br />
-        暇人ランキングはアスタルテの投稿数で<br />ランキング付けされてます<br />
-        <a href="https://astarte.thedesk.top/" target="_blank">暇ラン</a>
-			  <br />
-			  </p>
-            </div>
-          </Collapsable>
-          <div className='announcements__icon'>
-            <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('info', this.state)} size={20} animate active={this.state.showId === 'info'} />
-          </div>
-        </li>
-        <li>
-          <Collapsable isVisible={this.state.showId === 'donation'} fullHeight={270} minHeight={20} >
-            <div className='announcements__body'>
-              <p>{ this.nl2br(intl.formatMessage(messages.donation, { domain: document.title }))}<br />
-              <br />
-			  ・欲しいものリスト<br />
-			  [URL] http://amzn.asia/hJLmEbc <br />
-        <a href="http://amzn.asia/hJLmEbc" target="_blank">欲しいものリストを開く</a><br />
-        ・Enty <br />
-			  [URL] https://enty.jp/fTVgWyCFuAkK?src=creator <br />
-        <a href="https://enty.jp/fTVgWyCFuAkK?src=creator" target="_blank">Entyのページを開く</a><br />
-			  寄付していただいた場合<br />
-			  お名前を寄付一覧に載せます。<br />
-			  強制ではありませんのでDMでご連絡ください<br />
-			  </p>
-            </div>
-          </Collapsable>
-          <div className='announcements__icon'>
-            <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('donation', this.state)} size={20} animate active={this.state.showId === 'donation'} />
-          </div>
-        </li>
-        <li>
-          <Collapsable isVisible={this.state.showId === 'bbcode'} fullHeight={380} minHeight={20} >
-            <div className='announcements__body'>
-              <p>{ this.nl2br(intl.formatMessage(messages.bbcode, { domain: document.title }))}<br />
-              <br />
-			  [spin]回転[/spin]<br />
-			  [pulse]点滅[/pulse]<br />
-			  [large=2x]倍角文字[/large]<br />
-			  [flip=vertical]縦反転[/flip]<br />
-			  [flip=horizontal]横反転[/flip]<br />
-			  [b]太字[/b]<br />
-			  [i]斜体[/i]<br />
-			  [u]アンダーライン[/u]<br />
-			  [s]取り消し線[/s]<br />
-			  [size=5]サイズ変更[/size]<br />
-			  [colorhex=A55A4A]色変更02[/colorhex]<br />
-			  [code]コード[/code]<br />
-			  [quote]引用[/quote]<br />
-			  </p>
-            </div>
-          </Collapsable>
-          <div className='announcements__icon'>
-            <IconButton title={intl.formatMessage(messages.toggle_visible)} icon='caret-up' onClick={() => this.onClick('bbcode', this.state)} size={20} animate active={this.state.showId === 'bbcode'} />
-          </div>
-        </li>
         <li>
           <Collapsable isVisible={this.state.showId === 'markdown'} fullHeight={1240} minHeight={20} >
             <div className='announcements__body'>

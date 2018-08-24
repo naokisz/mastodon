@@ -558,6 +558,10 @@
         "id": "navigation_bar.mutes"
       },
       {
+        "defaultMessage": "Generate QRCode of your account",
+        "id": "navigation_bar.generate_qrcode"
+      },
+      {
         "defaultMessage": "Feature on profile",
         "id": "account.endorse"
       },
@@ -1885,6 +1889,15 @@
       }
     ],
     "path": "app/javascript/mastodon/features/ui/components/onboarding_modal.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "View your account easily by scanning QRCode.",
+        "id": "qr_modal.description"
+      }
+    ],
+    "path": "app/javascript/mastodon/features/ui/components/qrcode_modal.json"
   },
   {
     "descriptors": [

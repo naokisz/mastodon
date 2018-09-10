@@ -172,6 +172,12 @@ export default class GettingStarted extends ImmutablePureComponent {
                 </a>&nbsp;•&nbsp;
                 <a href='https://github.com/tootsuite/documentation/blob/master/Using-Mastodon/Apps.md' rel='noopener' target='_blank'>
                   <FormattedMessage id='getting_started.appsshort' defaultMessage='Apps' />
+                </a>&nbsp;•&nbsp;
+                <a href='https://thedesk.top' rel='noopener' target='_blank'>
+                  <FormattedMessage id='getting_started.thedeskshort' defaultMessage='TheDesk' />
+                </a>&nbsp;•&nbsp;
+                <a href='https://astarte.thedesk.top' rel='noopener' target='_blank'>
+                  <FormattedMessage id='getting_started.hima_humanshort' defaultMessage='暇人ランキング' />
                 </a>
               </p>
               <p>
@@ -179,6 +185,7 @@ export default class GettingStarted extends ImmutablePureComponent {
                   id='getting_started.open_source_notice'
                   defaultMessage='Glitchsoc is open source software, a friendly fork of {Mastodon}. You can contribute or report issues on GitHub at {github}.'
                   values={{
+                    astarte: <a href='https://github.com/Kirishima21/mastodon' rel='noopener' target='_blank'>Kirishima21/mastodon</a>,
                     github: <a href='https://github.com/glitch-soc/mastodon' rel='noopener' target='_blank'>glitch-soc/mastodon</a>,
                     Mastodon: <a href='https://github.com/tootsuite/mastodon' rel='noopener' target='_blank'>Mastodon</a>,
                   }}

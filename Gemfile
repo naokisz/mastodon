@@ -7,15 +7,16 @@ gem 'pkg-config', '~> 1.3'
 
 gem 'puma', '~> 3.11'
 gem 'rails', '~> 5.2.1'
+gem 'thor', '~> 0.20'
 
 gem 'hamlit-rails', '~> 0.2'
 gem 'pg', '~> 1.0'
+gem 'makara', '~> 0.4'
 gem 'pghero', '~> 2.1'
 gem 'dotenv-rails', '~> 2.2', '< 2.3'
 
 gem 'aws-sdk-s3', '~> 1.9', require: false
 gem 'fog-core', '~> 1.45'
-gem 'fog-local', '~> 0.5', require: false
 gem 'fog-openstack', '~> 0.1', require: false
 gem 'paperclip', '~> 6.0'
 gem 'paperclip-av-transcoder', '~> 0.6'
@@ -33,7 +34,7 @@ gem 'devise', '~> 4.4'
 gem 'devise-two-factor', '~> 3.0'
 
 group :pam_authentication, optional: true do
-  gem 'devise_pam_authenticatable2', '~> 9.1'
+  gem 'devise_pam_authenticatable2', '~> 9.2'
 end
 
 gem 'net-ldap', '~> 0.10'
@@ -41,7 +42,7 @@ gem 'omniauth-cas', '~> 1.1'
 gem 'omniauth-saml', '~> 1.10'
 gem 'omniauth', '~> 1.2'
 
-gem 'doorkeeper', '~> 4.4'
+gem 'doorkeeper', '~> 5.0'
 gem 'fast_blank', '~> 1.0'
 gem 'fastimage'
 gem 'goldfinger', '~> 2.1'
@@ -86,7 +87,7 @@ gem 'tty-command', '~> 0.8', require: false
 gem 'tty-prompt', '~> 0.16', require: false
 gem 'twitter-text', '~> 1.14'
 gem 'tzinfo-data', '~> 1.2018'
-gem 'webpacker', '~> 3.4'
+gem 'webpacker', '~> 3.5'
 gem 'webpush'
 gem 'annotate', '~> 2.7'
 gem 'ruby-bbcode'

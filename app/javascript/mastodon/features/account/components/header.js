@@ -65,8 +65,8 @@ class Avatar extends ImmutablePureComponent {
 
 }
 
-@injectIntl
-export default class Header extends ImmutablePureComponent {
+export default @injectIntl
+class Header extends ImmutablePureComponent {
 
   static propTypes = {
     account: ImmutablePropTypes.map,
@@ -104,7 +104,9 @@ export default class Header extends ImmutablePureComponent {
     }
 
     if (me !== account.get('id')) {
-      if (account.getIn(['relationship', 'requested'])) {
+      if (!account.get('relationship')) { // Wait until the relationship is loaded
+        actionBtn = '';
+      } else if (account.getIn(['relationship', 'requested'])) {
         actionBtn = (
           <div className='account--action-button'>
             <IconButton size={26} active icon='hourglass' title={intl.formatMessage(messages.requested)} onClick={this.props.onFollow} />

@@ -6,6 +6,7 @@ pl:
     about_this: O tej instancji
     administered_by: 'Administrowana przez:'
     api: API
+    apps: Aplikacje
     closed_registrations: Rejestracja na tej instancji jest obecnie zamknięta. Możesz jednak zarejestrować się na innej instancji, uzyskując dostęp do tej samej sieci.
     contact: Kontakt
     contact_missing: Nie ustawiono
@@ -29,17 +30,29 @@ pl:
     other_instances: Lista instancji
     privacy_policy: Polityka prywatności
     source_code: Kod źródłowy
-    status_count_after: wpisów
+    status_count_after:
+      few: wpisów
+      many: wpisów
+      one: wpisu
     status_count_before: Są autorami
     terms: Zasady użytkowania
-    user_count_after: użytkowników
+    user_count_after:
+      few: użytkowników
+      many: użytkowników
+      one: użytkownik
     user_count_before: Z serwera korzysta
     what_is_mastodon: Czym jest Mastodon?
   accounts:
     choices_html: 'Polecani przez %{name}:'
     follow: Śledź
-    followers: Śledzący
-    following: Śledzeni
+    followers:
+      few: śledzących
+      many: śledzących
+      one: śledzący
+    following:
+      few: śledzonych
+      many: śledzonych
+      one: śledzony
     joined: Dołączył(a) %{date}
     media: Zawartość multimedialna
     moved_html: "%{name} korzysta teraz z konta %{new_profile_link}:"
@@ -49,7 +62,10 @@ pl:
     people_who_follow: Osoby, które śledzą konto %{name}
     pin_errors:
       following: Musisz śledzić osobę, którą chcesz polecać
-    posts: Wpisy
+    posts:
+      few: wpisy
+      many: wpisów
+      one: wpis
     posts_with_replies: Wpisy z odpowiedziami
     reserved_username: Ta nazwa użytkownika jest zarezerwowana
     roles:
@@ -281,6 +297,7 @@ pl:
       search: Szukaj
       title: Znane instancje
     invites:
+      deactivate_all: Unieważnij wszystkie
       filter:
         all: Wszystkie
         available: Dostępne
@@ -292,6 +309,8 @@ pl:
       description_html: "<strong>Przekaźnik federacji</strong> jest pośredniczącym serwerem wymieniającym duże ilości publicznych wpisów pomiędzy serwerami które subskrybują je i publikują na nich. <strong>Pomaga to małym i średnim instancją poznawać nową zawartość z Fediwersum</strong>, co w innym przypadku wymagałoby od użytkowników ręcznego śledzenia osób z innych serwerów."
       enable_hint: Jeżeli włączone, Twój serwer zasubskrybuje wszystkie publiczne wpisy z tego przekaźnika i zacznie wysyłać tam publiczne wpisy z tego serwera.
       inbox_url: Adres przekaźnika
+      pending: Oczekiwanie na przyjęcie przez przekaźnik
+      save_and_enable: Zapisz i aktywuj
       setup: Skonfiguruj połączenie z przekaźnikiem
       status: Stan
       title: Przekaźniki
@@ -309,7 +328,6 @@ pl:
       comment:
         none: Brak
       created_at: Zgłoszono
-      id: ID
       mark_as_resolved: Oznacz jako rozwiązane
       mark_as_unresolved: Oznacz jako nierozwiązane
       notes:
@@ -320,7 +338,6 @@ pl:
         placeholder: Opisz wykonane akcje i inne szczegóły dotyczące tego zgłoszenia…
       reopen: Otwórz ponownie
       report: 'Zgłoszenie #%{id}'
-      report_contents: Zawartość
       reported_account: Zgłoszone konto
       reported_by: Zgłaszający
       resolved: Rozwiązane
@@ -328,12 +345,10 @@ pl:
       silence_account: Wycisz konto
       status: Stan
       suspend_account: Zawieś konto
-      target: Cel
       title: Zgłoszenia
       unassign: Cofnij przypisanie
       unresolved: Nierozwiązane
       updated_at: Zaktualizowano
-      view: Wyświetl
     settings:
       activity_api_enabled:
         desc_html: Liczy publikowane lokalnie wpisy, aktywnych użytkowników i nowe rejestracje w ciągu danego tygodnia
@@ -402,6 +417,7 @@ pl:
       media:
         title: Media
       no_media: Bez zawartości multimedialnej
+      no_status_selected: Żaden wpis nie został zmieniony, bo żaden nie został wybrany
       title: Wpisy konta
       with_media: Z zawartością multimedialną
     subscriptions:
@@ -411,6 +427,12 @@ pl:
       last_delivery: Ostatnio doręczono
       title: WebSub
       topic: Temat
+    suspensions:
+      bad_acct_msg: Zawartość potwierdzenia nie zgadza się. Czy próbujesz zawiesić właściwe konto?
+      hint_html: 'Aby potwierdzić zawieszenie konta, wprowadź %{value} w poniższe pole:'
+      proceed: Przejdź
+      title: Zawieś %{acct}
+      warning_html: 'Zawieszenie konta będzie skutkowało <strong>nieodwracalnym</strong> usunięciem danych z tego konta, wliczając:'
     title: Administracja
   admin_mailer:
     new_report:
@@ -662,11 +684,14 @@ pl:
     publishing: Publikowanie
     web: Sieć
   remote_follow:
-    acct: Podaj swój adres (nazwa@domena), z którego chcesz śledzić
+    acct: Podaj swój adres (nazwa@domena), z którego chcesz wykonać działanie
     missing_resource: Nie udało się znaleźć adresu przekierowania z Twojej domeny
     no_account_html: Nie masz konta? Możesz <a href='%{sign_up_path}' target='_blank'>zarejestrować się tutaj</a>
     proceed: Śledź
     prompt: 'Zamierzasz śledzić:'
+  remote_interaction:
+    proceed: Przejdź do interakcji
+    prompt: 'Chcesz dokonać interakcji z tym wpisem:'
   remote_unfollow:
     error: Błąd
     title: Tytuł
@@ -754,6 +779,7 @@ pl:
       private: Nie możesz przypiąć niepublicznego wpisu
       reblog: Nie możesz przypiąć podbicia wpisu
     show_more: Pokaż więcej
+    sign_in_to_participate: Zaloguj się, aby udzielić się w tej konwersacji
     title: '%{name}: "%{quote}"'
     visibilities:
       private: Tylko dla śledzących
@@ -874,7 +900,7 @@ pl:
     wrong_code: Wprowadzony kod jest niepoprawny! Czy czas serwera i urządzenia jest poprawny?
   user_mailer:
     backup_ready:
-      explanation: Zażądałeś pełnej kopii zapasowej konta na Mastodonie. Jest ono dostępne do pobrania
+      explanation: Zażądałeś pełnej kopii zapasowej konta na Mastodonie. Jest ona dostępna do pobrania!
       subject: Twoje archiwum jest gotowe do pobrania
       title: Odbiór archiwum
     welcome:

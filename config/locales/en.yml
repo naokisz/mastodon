@@ -6,6 +6,7 @@ en:
     about_this: About
     administered_by: 'Administered by:'
     api: API
+    apps: Mobile apps
     closed_registrations: Registrations are currently closed on this instance. However! You can find a different instance to make an account on and get access to the very same network from there.
     contact: Contact
     contact_missing: Not set
@@ -29,16 +30,22 @@ en:
     other_instances: Instance list
     privacy_policy: Privacy policy
     source_code: Source code
-    status_count_after: statuses
+    status_count_after:
+      one: status
+      other: statuses
     status_count_before: Who authored
     terms: Terms of service
-    user_count_after: users
+    user_count_after:
+      one: user
+      other: users
     user_count_before: Home to
     what_is_mastodon: What is Mastodon?
   accounts:
     choices_html: "%{name}'s choices:"
     follow: Follow
-    followers: Followers
+    followers:
+      one: Follower
+      other: Followers
     following: Following
     joined: Joined %{date}
     media: Media
@@ -49,7 +56,10 @@ en:
     people_who_follow: People who follow %{name}
     pin_errors:
       following: You must be already following the person you want to endorse
-    posts: Toots
+    posts:
+      one: Toot
+      other: Toots
+    posts_tab_heading: Toots
     posts_with_replies: Toots and replies
     reserved_username: The username is reserved
     roles:
@@ -110,6 +120,7 @@ en:
       moderation_notes: Moderation notes
       most_recent_activity: Most recent activity
       most_recent_ip: Most recent IP
+      no_limits_imposed: No limits imposed
       not_subscribed: Not subscribed
       order:
         alphabetic: Alphabetic
@@ -145,8 +156,10 @@ en:
         report: report
         targeted_reports: Reports made about this account
       silence: Silence
+      silenced: Silenced
       statuses: Statuses
       subscribe: Subscribe
+      suspended: Suspended
       title: Accounts
       unconfirmed_email: Unconfirmed E-mail
       undo_silenced: Undo silence
@@ -184,6 +197,7 @@ en:
         unsuspend_account: "%{name} unsuspended %{target}'s account"
         update_custom_emoji: "%{name} updated emoji %{target}"
         update_status: "%{name} updated status by %{target}"
+      deleted_status: "(deleted status)"
       title: Audit log
     custom_emojis:
       by_domain: Domain
@@ -280,6 +294,7 @@ en:
       search: Search
       title: Known instances
     invites:
+      deactivate_all: Deactivate all
       filter:
         all: All
         available: Available
@@ -288,9 +303,16 @@ en:
       title: Invites
     relays:
       add_new: Add new relay
+      delete: Delete
       description_html: A <strong>federation relay</strong> is an intermediary server that exchanges large volumes of public toots between servers that subscribe and publish to it. <strong>It can help small and medium servers discover content from the fediverse</strong>, which would otherwise require local users manually following other people on remote servers.
+      disable: Disable
+      disabled: Disabled
+      enable: Enable
       enable_hint: Once enabled, your server will subscribe to all public toots from this relay, and will begin sending this server's public toots to it.
+      enabled: Enabled
       inbox_url: Relay URL
+      pending: Waiting for relay's approval
+      save_and_enable: Save and enable
       setup: Setup a relay connection
       status: Status
       title: Relays
@@ -308,7 +330,6 @@ en:
       comment:
         none: None
       created_at: Reported
-      id: ID
       mark_as_resolved: Mark as resolved
       mark_as_unresolved: Mark as unresolved
       notes:
@@ -319,7 +340,6 @@ en:
         placeholder: Describe what actions have been taken, or any other related updates...
       reopen: Reopen report
       report: 'Report #%{id}'
-      report_contents: Contents
       reported_account: Reported account
       reported_by: Reported by
       resolved: Resolved
@@ -327,12 +347,10 @@ en:
       silence_account: Silence account
       status: Status
       suspend_account: Suspend account
-      target: Target
       title: Reports
       unassign: Unassign
       unresolved: Unresolved
       updated_at: Updated
-      view: View
     settings:
       activity_api_enabled:
         desc_html: Counts of locally posted statuses, active users, and new registrations in weekly buckets
@@ -343,6 +361,9 @@ en:
       contact_information:
         email: Business e-mail
         username: Contact username
+      custom_css:
+        desc_html: Modify the look with CSS loaded on every page
+        title: Custom CSS
       hero:
         desc_html: Displayed on the frontpage. At least 600x100px recommended. When not set, falls back to instance thumbnail
         title: Hero image
@@ -401,6 +422,7 @@ en:
       media:
         title: Media
       no_media: No media
+      no_status_selected: No statuses were changed as none were selected
       title: Account statuses
       with_media: With media
     subscriptions:
@@ -410,6 +432,12 @@ en:
       last_delivery: Last delivery
       title: WebSub
       topic: Topic
+    suspensions:
+      bad_acct_msg: The confirmation value didn't match up. Are you suspending the right account?
+      hint_html: 'To confirm the suspension of the account, please enter %{value} into the field below:'
+      proceed: Proceed
+      title: Suspend %{acct}
+      warning_html: 'Suspending this account will <strong>irreversibly</strong> delete data from this account, which includes:'
     title: Administration
   admin_mailer:
     new_report:
@@ -653,11 +681,14 @@ en:
     publishing: Publishing
     web: Web
   remote_follow:
-    acct: Enter your username@domain you want to follow from
+    acct: Enter your username@domain you want to act from
     missing_resource: Could not find the required redirect URL for your account
     no_account_html: Don't have an account? You can <a href='%{sign_up_path}' target='_blank'>sign up here</a>
     proceed: Proceed to follow
     prompt: 'You are going to follow:'
+  remote_interaction:
+    proceed: Proceed to interact
+    prompt: 'You want to interact with this toot:'
   remote_unfollow:
     error: Error
     title: Title
@@ -741,6 +772,7 @@ en:
       private: Non-public toot cannot be pinned
       reblog: A boost cannot be pinned
     show_more: Show more
+    sign_in_to_participate: Sign in to participate in the conversation
     title: '%{name}: "%{quote}"'
     visibilities:
       private: Followers-only

@@ -24,8 +24,6 @@
 #
 
 class Status < ApplicationRecord
-  self.cache_versioning = false
-
   include Paginable
   include Streamable
   include Cacheable
@@ -243,7 +241,7 @@ class Status < ApplicationRecord
 
     def as_direct_timeline(account, limit = 20, max_id = nil, since_id = nil, cache_ids = false)
       # direct timeline is mix of direct message from_me and to_me.
-      # 2 querys are executed with pagination.
+      # 2 queries are executed with pagination.
       # constant expression using arel_table is required for partial index
 
       # _from_me part does not require any timeline filters
@@ -386,7 +384,8 @@ class Status < ApplicationRecord
 
     def account_silencing_filter(account)
       if account.silenced?
-        including_silenced_accounts
+        including_myself = left_outer_joins(:account).where(account_id: account.id).references(:accounts)
+        excluding_silenced_accounts.or(including_myself)
       else
         excluding_silenced_accounts
       end
@@ -396,6 +395,8 @@ class Status < ApplicationRecord
   private
 
   def update_status_stat!(attrs)
+    return if marked_for_destruction? || destroyed?
+
     record = status_stat || build_status_stat
     record.update(attrs)
   end
@@ -456,8 +457,8 @@ class Status < ApplicationRecord
       Account.where(id: account_id).update_all('statuses_count = COALESCE(statuses_count, 0) + 1')
     end
 
-    thread.increment_count!(:replies_count) if in_reply_to_id.present?
-    reblog.increment_count!(:reblogs_count) if reblog?
+    reblog&.increment_count!(:reblogs_count) if reblog?
+    thread&.increment_count!(:replies_count) if in_reply_to_id.present? && (public_visibility? || unlisted_visibility?)
   end
 
   def decrement_counter_caches
@@ -469,7 +470,7 @@ class Status < ApplicationRecord
       Account.where(id: account_id).update_all('statuses_count = GREATEST(COALESCE(statuses_count, 0) - 1, 0)')
     end
 
-    thread.decrement_count!(:replies_count) if in_reply_to_id.present?
-    reblog.decrement_count!(:reblogs_count) if reblog?
+    reblog&.decrement_count!(:reblogs_count) if reblog?
+    thread&.decrement_count!(:replies_count) if in_reply_to_id.present? && (public_visibility? || unlisted_visibility?)
   end
 end

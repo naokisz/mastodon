@@ -19,6 +19,7 @@ uk:
       humane_approach_title: Більш людський підхід
       not_a_product_body: Mastodon - це некомерційна мережа. Ніякої реклами, збору даних і залізних стін. Тут немає центральної влади.
       not_a_product_title: Ви - особистість, а не продукт
+      real_conversation_body: Висловлюйте свої думки себе у будь-який спосіб маючи в розпорядженні 500 символів з підтримкою гранульованого контенту та попереджень медіа.
       real_conversation_title: Побудований для справжньої розмови
       within_reach_body: Велика кількість застосунків для iOS, Android та інших платформ, завдяки дружній до розробника екосистемі дозволяє бути на звязку з друзями звідусіль.
       within_reach_title: Завжди на звязку
@@ -298,7 +299,6 @@ uk:
       comment:
         none: Немає
       created_at: Створено
-      id: ID
       mark_as_resolved: Відмітити як вирішену
       mark_as_unresolved: Відмітити як невирішену
       notes:
@@ -309,7 +309,6 @@ uk:
         placeholder: Опишіть, які дії були виконані, або інші зміни, що стосуються справи...
       reopen: Перевідкрити скаргу
       report: 'Скарга #%{id}'
-      report_contents: Зміст
       reported_account: Акаунт порушника
       reported_by: Відправник скарги
       resolved: Вирішено
@@ -317,12 +316,10 @@ uk:
       silence_account: Заглушити акаунт
       status: Статус
       suspend_account: Заблокувати акаунт
-      target: Ціль
       title: Скарги
       unassign: Зняти призначення
       unresolved: Невирішені
       updated_at: Оновлені
-      view: Подивитися
     settings:
       activity_api_enabled:
         desc_html: Кількість локальних постів, активних та нових користувачів у тижневих розрізах

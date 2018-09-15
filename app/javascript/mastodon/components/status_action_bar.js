@@ -43,8 +43,8 @@ const obfuscatedCount = count => {
   }
 };
 
-@injectIntl
-export default class StatusActionBar extends ImmutablePureComponent {
+export default @injectIntl
+class StatusActionBar extends ImmutablePureComponent {
 
   static contextTypes = {
     router: PropTypes.object,
@@ -97,11 +97,11 @@ export default class StatusActionBar extends ImmutablePureComponent {
   }
 
   handleDeleteClick = () => {
-    this.props.onDelete(this.props.status);
+    this.props.onDelete(this.props.status, this.context.router.history);
   }
 
   handleRedraftClick = () => {
-    this.props.onDelete(this.props.status, true);
+    this.props.onDelete(this.props.status, this.context.router.history, true);
   }
 
   handlePinClick = () => {

@@ -1,0 +1,142 @@
+.gosentyouen1 {
+    display: inline-block;
+    position: relative;
+    height: 0.3em;
+    white-space: nowrap;
+    font-weight: 900;
+    font-size: 108px;
+    font-feature-settings: "palt";
+    transform: skew(-22deg) scale(0.3);
+    font-family: "Noto Sans JP", sans-serif;
+    line-height: 1;
+    margin: 0 4%;
+}
+.gosentyouen1 span.gosentyouen3 span.gosentyouen4 {
+    display: block;
+}
+.gosentyouen1:before, .gosentyouen1:after, .gosentyouen1 *:before, .gosentyouen1 *:after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    padding: 0 0 20px;
+    color: transparent;
+    content: attr(text);
+    -webkit-text-fill-color: transparent;
+}
+span.gosentyouen2 {
+    margin: 0;
+    padding: 0;
+}
+.gosentyouen1 span.gosentyouen2 > span.gosentyouen3 > span.gosentyouen4 {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    z-index: 10;
+    display: block;
+    padding: 10px 20px 10px 10px;
+    background: linear-gradient(rgb(230, 0, 0), rgb(123, 0, 0) 50%, rgb(240, 0, 0) 51%, rgb(5, 0, 0));
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size: 100% 200px;
+    color: #eb0000;
+    -webkit-text-fill-color: transparent;
+    -webkit-animation: gradient-red 2.5s linear infinite;
+    animation: gradient-red 2.5s linear infinite;
+}
+@-webkit-keyframes gradient-red {
+    to {
+        background-position: 100% -200px;
+    }
+}
+@keyframes gradient-red {
+    to {
+        background-position: 100% -200px;
+    }
+}
+.gosentyouen1:before {
+    top: 1px;
+    left: 1px;
+    z-index: -10;
+    -webkit-text-stroke-width: 18px;
+    -webkit-text-stroke-color: #000;
+}
+.gosentyouen1:after {
+    top: 1px;
+    left: 1px;
+    z-index: -9;
+    background: linear-gradient(rgb(0, 15, 36), rgb(255, 255, 255) 10%, rgb(55, 58, 59) 18%, rgb(55, 58, 59) 25%, rgb(200, 200, 200) 50%, rgb(55, 58, 59) 75%, rgb(25, 20, 31) 80%, rgb(240, 240, 240) 85%, rgb(166, 175, 194) 90%, rgb(50, 50, 50));
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size: 100% 200px;
+    -webkit-text-stroke-width: 16px;
+    -webkit-animation: gradient-silver 2s linear infinite;
+    animation: gradient-silver 2s linear infinite;
+}
+@-webkit-keyframes gradient-silver {
+    to {
+        background-position: 100% -200px;
+    }
+}
+@keyframes gradient-silver {
+    to {
+        background-position: 100% -200px;
+    }
+}
+.gosentyouen1 span.gosentyouen2:before {
+    top: -1px;
+    left: -1px;
+    z-index: -8;
+    -webkit-text-stroke-width: 10px;
+    -webkit-text-stroke-color: #000;
+}
+.gosentyouen1 span.gosentyouen2:after {
+    top: 0;
+    left: -5px;
+    z-index: -7;
+    padding-left: 5px;
+    background: linear-gradient(rgb(253, 241, 0), rgb(245, 253, 187) 25%, rgb(255, 255, 255) 40%, rgb(253, 219, 9) 75%, rgb(127, 53, 0) 90%, rgb(243, 196, 11));
+    -webkit-background-clip: text;
+    background-clip: text;
+    background-size: 100% 200px;
+    -webkit-text-stroke-width: 10px;
+    -webkit-animation: gradient-yellow 4s linear infinite;
+    animation: gradient-yellow 4s linear infinite;
+}
+@-webkit-keyframes gradient-yellow {
+    to {
+        background-position: 100% -200px;
+    }
+}
+@keyframes gradient-yellow {
+    to {
+        background-position: 100% -200px;
+    }
+}
+.gosentyouen1 span.gosentyouen2 > span.gosentyouen3:before {
+    top: -1px;
+    left: -1px;
+    z-index: -6;
+    -webkit-text-stroke-width: 5px;
+    -webkit-text-stroke-color: #000;
+}
+.gosentyouen1 span.gosentyouen2 > span.gosentyouen3:after {
+    top: -2px;
+    left: -2px;
+    z-index: -6;
+    -webkit-text-stroke-width: 3px;
+    -webkit-text-stroke-color: #fff;
+}
+.gosentyouen1 span.gosentyouen2 > span.gosentyouen3 > span.gosentyouen4:before {
+    top: 10px;
+    left: 10px;
+    z-index: -5;
+    background: linear-gradient(rgba(255, 100, 0, .5), rgba(123, 0, 0, .1) 50%, rgba(240, 0, 0, .1) 50%, rgba(0, 0, 0, .8));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: transparent;
+}
+.gosentyouen1 span.gosentyouen2 > span.gosentyouen3 > span.gosentyouen4:after {
+    display: none;
+}

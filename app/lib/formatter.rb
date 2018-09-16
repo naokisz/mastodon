@@ -277,6 +277,12 @@ class Formatter
 
     begin
       html = html.bbcode_to_html(false, {
+        :gosentyouen => {
+          :html_open => '<span class="gosentyouen1" text="%between%"><span class="gosentyouen2" text="%between%"><span class="gosentyouen3" text="%between%"><span class="gosentyouen4" text="%between%">%between%</span></span></span></span>', :html_close => '',
+          :description => 'make text noizy',
+          :example => 'This is [gosentyouen]5000兆円[/gosentyouen].',
+          :only_allow => [],
+          :require_between => true},
         :spin => {
           :html_open => '<span class="fa fa-spin">', :html_close => '</span>',
           :description => 'Make text spin',
@@ -348,7 +354,7 @@ class Formatter
             { :token => :width, :optional => true, :default => 400 },
             { :token => :height, :optional => true, :default => 320 }
           ]},
-      }, :enable, :i, :b, :quote, :code, :size, :u, :s, :spin, :pulse, :flip, :large, :colorhex, :faicon, :youtube, :alert)
+      }, :enable, :i, :b, :quote, :code, :size, :u, :s, :spin, :pulse, :flip, :large, :colorhex, :faicon, :youtube, :alert, :gosentyouen)
     rescue Exception => e
     end
     html

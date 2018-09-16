@@ -324,6 +324,13 @@ class Formatter
           :quick_param_format => /([0-9a-fA-F]{6})/,
           :quick_param_format_description => 'The size parameter \'%param%\' is incorrect',
           :param_tokens => [{:token => :colorcode}]},
+        :alert => {
+          :html_open => '<a onclick=alert("%alert%")>', :html_close => '</a>',
+          :description => 'Show alert',
+          :example => '[alert=xss]link[/alert]',
+          :allow_quick_param => true, :allow_between_as_param => false,
+          :quick_param_format => /([^"<>&:\/= ]+)/i,
+          :param_tokens => [{:token => :alert}]},
         :faicon => {
           :html_open => '<span class="fa fa-%between%"></span><span class="faicon_FTL">%between%</span>', :html_close => '',
           :description => 'Use Font Awesome Icons',
@@ -341,7 +348,7 @@ class Formatter
             { :token => :width, :optional => true, :default => 400 },
             { :token => :height, :optional => true, :default => 320 }
           ]},
-      }, :enable, :i, :b, :quote, :code, :size, :u, :s, :spin, :pulse, :flip, :large, :colorhex, :faicon, :youtube)
+      }, :enable, :i, :b, :quote, :code, :size, :u, :s, :spin, :pulse, :flip, :large, :colorhex, :faicon, :youtube, :alert)
     rescue Exception => e
     end
     html

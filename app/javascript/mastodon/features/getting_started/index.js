@@ -158,6 +158,7 @@ class GettingStarted extends ImmutablePureComponent {
                 values={{
                   github: <span><a href='https://github.com/tootsuite/mastodon' rel='noopener' target='_blank'>tootsuite/mastodon</a> (v{version})</span>,
                   astarte: <span><a href='https://github.com/Kirishima21/mastodon' rel='noopener' target='_blank'>Kirishima21/mastodon</a></span>,
+                  naokisz: <span><a href='https://github.com/naokisz/mastodon' rel='noopener' target='_blank'>naokisz/mastodon</a></span>,
                 }}
               />
             </p>

@@ -1,0 +1,390 @@
+@function hex-color($color) {
+  @if type-of($color) == 'color' {
+    $color: str-slice(ie-hex-str($color), 4);
+  }
+  @return '%23' + unquote($color)
+}
+
+body {
+  font-family: $font-sans-serif, sans-serif;
+  background: darken($ui-base-color, 8%);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 400;
+  color: $primary-text-color;
+  text-rendering: optimizelegibility;
+  font-feature-settings: "kern";
+  text-size-adjust: none;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: transparent;
+
+  &.system-font {
+    // system-ui => standard property (Chrome/Android WebView 56+, Opera 43+, Safari 11+)
+    // -apple-system => Safari <11 specific
+    // BlinkMacSystemFont => Chrome <56 on macOS specific
+    // Segoe UI => Windows 7/8/10
+    // Oxygen => KDE
+    // Ubuntu => Unity/Ubuntu
+    // Cantarell => GNOME
+    // Fira Sans => Firefox OS
+    // Droid Sans => Older Androids (<4.0)
+    // Helvetica Neue => Older macOS <10.11
+    // $font-sans-serif => web-font (Roboto) fallback and newer Androids (>=4.0)
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", $font-sans-serif, sans-serif;
+  }
+
+  &.app-body {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background: $ui-base-color;
+
+    &.with-modals--active {
+      overflow-y: hidden;
+    }
+  }
+
+  &.lighter {
+    background: $ui-base-color;
+  }
+
+  &.with-modals {
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    &--active {
+      overflow-y: hidden;
+      margin-right: 13px;
+    }
+  }
+
+  &.player {
+    text-align: center;
+  }
+
+  &.embed {
+    background: lighten($ui-base-color, 4%);
+    margin: 0;
+    padding-bottom: 0;
+
+    .container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+  }
+
+  &.admin {
+    background: darken($ui-base-color, 4%);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+  }
+
+  &.error {
+    position: absolute;
+    text-align: center;
+    color: $darker-text-color;
+    background: $ui-base-color;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .dialog {
+      vertical-align: middle;
+      margin: 20px;
+
+      img {
+        display: block;
+        max-width: 470px;
+        width: 100%;
+        height: auto;
+        margin-top: -120px;
+      }
+
+      h1 {
+        font-size: 20px;
+        line-height: 28px;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.app-holder {
+  &,
+  & > div {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    outline: 0 !important;
+  }
+}
+
+.status__content {
+
+  font-family: inherit;
+  max-height: 210px;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  h1{
+    color: #ec840d;
+    font-weight: bold;
+    font-size: 1.6em;
+    padding: 0.5em;
+    display: inline-block;
+    line-height: 1.3;
+    background: #dbebf8;
+    vertical-align: middle;
+    border-radius: 25px 25px 25px 25px;
+    text-align: center;
+    border-bottom: solid 3px #ff0000;
+  }
+
+  h2{
+    color: #ec840d;
+    font-weight: bold;
+    font-size: 1.5em;
+    padding: 0.5em;
+    display: inline-block;
+    line-height: 1.3;
+    background: #dbebf8;
+    vertical-align: middle;
+    border-radius: 25px 25px 25px 25px;
+    text-align: center;
+    border-bottom: solid 3px #fffb00;
+  }
+
+  h3{
+    color: #ec840d;
+    font-weight: bold;
+    font-size: 1.4em;
+    padding: 0.5em;
+    display: inline-block;
+    line-height: 1.3;
+    background: #dbebf8;
+    vertical-align: middle;
+    border-radius: 25px 25px 25px 25px;
+    text-align: center;
+    border-bottom: solid 3px #2bff00;
+  }
+
+  h4{
+    color: #ec840d;
+    font-weight: bold;
+    font-size: 1.3em;
+    padding: 0.5em;
+    display: inline-block;
+    line-height: 1.3;
+    background: #dbebf8;
+    vertical-align: middle;
+    border-radius: 25px 25px 25px 25px;
+    text-align: center;
+    border-bottom: solid 3px #00ffea;
+  }
+
+  h5{
+    color: #ec840d;
+    font-weight: bold;
+    font-size: 1.2em;
+    padding: 0.5em;
+    display: inline-block;
+    line-height: 1.3;
+    background: #dbebf8;
+    vertical-align: middle;
+    border-radius: 25px 25px 25px 25px;
+    text-align: center;
+    border-bottom: solid 3px #0004ff;
+  }
+
+  h6{
+    color: #ec840d;
+    font-weight: bold;
+    font-size: 1.1em;
+    padding: 0.5em;
+    display: inline-block;
+    line-height: 1.3;
+    background: #dbebf8;
+    vertical-align: middle;
+    border-radius: 25px 25px 25px 25px;
+    text-align: center;
+    border-bottom: solid 3px #7700ff;
+  }
+
+  em{
+    font-style: italic;
+  }
+
+  strong{
+    font-weight: bold;
+  }
+
+  code{
+    display: block;
+    border-left: 2px solid;
+    border-color: #079903;
+    color: $white;
+    padding-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    background-color: #000000;
+  }
+
+  pre{
+    display: inline-block;
+    font-family: 'Noto Sans Japanese', sans-serif;
+    font-weight: 400;
+  }
+
+  p ~ blockquote {
+    margin-top: -8px;
+  }
+
+  blockquote{
+      padding-left: 8px;
+      margin-top: 0.5em;
+      margin-bottom: 0.5em;
+      color: $primary-text-color;
+      background-color: $ui-base-color;
+      display: block;
+      border-left: 4px solid $classic-highlight-color;
+  }
+
+  ul {
+    border: double 4px #21b384;
+    padding: 0.5em 1em 0.5em 2.3em;
+    position: relative;
+<<<<<<< HEAD
+  }
+  ul li {
+    line-height: 1.5;
+    padding: 0.2em 0;
+    list-style-type: none!important;/*ポチ消す*/
+  }
+=======
+  }
+  ul li {
+    line-height: 1.5;
+    padding: 0.2em 0;
+    list-style-type: none!important;/*ポチ消す*/
+  }
+>>>>>>> naokisz-new-Astarte
+  ul li:before {
+    font-family: FontAwesome;
+    content: "\f0a4";
+    position: absolute;
+    left : 1em; /*左端からのアイコンまで*/
+    color: #21b384; /*アイコン色*/
+  }
+
+  ol {
+    border: double 4px #ff954f;
+    padding: 0.5em 1em 0.5em 1em;
+    position: relative;
+    list-style: inside decimal;
+  }
+
+  ol li {
+    line-height: 1.5;
+    padding: 0.2em 0;
+  }
+
+  hr {
+    border-width: 2px 0px 0px 0px;
+    border-style: dashed;
+    border-color: #ff7676;
+    height: 1px;
+    }
+
+  p>a>img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  a>img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  p>a{
+    color: #1FBFF9;
+  }
+
+  a{
+    color: #1FBFF9;
+  }
+
+  sup{
+    font-size: 75.5%;
+    vertical-align: top;
+    position: relative;
+    top: -0.5em;
+  }
+
+  sub{
+    font-size: 75.5%;
+    vertical-align: bottom;
+    position: relative;
+    top: 0.5em;
+  }
+
+  small{
+    font-size: 50.0%;
+    vertical-align: bottom;
+    position: relative;
+  }
+
+  table {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    color: $classic-highlight-color;
+    display: block;
+    width: 100%;
+    overflow: auto;
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+
+  table tr{
+    background-color: #000000;
+  }
+
+  table th, table td{
+    padding: 6px 13px;
+    border: 1px solid $classic-highlight-color;
+  }
+
+  table th{
+    font-weight: 600;
+  }
+
+  table thead tr{
+    background-color: $black;
+  }
+
+  td, th{
+    padding: 0;
+  }
+
+}

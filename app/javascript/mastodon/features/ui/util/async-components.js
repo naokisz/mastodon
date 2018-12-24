@@ -128,6 +128,7 @@ export function ListEditor () {
 
 export function Trends () {
   return import(/* webpackChunkName: "features/trends" */'../../trends');
+}
 
 export function ListAdder () {
   return import(/*webpackChunkName: "features/list_adder" */'../../list_adder');

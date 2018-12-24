@@ -58,11 +58,8 @@ const reducers = {
   custom_emojis,
   lists,
   listEditor,
-<<<<<<< HEAD
   trends,
-=======
   listAdder,
->>>>>>> mastodon/master
   filters,
   conversations,
   suggestions,

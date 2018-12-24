@@ -1,0 +1,27 @@
+import { connect } from 'react-redux';
+import SearchResults from '../components/search_results';
+<<<<<<< HEAD
+import { fetchTrends } from '../../../actions/trends';
+
+const mapStateToProps = state => ({
+  results: state.getIn(['search', 'results']),
+  trends: state.getIn(['trends', 'items']),
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchTrends: () => dispatch(fetchTrends()),
+=======
+import { fetchSuggestions, dismissSuggestion } from '../../../actions/suggestions';
+
+const mapStateToProps = state => ({
+  results: state.getIn(['search', 'results']),
+  suggestions: state.getIn(['suggestions', 'items']),
+});
+
+const mapDispatchToProps = dispatch => ({
+  fetchSuggestions: () => dispatch(fetchSuggestions()),
+  dismissSuggestion: account => dispatch(dismissSuggestion(account.get('id'))),
+>>>>>>> mastodon/master
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SearchResults);

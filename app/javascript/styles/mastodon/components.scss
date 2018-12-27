@@ -645,7 +645,8 @@
   line-height: 20px;
   word-wrap: break-word;
   font-weight: 400;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: scroll;
   text-overflow: ellipsis;
   white-space: pre-wrap;
   padding-top: 2px;
